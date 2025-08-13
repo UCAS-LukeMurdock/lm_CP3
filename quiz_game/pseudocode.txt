@@ -1,0 +1,9 @@
+# Luke Murdock, Outlining
+
+Start
+Take Quiz
+    Ask Question
+    Input Answer
+    Check Answer
+    Repeat
+Give Score
