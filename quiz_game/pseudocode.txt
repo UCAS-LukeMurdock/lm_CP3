@@ -1,9 +1,17 @@
 # Luke Murdock, Outlining
 
 Start
-Take Quiz
-    Ask Question
-    Input Answer
-    Check Answer
-    Repeat
-Give Score
+Play or Exit
+    Take Quiz
+        Ask Question
+        Input Answer
+        Check Answer
+        Repeat
+    Give Score
+Restart
+
+
+Checking Answer
+    Save Correct Answer
+    Print Question
+    Print Randomly placed answers

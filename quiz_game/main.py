@@ -1,4 +1,5 @@
 # Luke Murdock, Quiz Game
+from file_handler import intput
 from quiz import take
 
 """
@@ -9,12 +10,13 @@ Give the overall score at the end
 The program needs to run until the user selects to quit
 
 MORE CHALLENGES:
-Create a user interface with tkinter or turtle that lets users click on the answers they want
-|Allow users to select from different lists of questions
-|Allow users to create lists of questions
-|User profiles (Admin users can create new lists of questions, normal users can just select from lists of questions to do)
-Give different point amounts based on how quickly they answer
-||Shuffle the order the answers are displayed 
+Create a user interface with tkinter or turtle that lets users click on the answers they want (5 points)
+|Allow users to select from different lists of questions (2 points)
+|Allow users to create lists of questions (2 points)
+|User profiles (Admin users can create new lists of questions, normal users can just select from lists of questions to do) (4 points)
+Give different point amounts based on how quickly they answer (5 points)
+||Shuffle the order the answers are displayed (1 point)
+
 KEY REMINDERS:
 CSV's use a csvreader
 Think carefully about the data types you want to use!
@@ -37,20 +39,20 @@ def menu(): # Introduces the program and then lets the user choose one of the op
     print("\n\nWelcome to this Quiz Program, where you can .")
     print("\n\n(Enter in the number that corresponds with the outcome you want)")
     while True:
-        choice = input("\nTake Quiz(1) Search(2) Add(3) Remove(4) Edit(5) Exit(6)\n")
-        if choice == "1":
+        choice = intput("\nTake Quiz(1) Search(2) Add(3) Remove(4) Edit(5) Exit(6)\n", 1,6)
+        if choice == 1:
             take()
-        elif choice == "2":
+        elif choice == 2:
             ()
-        elif choice == "3":
+        elif choice == 3:
             ()
-        elif choice == "4":
+        elif choice == 4:
             ()
-        elif choice == "5":
+        elif choice == 5:
             ()
-        elif choice == "6":
-            print("\n\n\nCome Back Soon!\n\n\n")
+        elif choice == 6:
+            print("Come Back Soon!")
             break
         else:
-            print("\nInvalid Input (Insert an Accepted Number)")
+            print("Something Broke")
 menu()

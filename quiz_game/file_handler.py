@@ -20,7 +20,19 @@ def read_file(): # Turns a file into a list of dictionaries
 
 def write_file(dicts): # Writes the list of dictonary onto the file
     with open ("quiz_game/question.csv", "w", newline="") as file:
-        fieldnames = ["",""]
+        fieldnames = ["Question","1","2","3","4"]
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(dicts)
+
+
+def intput(prompt, min = -1, max = -1): # Checks and prompts user to solve errors in integer inputs (Has Range If Needed)
+    try:
+        response = int(input(prompt).strip())
+    except:
+        print("Not An Integer")
+        response = intput(prompt,min,max)
+    if (min != -1 or max != -1) and (response < min or response > max): # If either min or max aren't -1 and the input is out of range then the user has to reinput
+        print(f"Not In Range: {min}-{max}")
+        response = intput(prompt,min,max)
+    return response
