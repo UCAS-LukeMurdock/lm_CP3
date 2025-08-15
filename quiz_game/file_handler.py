@@ -1,9 +1,9 @@
 # Luke Murdock, Read & Write to Files, Integer Input Handler, and other Handlers
 import csv
 
-def read_file(): # Turns a file into a list of dictionaries
+def read_file(file): # Turns a file into a list of dictionaries
     dicts = []
-    with open("quiz_game/question.csv", "r") as file:
+    with open(file, "r") as file:
         reader = csv.reader(file)
 
         for row_index, row in enumerate(reader):
@@ -30,9 +30,9 @@ def intput(prompt, min = -1, max = -1): # Checks and prompts user to solve error
     try:
         response = int(input(prompt).strip())
     except:
-        print("Not An Integer")
+        print("\nNot An Integer\n")
         response = intput(prompt,min,max)
     if (min != -1 or max != -1) and (response < min or response > max): # If either min or max aren't -1 and the input is out of range then the user has to reinput
-        print(f"Not In Range: {min}-{max}")
+        print(f"\nNot In Range: {min}-{max}\n")
         response = intput(prompt,min,max)
     return response

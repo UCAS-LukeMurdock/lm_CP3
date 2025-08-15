@@ -1,6 +1,7 @@
 # Luke Murdock, Quiz Game
 from file_handler import intput
 from quiz import take
+from admin import log_in
 
 """
 Create a quiz game that asks the user at least 10 questions (randomly selected from a csv that holds at least 50 questions [yes you can use AI to create your questions and answers]).
@@ -36,20 +37,22 @@ Program doesn't stop till the user choses to exit
 """
 
 def menu(): # Introduces the program and then lets the user choose one of the options
-    print("\n\nWelcome to this Quiz Program, where you can .")
-    print("\n\n(Enter in the number that corresponds with the outcome you want)")
+    print("\n\nWelcome to this Quiz Program, where you can either take a geogrpahy quiz, astronomy quiz, chemistry quiz, or one made by the admin.")
+    print("\n\n(Enter in the number that corresponds with the outcome you want)\n")
+
     while True:
-        choice = intput("\nTake Quiz(1) Search(2) Add(3) Remove(4) Edit(5) Exit(6)\n", 1,6)
+        print("What do you want to do?\n(1) Geography Quiz\n(2) Astronomy Quiz\n(3) Chemistry Quiz\n(4) Admin Quiz\n(5) Admin Log In\n(6) Exit")
+        choice = intput("Choice: ", 1,6)
         if choice == 1:
-            take()
+            take("Geography", "quiz_game/geography.csv")
         elif choice == 2:
-            ()
+            take("Astronomy", "quiz_game/astronomy.csv")
         elif choice == 3:
-            ()
+            take("Chemistry", "quiz_game/chemistry.csv")
         elif choice == 4:
-            ()
+            take("Admin's Questions", "quiz_game/admin_qs.csv")
         elif choice == 5:
-            ()
+            log_in()
         elif choice == 6:
             print("Come Back Soon!")
             break
