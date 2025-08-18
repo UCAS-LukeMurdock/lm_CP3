@@ -18,12 +18,25 @@ def read_file(file_path): # Turns a file into a list of dictionaries
             
     return dicts
 
-def write_file(dicts): # Writes the list of dictonary onto the file
-    with open ("quiz_game/question.csv", "w", newline="") as file:
-        fieldnames = ["Question","1","2","3","4"]
-        writer = csv.DictWriter(file, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(dicts)
+# def write_file(dicts): # Writes the list of dictonary onto the file
+#     with open ("quiz_game/question.csv", "w", newline="") as file:
+#         fieldnames = ["Question","1","2","3","4"]
+#         writer = csv.DictWriter(file, fieldnames=fieldnames)
+#         writer.writeheader()
+#         writer.writerows(dicts)
+
+
+def create_file(file_name, data): # Lets the admin create a new csv file that holds their created quiz
+    try:
+        with open(file_name, 'x', newline='') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=['Question', '1', '2', '3', '4'])
+            writer.writeheader()
+            writer.writerows(data)
+        return (f"\nQuiz File '{file_name}' created successfully.")
+    except FileExistsError:
+        return (f"\nError: Quiz File '{file_name}' already exists.")
+    except Exception as e:
+        return (f"\nAn error occurred: {e}")
 
 
 def intput(prompt, min = -1, max = -1): # Checks and prompts user to solve errors in integer inputs (Has Range If Needed)

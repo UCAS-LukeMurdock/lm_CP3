@@ -1,6 +1,6 @@
 #Luke Murdock, Quiz Handling File
 
-from file_handler import write_file as write, read_file as read, intput
+from file_handler import read_file as read, intput
 import random as r
 import time
 

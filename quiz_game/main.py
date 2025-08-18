@@ -1,7 +1,7 @@
 # Luke Murdock, Quiz Game
 from file_handler import intput
 from quiz import take
-from admin import log_in
+from admin import log_in, admin_quizzes
 
 """
 Create a quiz game that asks the user at least 10 questions (randomly selected from a csv that holds at least 50 questions [yes you can use AI to create your questions and answers]).
@@ -50,7 +50,7 @@ def menu(): # Introduces the program and then lets the user choose one of the op
         elif choice == 3:
             take("Chemistry", "quiz_game/chemistry.csv")
         elif choice == 4:
-            take("Admin's Questions", "quiz_game/admin_qs.csv")
+            admin_quizzes()
         elif choice == 5:
             log_in()
         elif choice == 6:
