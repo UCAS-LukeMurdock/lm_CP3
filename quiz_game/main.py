@@ -38,10 +38,10 @@ Program doesn't stop till the user choses to exit
 
 def menu(): # Introduces the program and then lets the user choose one of the options
     print("\n\nWelcome to this Quiz Program, where you can either take a geogrpahy quiz, astronomy quiz, chemistry quiz, or one made by the admin.")
-    print("\n\n(Enter in the number that corresponds with the outcome you want)\n")
+    print("\n\n(Enter in the number that corresponds with the outcome you want)")
 
     while True:
-        print("What do you want to do?\n(1) Geography Quiz\n(2) Astronomy Quiz\n(3) Chemistry Quiz\n(4) Admin Quiz\n(5) Admin Log In\n(6) Exit")
+        print("\nWhat do you want to do?\n(1) Geography Quiz\n(2) Astronomy Quiz\n(3) Chemistry Quiz\n(4) Admin Quiz\n(5) Admin Log In\n(6) Exit")
         choice = intput("Choice: ", 1,6)
         if choice == 1:
             take("Geography", "quiz_game/geography.csv")
