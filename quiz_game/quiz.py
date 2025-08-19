@@ -13,10 +13,12 @@ def take(topic, file): # Lets the user take the quiz by asking questions and han
     print(f"\n\nQuiz Topic: {topic}\n")
 
     while counter <= 10:
-        if topic == "Admin's Questions":
-            q = qs[r.randint(0,len(qs)-1)]
-        else:
+        if topic == "Geography" or topic == "Astronomy" or topic == "Chemistry":
             q = qs[r.randint(0,49)]
+        else:
+            q = qs[r.randint(0,len(qs)-1)]
+            if counter -1 == len(qs):
+                break
             
         if q not in used_qs:
 

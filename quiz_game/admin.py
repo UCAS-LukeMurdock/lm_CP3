@@ -1,6 +1,6 @@
 # Luke Murdock, Admin Page
-import os
-from file_handler import create_file
+from file_handler import create_file, get_quizzes, intput
+from quiz import take
 
 def log_in(): # 
     password = input("\n[Forgot Password? Enter 0]\nAdmin Password: ").lower().strip()
@@ -11,7 +11,6 @@ def log_in(): #
         q_sets = []
 
         while True:
-            q_set = {}
             q = input("\n[Enter 0 to finish creating quiz]\n[Enter 1 to give up creating this quiz]\nWhat question do you have?:\n")
             if q == "0":
                 break
@@ -23,34 +22,39 @@ def log_in(): #
             a3 = input("What is another incorrect answer?:\n")
             a4 = input("What is your last incorrect answer?:\n")
 
-            q_set["Question"] = q
-            q_set["1"] = correct_a
-            q_set["2"] = a2
-            q_set["3"] = a3
-            q_set["4"] = a4
+            q_set = {
+                "Question": q,
+                "1": correct_a,
+                "2": a2,
+                "3": a3,
+                "4": a4
+            }
 
             q_sets.append(q_set)
 
         # Create new file with q_sets and with relative path saved somewhere
         print(q_sets)
 
-        file_name = f"{input("\nWhat is your quiz's name?:\n").strip().replace(" ", "_")}.csv"
+        file_name = f"{input("\nWhat is your quiz's name?:\n").lower().strip().replace(" ", "_")}.csv"
         print(create_file(file_name, q_sets))
             
 
+def quiz_name_format(quiz):
+    return quiz[:-4].title().replace("_", " ")
+
+
 def admin_quizzes(): # 
 
-    # Get the list of all files and directories
-    path = "C:/Users/luke.murdock/Documents/lm_CP3/quiz_game"
-    files = os.listdir(path)
-    print("Files and directories in '", path, "' :")
-    # prints all files
-    print(files)
+    quizzes = get_quizzes()
+    while True:
 
-    wrong_files = ['admin.py', 'admin_qs.csv', 'astronomy.csv', 'chemistry.csv', 'file_handler.py', 'geography.csv', 'main.py', 'pseudocode.txt', 'quiz.py', '__pycache__']
-    for wrong_file in wrong_files:
+        print("\nWhich custom quiz do you want to take?\n(0) Exit")
+        for index, quiz in enumerate(quizzes):
+            print(f"({index+1}) {quiz_name_format(quiz)} Quiz") # Make the quiz name look normal?
 
-        files.remove("")
-    # ['admin.py', 'admin_qs.csv', 'astronomy.csv', 'chemistry.csv', 'file_handler.py', 'geography.csv', 'main.py', 'pseudocode.txt', 'quiz.py', '__pycache__']
+        choice = intput("Choice: ", 0,len(quizzes))
+        if choice == 0:
+            break
 
-    # Fix this list and removing and fix where new files go
+        choice = quizzes[choice -1]
+        take(quiz_name_format(choice), f"quiz_game/{choice}")

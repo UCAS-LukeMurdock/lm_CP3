@@ -36,6 +36,8 @@ Program tracks the users score
 Program doesn't stop till the user choses to exit
 """
 
+# Admin Password is 'admin'
+
 def menu(): # Introduces the program and then lets the user choose one of the options
     print("\n\nWelcome to this Quiz Program, where you can either take a geogrpahy quiz, astronomy quiz, chemistry quiz, or one made by the admin.")
     print("\n\n(Enter in the number that corresponds with the outcome you want)")
@@ -43,6 +45,7 @@ def menu(): # Introduces the program and then lets the user choose one of the op
     while True:
         print("\nWhat do you want to do?\n(1) Geography Quiz\n(2) Astronomy Quiz\n(3) Chemistry Quiz\n(4) Admin Quiz\n(5) Admin Log In\n(6) Exit")
         choice = intput("Choice: ", 1,6)
+
         if choice == 1:
             take("Geography", "quiz_game/geography.csv")
         elif choice == 2:
@@ -54,8 +57,13 @@ def menu(): # Introduces the program and then lets the user choose one of the op
         elif choice == 5:
             log_in()
         elif choice == 6:
-            print("Come Back Soon!")
+            print("\n\nCome Back Soon!\n\n")
             break
         else:
             print("Something Broke")
 menu()
+
+
+# Decompose take()
+# Fix Score /10 for custom
+# Fix descriptions and instructions

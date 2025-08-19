@@ -1,5 +1,6 @@
 # Luke Murdock, Read & Write to Files, Integer Input Handler, and other Handlers
 import csv
+import os
 
 def read_file(file_path): # Turns a file into a list of dictionaries
     dicts = []
@@ -27,8 +28,16 @@ def read_file(file_path): # Turns a file into a list of dictionaries
 
 
 def create_file(file_name, data): # Lets the admin create a new csv file that holds their created quiz
+
+        # Define the target folder and filename
+    folder_path = "quiz_game"
+    full_path = os.path.join(folder_path, file_name)
+
+    # Ensure the directory exists
+    # os.makedirs(folder_path, exist_ok=True) # exist_ok=True prevents error if folder already exists
+
     try:
-        with open(file_name, 'x', newline='') as csvfile:
+        with open(full_path, 'x', newline='') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=['Question', '1', '2', '3', '4'])
             writer.writeheader()
             writer.writerows(data)
@@ -38,6 +47,21 @@ def create_file(file_name, data): # Lets the admin create a new csv file that ho
     except Exception as e:
         return (f"\nAn error occurred: {e}")
 
+def get_quizzes():
+    # Get the list of all files and directories
+    # path = "C:/Users/luke.murdock/Documents/lm_CP3/quiz_game"
+    # path = "C:/Users/jenfa/OneDrive/Documents/Repos/lm_CS3/lm_CP3/quiz_game"
+    path = "quiz_game"
+    files = os.listdir(path)
+    print("Files and directories in '", path, "' :")
+    # prints all files
+    print(files)
+
+    wrong_files = ['admin.py', 'admin_qs.csv', 'astronomy.csv', 'chemistry.csv', 'file_handler.py', 'geography.csv', 'main.py', 'pseudocode.txt', 'quiz.py', '__pycache__']
+    for wrong_file in wrong_files:
+        files.remove(wrong_file)
+
+    return files
 
 def intput(prompt, min = -1, max = -1): # Checks and prompts user to solve errors in integer inputs (Has Range If Needed)
     try:
