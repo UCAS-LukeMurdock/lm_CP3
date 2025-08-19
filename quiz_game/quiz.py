@@ -4,6 +4,30 @@ from file_handler import read_file as read, intput
 import random as r
 import time
 
+def choice_to_answer(choice, q):
+    if choice == 1:
+        return q[0]
+    elif choice == 2:
+        return q[1]
+    elif choice == 3:
+        return q[2]
+    elif choice == 4:
+        return q[3]
+
+def calc_score(mean_speed, score):
+    if mean_speed >= 10:
+        return score
+    elif mean_speed >= 8:
+        return score + 1
+    elif mean_speed >= 6:
+        return score + 2
+    elif mean_speed >= 4:
+        return score + 3
+    elif mean_speed >= 2:
+        return score + 4
+    elif mean_speed >= 0:
+        return score + 5
+
 def take(topic, file): # Lets the user take the quiz by asking questions and handling answers
     qs = read(file)
     used_qs = []
@@ -21,29 +45,20 @@ def take(topic, file): # Lets the user take the quiz by asking questions and han
                 break
             
         if q not in used_qs:
-
             used_qs.append(q)
             counter += 1
             correct = q["1"]
-
-            print(f"{counter-1}. {q.pop('Question')}")
+            print(f"{counter-1}. {q.pop('Question')}") # Question
             start_time = time.time()
+
+            # Answering
             q = list(q.values())
             r.shuffle(q)
-
             print(f"(1) {q[0]}\n(2) {q[1]}\n(3) {q[2]}\n(4) {q[3]}")
             choice = intput("Answer: ", 1,4)
             speed = round((time.time() - start_time), 2)
-            if choice == 1:
-                answer = q[0]
-            elif choice == 2:
-                answer = q[1]
-            elif choice == 3:
-                answer = q[2]
-            elif choice == 4:
-                answer = q[3]
-                
-            if answer == correct:
+
+            if choice_to_answer(choice, q) == correct: # Checking
                 score += 1
                 print(f"\nCorrect!")
             else:
@@ -52,17 +67,4 @@ def take(topic, file): # Lets the user take the quiz by asking questions and han
             mean_speed += speed
             mean_speed /= 2
 
-    if mean_speed >= 10:
-        points = score
-    elif mean_speed >= 8:
-        points = score + 1
-    elif mean_speed >= 6:
-        points = score + 2
-    elif mean_speed >= 4:
-        points = score + 3
-    elif mean_speed >= 2:
-        points = score + 4
-    elif mean_speed >= 0:
-        points = score + 5
-
-    print(f"\nScore: {score}/10\nAverage Speed: {round(mean_speed, 2)} seconds\nPoints: {points}/15\n")
+    print(f"\nScore: {score}/{counter-1}\nAverage Speed: {round(mean_speed, 2)} seconds\nPoints: {calc_score(mean_speed, score)}/{counter+4}\n")

@@ -19,13 +19,6 @@ def read_file(file_path): # Turns a file into a list of dictionaries
             
     return dicts
 
-# def write_file(dicts): # Writes the list of dictonary onto the file
-#     with open ("quiz_game/question.csv", "w", newline="") as file:
-#         fieldnames = ["Question","1","2","3","4"]
-#         writer = csv.DictWriter(file, fieldnames=fieldnames)
-#         writer.writeheader()
-#         writer.writerows(dicts)
-
 
 def create_file(file_name, data): # Lets the admin create a new csv file that holds their created quiz
 
@@ -41,27 +34,24 @@ def create_file(file_name, data): # Lets the admin create a new csv file that ho
             writer = csv.DictWriter(csvfile, fieldnames=['Question', '1', '2', '3', '4'])
             writer.writeheader()
             writer.writerows(data)
-        return (f"\nQuiz File '{file_name}' created successfully.")
+        return (f"\nQuiz '{file_name[:-4].title().replace("_", " ")}' created successfully.")
     except FileExistsError:
-        return (f"\nError: Quiz File '{file_name}' already exists.")
+        return (f"\nError: Quiz '{file_name[:-4].title().replace("_", " ")}' already exists.")
     except Exception as e:
         return (f"\nAn error occurred: {e}")
 
-def get_quizzes():
-    # Get the list of all files and directories
-    # path = "C:/Users/luke.murdock/Documents/lm_CP3/quiz_game"
-    # path = "C:/Users/jenfa/OneDrive/Documents/Repos/lm_CS3/lm_CP3/quiz_game"
+
+def get_quizzes(): # Get the list of all files in the folder and returns the custom ones
     path = "quiz_game"
     files = os.listdir(path)
-    print("Files and directories in '", path, "' :")
-    # prints all files
-    print(files)
 
-    wrong_files = ['admin.py', 'admin_qs.csv', 'astronomy.csv', 'chemistry.csv', 'file_handler.py', 'geography.csv', 'main.py', 'pseudocode.txt', 'quiz.py', '__pycache__']
+    wrong_files = ['admin.py', 'astronomy.csv', 'chemistry.csv', 'file_handler.py', 'geography.csv', 'main.py', 'pseudocode.txt', 'quiz.py', '__pycache__']
     for wrong_file in wrong_files:
         files.remove(wrong_file)
 
     return files
+
+
 
 def intput(prompt, min = -1, max = -1): # Checks and prompts user to solve errors in integer inputs (Has Range If Needed)
     try:
