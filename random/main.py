@@ -1,2 +1,0 @@
-# Luke Murdock, Random Tests
-
