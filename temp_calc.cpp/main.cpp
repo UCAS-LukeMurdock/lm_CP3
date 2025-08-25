@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 
-int main(){
+int main(){ // This lets the user insert a temperature in Fahrenheit that will be calculated into Celsius and outputted
     cout << "This program converts Fahrenheit to Celsius."<<endl;
     cout << "What is your temperature in degrees Fahrenheit?: ";
     double num;
