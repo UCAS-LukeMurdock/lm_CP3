@@ -4,11 +4,11 @@
 using namespace std;
 
 int main(){
-    cout << "This program converts Fahrenheit to Celsius.";
+    cout << "This program converts Fahrenheit to Celsius."<<endl;
     cout << "What is your temperature in degrees Fahrenheit?: ";
-    float num;
+    double num;
     cin >> num;
-    float final_num = (num-32)*5/9;
+    double final_num = (num-32)*5/9;
     cout << num << " degrees in Fahrenheit is the same as " << final_num << " degrees in Celsius.";
     return 0;
 }
