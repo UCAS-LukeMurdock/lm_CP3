@@ -6,7 +6,7 @@ using namespace std;
 main(){
     int students = 11;
     double days = 5;
-    long years = 2554l; //long will compile to an int without l at the end
+    long years = 25'54l; //long will compile to an int without l at the end
     const float pi = 3.14f; //float will compile to double without f at the end
     bool on = true;
     char name = 'V';
