@@ -14,29 +14,21 @@ int main(){
 
     if (name == admin[0]) {
         cout << "\nHello, Admin " << name;
-    }
-    else if (name == admin[1]) {
+    }else if (name == admin[1]) {
         cout << "\nHello, Admin " << name;
-    }
-    else if (name == admin[2]) {
+    }else if (name == admin[2]) {
         cout << "\nHello, Admin " << name;
-    }
-    else if (name == returning_user[0]) {
+    }else if (name == returning_user[0]) {
         cout << "\nWelcome back, " << name;
-    }
-    else if (name == returning_user[1]) {
+    }else if (name == returning_user[1]) {
         cout << "\nWelcome back, " << name;
-    }
-    else if (name == returning_user[2]) {
+    }else if (name == returning_user[2]) {
         cout << "\nWelcome back, " << name;
-    }
-    else if (name == returning_user[3]) {
+    }else if (name == returning_user[3]) {
         cout << "\nWelcome back, " << name;
-    }
-    else if (name == returning_user[4]) {
+    }else if (name == returning_user[4]) {
         cout << "\nWelcome back, " << name;
-    }
-    else {
+    }else {
         cout << "\nGreetings newcomer, " << name;
     }
     
