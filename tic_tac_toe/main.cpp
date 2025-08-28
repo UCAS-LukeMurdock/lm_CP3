@@ -6,20 +6,14 @@
 
 using namespace std;
 
-// #Luke Murdock, Tic-Tac-Toe-Game
 
-// import random as r
-// end = False
-// winU = False
-// winC = False
-// tie = False
-// shownBoard = ""
+bool end = false;
+bool winU = false;
+bool winC = false;
+bool tie = false;
+string shownBoard = "";
 
-// board = [
-//     [1, 2 ,3],
-//     [4, 5 ,6],
-//     [7, 8 ,9],
-//     ]
+string board[3] = {{"1", "2" ,"3"},{"4", "5" ,"6"},{"7", "8" ,"9"}};
 
 // def check():
 //     global end
