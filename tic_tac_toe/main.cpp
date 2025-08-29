@@ -13,7 +13,7 @@ bool winC = false;
 bool tie = false;
 string shownBoard = "";
 
-string board[3] = {{"1", "2" ,"3"},{"4", "5" ,"6"},{"7", "8" ,"9"}};
+string board[3][3] = {{"1", "2" ,"3"},{"4", "5" ,"6"},{"7", "8" ,"9"}};
 
 // def check():
 //     global end
@@ -76,6 +76,16 @@ string board[3] = {{"1", "2" ,"3"},{"4", "5" ,"6"},{"7", "8" ,"9"}};
 //         end = True
 //         winC = True
 
+int display(string board){
+    for (int i=0;i<)
+
+        cout << row << endl;
+
+        //check();
+        return 0;
+}
+
+
 int main(){
     cout << "\n\nWelcome to Tic-Tac-Toe! In this game you will play against a computer by deciding which space(number) to place your X's." << endl;
     while (true) {
@@ -88,9 +98,11 @@ int main(){
             while (true) {
                 bool correct_spot = false
 
-                for(row ?in board?) // Move to back and make it not while true
-                    cout << row << endl;
-                check();
+                // Move to back and make it not while true
+                // for(row ?in board)
+
+                display(board);
+                
                 if (end == true){
                     break;
                 }
@@ -144,3 +156,28 @@ int main(){
     }
     return 0;
 }
+
+
+
+// int search(string list[], size_t len, string item){
+//     // if(find(list->begin(), list->end(), item) != list->end()){
+//     //     cout << "You are a sibling\n!";
+//     // }
+//     for(int i=0; i < len; i++){
+//         if (list[i] == item){
+//             cout << "You are a sibling!\n";
+//             return 1;
+//         }
+//     }
+//     cout << "You are a parent!\n";
+//     return 0;
+// }
+
+// int main(){
+//     // cout << fam << endl;
+//     for(int i=0;i < size(fam);i++){
+//         cout << fam[i] << " Murdock\n";
+//         search(sibs, size(sibs), fam[i]);
+//         // if (fam[i] == sibs[i-2])
+//         //     cout << "They are a sibling!\n";
+//     }
