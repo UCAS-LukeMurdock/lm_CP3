@@ -50,7 +50,7 @@ int main(){
 // What is type_t?
     // Type of T is a data type that is used to represent the size of objects (other data types).
     // Size of T is a placeholder that is used when we need to know how much space we have or we dont know how much space it takes up
-    
+    // type_t has the most storage capacity
 
     // SIZE OF T
     cout << numeric_limits<long long>::min() << endl;
@@ -63,18 +63,45 @@ int main(){
     // And Above Answer
 
 // How do you search an array?
-    // Structured Binding (Packing)
-    auto [q,w,e,r,t,y,u,i,o,p,a,s] = fam;
-    cout << e << endl;
+    // Seen Above (using a function and for loops)
 
 // How do you sort an array?
-    // 
+    // Bubble sort takes two numbers and compares them to see if the first one is bigger and then switches them if that is the case.
+    // It overlaps the pairs
+    // It does the sort multiple times (iterations)
+    // The number of changes ius equal to the number of items?
+
+    int nums[] = {8,6,2,9,1,11};
+    int length = size(nums);
+
+    for(int j=0; j < length; j++){
+        for(int i=1; i < length; i++){
+            // cout << nums[i]<< endl;
+            if (nums[i] < nums[i-1]){
+                int swap = nums[i];
+                nums[i] = nums[i-1];
+                nums[i-1] = swap;
+            }
+        }
+    }
+    for(int i=0; i< length; i++)
+        cout << nums[i] << ", ";
+    cout << endl;
+        
 
 // How do you make a multi-dimensional array?
     // They are called matrices
+    // You shouldn't go past 3d
+    // matrix[rows][columns]
     int matrix[3][3] = {{1,2,3},
-                    {4,5,6},
-                    {7,8,9},};
+                        {4,5,6},
+                        {7,8,9},};
+
+
+
+    // Structured Binding (Packing)
+    auto [q,w,e,r,t,y,u,i,o,p,a,s] = fam;
+    cout << e << endl;
 
 
     return 0;
