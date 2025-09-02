@@ -17,6 +17,8 @@ string board[3][3] = {{"1", "2" ,"3"},
                     {"4", "5" ,"6"},
                     {"7", "8" ,"9"}};
 
+int board_length = size(board);
+
 /*
 _1_|_2_|_3_
 _1_|_2_|_3_
@@ -24,14 +26,14 @@ _1_|_2_|_3_
 */
 
 
-void check(){
+void check(string board[3][3]){
 
     // Ties
     tied_game = true;
     end_game = true;
 
-    for(int i=0;i<size(board);i++){
-        for (int j=0;i<size(board[i]);i++){
+    for(int i=0;i<board_length;i++){
+        for (int j=0;j<size(board[i]);j++){
             if(board[i][j] != "X" or board[i][j] != "O"){
                 tied_game = false;
                 end_game = false;
@@ -40,7 +42,7 @@ void check(){
     }
 
     // X Rows
-    for(int i=0;i<size(board);i++){
+    for(int i=0;i<board_length;i++){
         string x_row[3] = {"X", "X", "X"};
         if (board[i] == x_row){
             end_game = true;
@@ -50,7 +52,7 @@ void check(){
     // X Columns
     for(int j=0;j<3;j++){ // {0, 1, 2}
         int column_x = 0;
-        for(int i=0;i<size(board);i++){
+        for(int i=0;i<board_length;i++){
             if (board[i][j] == "X")
                 column_x++;
             if (column_x == 3)
@@ -65,7 +67,7 @@ void check(){
     }
 
     // O Rows
-    for(int i=0;i<size(board);i++){
+    for(int i=0;i<board_length;i++){
         string o_row[3] = {"O", "O", "O"};
         if (board[i] == o_row){
             end_game = true;
@@ -75,7 +77,7 @@ void check(){
     // O Columns
     for(int j=0;j<3;j++){ // {0, 1, 2}
         int column_o = 0;
-        for(int i=0;i<size(board);i++){
+        for(int i=0;i<board_length;i++){
             if (board[i][j] == "O")
                 column_o++;
             if (column_o == 3)
@@ -90,10 +92,10 @@ void check(){
     }
 }
 
-void display(){
+void display(string board[3][3]){
     string board_display = "";
 
-    for(int i=0;i<size(board);i++){
+    for(int i=0;i<board_length;i++){
         for(int j=0;j<size(board[i]);j++){
             if(i == 2){
                 board_display.append(" " + board[i][j] + " |");
@@ -104,14 +106,12 @@ void display(){
         board_display[i*12 +11] = '\n'; // Replaces the unecessary | with a new line
     }
     cout << endl << board_display << endl;
-
-    check();
 }
 
 int main(){
     cout << "\n\nWelcome to Tic-Tac-Toe! In this game you will play against a computer by deciding which space(number) to place your X's.\n";
     while (true) {
-        cout << "Play Tic-Tac-Toe(1)  Exit(2)\nChoice: ";
+        cout << "\nPlay Tic-Tac-Toe(1)  Exit(2)\nChoice: ";
         string play;
         cin >> play;
         if (play == "2"){
@@ -124,8 +124,8 @@ int main(){
             while (true) {
                 bool correct_spot = false;
 
-                display();
-                
+                display(board);
+                check(board);
                 if (end_game == true){
                     break;
                 }
@@ -133,26 +133,25 @@ int main(){
                 cout << "Where do you want to place X?:\n";
                 string u_choice;
                 cin >> u_choice;
-                for(int i=0;i<size(board);i++){
-                    for (int j=0;i<size(board[i]);i++){
+                for(int i=0;i<board_length;i++){
+                    for (int j=0;j<size(board[i]);j++){
                         if(board[i][j] == u_choice)
                             board[i][j] = "X";
                     }
                 }
-                
-
-                display();
+            
+                display(board);
+                check(board);
                 if (end_game == true)
                     break;
                 
-
                 while (correct_spot == false){
                     int seconds = time(nullptr);
                     srand(seconds);
                     int c_choice = (rand() % 10) +1;
                     
-                    for(int i=0;i<size(board);i++){
-                        for (int j=0;i<size(board[i]);i++){
+                    for(int i=0;i<board_length;i++){
+                        for (int j=0;j<size(board[i]);j++){
                             if(board[i][j] == to_string(c_choice)){
                                 board[i][j] = "O";
                                 correct_spot = true;
