@@ -1,1 +1,2 @@
-u_win
+
+            cout << "\nInvalid Spot Number\n\n";
