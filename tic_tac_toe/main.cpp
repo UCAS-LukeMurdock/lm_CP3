@@ -25,6 +25,8 @@ _1_|_2_|_3_
  1 | 2 | 3 
 */
 
+// j is columns and i is rows
+
 
 void check(string board[3][3]){
 
@@ -34,7 +36,7 @@ void check(string board[3][3]){
 
     for(int i=0;i<board_length;i++){
         for (int j=0;j<size(board[i]);j++){
-            if(board[i][j] != "X" or board[i][j] != "O"){
+            if(board[i][j] != "X" and board[i][j] != "O"){
                 tied_game = false;
                 end_game = false;
             }
@@ -43,23 +45,17 @@ void check(string board[3][3]){
 
     // X Rows
     for(int i=0;i<board_length;i++){
-        string x_row[3] = {"X", "X", "X"};
-        if (board[i] == x_row){
+        if (board[i][0] == "X" and board[i][1] == "X" and board[i][2] == "X"){
             end_game = true;
             u_win = true;
         }
     }
     // X Columns
-    for(int j=0;j<3;j++){ // {0, 1, 2}
-        int column_x = 0;
-        for(int i=0;i<board_length;i++){
-            if (board[i][j] == "X")
-                column_x++;
-            if (column_x == 3)
-                end_game = true;
-                u_win = true;
+    for(int j=0; j<3; j++){ // 0, 1, 2
+        if (board[0][j] == "X" and board[1][j] == "X" and board[2][j] == "X"){
+            end_game = true;
+            u_win = true;
         }
-    }
     // X Diagonal
     if (board[0][0] == "X" and board[1][1] == "X" and board[2][2] == "X"    or    board[0][2] == "X" and board[1][1] == "X" and board[2][0] == "X"){
         end_game = true;
@@ -68,21 +64,16 @@ void check(string board[3][3]){
 
     // O Rows
     for(int i=0;i<board_length;i++){
-        string o_row[3] = {"O", "O", "O"};
-        if (board[i] == o_row){
+        if (board[i][0] == "O" and board[i][1] == "O" and board[i][2] == "O"){
             end_game = true;
             c_win = true;
         }
     }
     // O Columns
-    for(int j=0;j<3;j++){ // {0, 1, 2}
-        int column_o = 0;
-        for(int i=0;i<board_length;i++){
-            if (board[i][j] == "O")
-                column_o++;
-            if (column_o == 3)
-                end_game = true;
-                c_win = true;
+    for(int j=0; j<3; j++){ // 0, 1, 2
+        if (board[0][j] == "O" and board[1][j] == "O" and board[2][j] == "O"){
+            end_game = true;
+            c_win = true;
         }
     }
     // O Diagonal
@@ -114,13 +105,18 @@ int main(){
         cout << "\nPlay Tic-Tac-Toe(1)  Exit(2)\nChoice: ";
         string play;
         cin >> play;
+
         if (play == "2"){
             cout << "\nCome back soon!\n";
             break;
+
         } else if (play == "1"){
-            string board[3][3] = {{"1", "2" ,"3"},
-                                {"4", "5" ,"6"},
-                                {"7", "8" ,"9"}};
+            u_win = false;
+            c_win = false;
+            tied_game = false;
+            end_game = false;
+            string board[3][3] = {{"1", "2" ,"3"}, {"4", "5" ,"6"}, {"7", "8" ,"9"}};
+
             while (true) {
                 bool correct_spot = false;
 
@@ -139,7 +135,7 @@ int main(){
                             board[i][j] = "X";
                     }
                 }
-            
+                cout << "\nYour Turn:\n";
                 display(board);
                 check(board);
                 if (end_game == true)
@@ -158,23 +154,24 @@ int main(){
                             }    
                         }
                     }
-                    
                 }
-                cout << endl;
+                cout << "\nComputer's Turn:\n";
             }
-            if (u_win == true)
+            if (u_win == true){
                 cout << "You Won!\n";
-            else if (c_win == true)
+            }else if (c_win == true){
                 cout << "You Lost!\n";
-            else if (tied_game == true)
+            }else if (tied_game == true){
                 cout << "Draw!\n";
-
+            }
+            
         }else
-        cout << "Incorrect Input\n";
+        cout << "\nIncorrect Input\n";
     }
     return 0;
 }
 
-// Fix placing X and winning
-// Test and fix Errors
-// Fix it so user can't fail to place X
+// Fix winning
+
+// ask her why the board isnt globalized
+// Is it fine that it doesn't let the player have a second chance when picking where to place X
