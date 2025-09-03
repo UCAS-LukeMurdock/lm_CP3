@@ -28,7 +28,7 @@ _1_|_2_|_3_
 // j is columns and i is rows
 
 
-void check(string board[3][3]){
+void check(){
 
     // Ties
     tied_game = true;
@@ -56,6 +56,7 @@ void check(string board[3][3]){
             end_game = true;
             u_win = true;
         }
+    }
     // X Diagonal
     if (board[0][0] == "X" and board[1][1] == "X" and board[2][2] == "X"    or    board[0][2] == "X" and board[1][1] == "X" and board[2][0] == "X"){
         end_game = true;
@@ -83,7 +84,7 @@ void check(string board[3][3]){
     }
 }
 
-void display(string board[3][3]){
+void display(){
     string board_display = "";
 
     for(int i=0;i<board_length;i++){
@@ -115,13 +116,15 @@ int main(){
             c_win = false;
             tied_game = false;
             end_game = false;
-            string board[3][3] = {{"1", "2" ,"3"}, {"4", "5" ,"6"}, {"7", "8" ,"9"}};
+            board[0][0] = "1"; board[0][1] = "2"; board[0][2] = "3";
+            board[1][0] = "4"; board[1][1] = "5"; board[1][2] = "6";
+            board[2][0] = "7"; board[2][1] = "8"; board[2][2] = "9";
 
             while (true) {
                 bool correct_spot = false;
 
-                display(board);
-                check(board);
+                display();
+                check();
                 if (end_game == true){
                     break;
                 }
@@ -136,8 +139,8 @@ int main(){
                     }
                 }
                 cout << "\nYour Turn:\n";
-                display(board);
-                check(board);
+                display();
+                check();
                 if (end_game == true)
                     break;
                 
