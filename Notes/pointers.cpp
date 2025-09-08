@@ -14,6 +14,10 @@ void divide(int* list, int size){ // Arrays need size
     }
 }
 
+int capacity = 5;
+int* sanity = new int[capacity];
+int entries = 0;
+
 
 int main(){
     cout << "\n\n";
@@ -49,6 +53,37 @@ int main(){
     cout << "The value of the location of num: " << *pnum << endl;
 
     divide(numbers, size(numbers));
+    cout << "\nComparing Pointers:\n" << (pnum == pday) << endl;
+    cout << (pnum < pday) << endl;
+    cout << (pnum > pday) << endl;
+    if(pnum != nullptr){
+        cout << *pnum << endl;
+        pnum++; // It points somewhere else that is empty now.
+    }
+    cout << *pnum << endl; // It is empty so it prints something random.
+
+
+    while(true){
+        cout << "Number: ";
+        cin >> sanity[entries];
+        if(cin.fail()) break;
+        entries++;
+        if(entries == capacity){
+            capacity += 5;
+            int* temp = new int[capacity];
+            for(int i = 0; i < entries; i++)
+                temp[i] = sanity[i];
+            delete[] sanity;
+            sanity = temp;
+        }
+    }
+    
+    for (int i=0; i < entries; i++)
+        cout << sanity[i] << endl;
+
+    delete[] sanity;
+    // delete[] sanity // Don't delete twice
+
 
 
 // What is a pointer?
@@ -84,19 +119,24 @@ int main(){
     // You would pass a pointer into a function because you don't want to actually give it a lot of info, you just want to tell it where to find the information.
 
 // How do you compare pointers?
-    // 
+    // You compare pointers by using the normal condition symbols and it will compare if they point at the same location or if it is at a further on location or a closer one.
 
 // What is dynamic memory allocation?
-    // 
+    // Changing the storage amount and places of an array.
 
 // What is the Stack?
-    // 
+    // An area of memory used for managing funciton calls, local variables, and control flow. It is managed by the compiler for quick allocation of memory.
 
 // What is the Heap?
-    // 
+    // An area of memory used for dynamic memory. Stores data if the size is unknown at the time of compiling. Memory must be manually managed by the program. Used for flexible long-lived storage of complex data structures, objects, and large files.
 
 // What are smart pointers?
-    // 
+    // On Smart Pointers File
+    // Smart pointers are variables that work on the stack instead of the heap.
+    // They delete themselves after they aren't neeeded.
+
+    // Unique pointers owns that piece of the memory, nothing else can use it.
+    // Shared pointers allow it so multiple pointers can point at that same place.
     
 
     cout << "\n\n";
