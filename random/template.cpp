@@ -31,3 +31,28 @@ int main(){ // This welcomes the user and lets the user choose to use or exit th
     }
     return 0;
 }
+
+
+// LM  {} Notes
+
+#include <iostream>
+// #include <string>
+// #include <memory>
+
+using namespace std;
+
+
+void play(){
+    cout << "\n";
+}
+
+
+int main(){
+
+    cout << "\n";
+
+    return 0;
+}
+
+
+// NOTES QUESTIONS
