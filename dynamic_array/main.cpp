@@ -54,10 +54,11 @@ int main(){ // This welcomes the user and lets the user choose to use the progra
 
         if(choice=="1") // Using Program
             enter_colors();
-        else{
+        else if(choice=="2"){
             cout << "\n\n\nCome Back Soon!\n\n\n" << endl;
             break;
-        }
+        }else
+            cout << "\nIncorrect Input\n";
     }
     return 0;
 }
