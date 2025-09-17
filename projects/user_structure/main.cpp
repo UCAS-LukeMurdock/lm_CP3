@@ -25,23 +25,115 @@ Correctly includes and uses the standard library for input/output operations Use
 Properly declares and uses appropriate variable types throughout the program
 */
 
+struct User {
+    string name;
+    string password;
+    bool isAdmin;
+};
 
+// Overloading
 
-void play(){
-    cout << "Hi\n";
+User existing_users[10] = {};
+
+void make_user_list(){
+    User luke;
+    luke.name = "Admin Luke";
+    luke.password = "0";
+    luke.isAdmin = true;
+
+    User nick;
+    nick.name = "Nick";
+    nick.password = "1";
+    nick.isAdmin = true;
+
+    User luke;
+    luke.name = "";
+    luke.password = "2";
+    luke.isAdmin = true;
+
+    User luke;
+    luke.name = "";
+    luke.password = "3";
+    luke.isAdmin = false;
+
+    User luke;
+    luke.name = "";
+    luke.password = "4";
+    luke.isAdmin = false;
+
+    User luke;
+    luke.name = "";
+    luke.password = "5";
+    luke.isAdmin = false;
+
+    User luke;
+    luke.name = "";
+    luke.password = "6";
+    luke.isAdmin = false;
+
+    User luke;
+    luke.name = "";
+    luke.password = "7";
+    luke.isAdmin = false;
+
+    User luke;
+    luke.name = "";
+    luke.password = "8";
+    luke.isAdmin = false;
+
+    User luke;
+    luke.name = "";
+    luke.password = "9";
+    luke.isAdmin = false;
 }
 
+void input(){ // Lets you input
+    string user_name;
+    string user_password;
+    bool isUserAdmin;
+    cout << "Input your name, password, ";
+    cin >> user_name, user_password, isUserAdmin;
+    cout << "\n";
+}
+
+void compare
 
 int main(){ // This welcomes the user and lets the user choose to use or exit the program.
-    cout << "\n\nWelcome to this Program, which...";
+
+    User luke;
+    luke.name = "";
+    luke.password = "";
+    luke.isAdmin = true;
+    User luke;
+    luke.name = "";
+    luke.password = "";
+    luke.isAdmin = true;
+    User luke;
+    luke.name = "";
+    luke.password = "";
+    luke.isAdmin = true;
+    User luke;
+    luke.name = "";
+    luke.password = "";
+    luke.isAdmin = true;
+    User luke;
+    luke.name = "";
+    luke.password = "";
+    luke.isAdmin = true;User luke;
+    luke.name = "";
+    luke.password = "";
+    luke.isAdmin = true;
+
+
+    cout << "\n\nWelcome to this User Program, which stores user information and will take in new users.";
     while(true){
-        cout << "\nPlay Program(1)  Exit(2)\nChoice: ";
+        cout << "\nInput User Info(1)  Exit(2)\nChoice: ";
         string choice;
         cin >> choice;
-        // cin.ignore();
+        cin.ignore();
 
         if(choice=="1") // Using Program
-            play();
+            input();
         else if(choice=="2"){ // Exiting The Program
             cout << "\n\n\nCome Back Soon!\n\n\n" << endl;
             break;

@@ -125,6 +125,10 @@ int main(){
     // A custom, abstract data type (adt) and a general model of something.
 
 // How do you build a structure?
+    // struct name {
+    //     property_type property_name;
+    // };
+
     // Seen Above
 
     // Example:
@@ -135,7 +139,7 @@ int main(){
         // };
 
 // What can be held in a structure?
-    // variables of different data types, even other structure objects, methods (functions)
+    // Structures hold variables of different data types, even other structure objects, and methods (functions)
 
 // How do you access the information in a structure?
     // Seen Above
@@ -143,5 +147,5 @@ int main(){
     // Using auto helps
 
 // How do you overload an operator?
-    // You add a function that overloads an operator such as == and makes it so it does the function's code instead of what it would usually do with that operator
-    // You have to do this becuase it doesn't know what to do with operator symbols on new data types you make
+    // You add a function that overloads an operator such as == and makes it so it does the function's code instead of what it would usually do with that operator.
+    // You have to do this becuase it doesn't know what to do with operator symbols on new data types you make.
