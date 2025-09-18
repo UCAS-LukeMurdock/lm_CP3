@@ -45,11 +45,11 @@ ostream& operator<<(ostream& stream, User& print_user){
     return stream;
 }
 
-
+// Users vector
 vector<User> users;
 
-void add_users(){
-    users.push_back({"Luke", "0", true});
+void add_users(){ // Adds the 10 prexisting users to the 'users' vector
+    users.push_back({"Admin Luke", "0", true});
     users.push_back({"Nick", "1", true});
     users.push_back({"Ms.LaRose", "2", true});
     users.push_back({"Matt", "3", false});
@@ -61,30 +61,35 @@ void add_users(){
     users.push_back({"Jack", "9", false});
 }
 
-int compare(User new_user){ // Compares the new user with the existing users
+// Functions
+void compare(User new_user){ // Compares the new user with the existing users
     for(auto user: users){
         if(user == new_user){
-            cout << "\nUser: " << new_user << "\nAlready exists.\n";
-            return 1;
+            cout << "\nUser '" << new_user << "' already exists\n";
+            return;
         }
     }
-    cout << "\nWelcome\nUser: " << new_user << endl;
-    return 0;
+    cout << "\n\nWelcome, User '" << new_user << "'\n";
 }
 
-void input(){ // Lets you input
+User input(){ // Lets you input a user and their details
     string user_name;
     string user_password;
     string admin_input;
-    bool isUserAdmin;
+    bool is_user_admin;
 
-    cout << "\n(Separate your inputs with a space or enter)\nInput your name, password, and admin status (Input \"true\" if you are an admin):\n";
-    cin >> user_name >> user_password >> admin_input;
-    isUserAdmin = (admin_input == "true" || admin_input == "1");
-    // cout << user_name << " " << user_password << " " << (isUserAdmin ? "true" : "false") << endl;
+    cout << "\nInput your name: ";
+    getline(cin, user_name);
 
-    User new_user = {user_name, user_password, isUserAdmin};
-    compare(new_user);
+    cout << "\nInput your password: ";
+    getline(cin, user_password);
+
+    cout << "\n(Input 'True' if you are an admin)\nInput your admin_status: ";
+    getline(cin, admin_input);
+    is_user_admin = (admin_input == "True" || admin_input == "true");
+
+    User new_user = {user_name, user_password, is_user_admin};
+    return new_user;
 }
 
 int main(){ // This welcomes the user and lets the user choose to use or exit the program.
@@ -95,17 +100,15 @@ int main(){ // This welcomes the user and lets the user choose to use or exit th
     while(true){
         cout << "\nInput User Info(1)  Exit(2)\nChoice: ";
         string choice;
-        cin >> choice;
-        cin.ignore();
+        getline(cin, choice);
 
         if(choice=="1") // Using Program
-            input();
+            compare(input());
         else if(choice=="2"){ // Exiting The Program
             cout << "\n\n\nCome Back Soon!\n\n\n" << endl;
             break;
         }else
             cout << "\nIncorrect Input\n";
-
     }
     return 0;
 }
