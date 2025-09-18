@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <string>
-// #include <memory>
+#include <vector>
 
 using namespace std;
 
@@ -33,97 +33,63 @@ struct User {
 
 // Overloading
 
-User existing_users[10] = {};
+bool operator==(const User& first, const User& second){
+    return (first.name == second.name &&
+        first.password == second.password &&
+        first.isAdmin == second.isAdmin
+    );
+}
 
-void make_user_list(){
-    User luke;
-    luke.name = "Admin Luke";
-    luke.password = "0";
-    luke.isAdmin = true;
+ostream& operator<<(ostream& stream, User& print_user){
+    stream << print_user.name;
+    return stream;
+}
 
-    User nick;
-    nick.name = "Nick";
-    nick.password = "1";
-    nick.isAdmin = true;
 
-    User luke;
-    luke.name = "";
-    luke.password = "2";
-    luke.isAdmin = true;
+vector<User> users;
 
-    User luke;
-    luke.name = "";
-    luke.password = "3";
-    luke.isAdmin = false;
+void add_users(){
+    users.push_back({"Luke", "0", true});
+    users.push_back({"Nick", "1", true});
+    users.push_back({"Ms.LaRose", "2", true});
+    users.push_back({"Matt", "3", false});
+    users.push_back({"David", "4", false});
+    users.push_back({"Turtle", "5", false});
+    users.push_back({"Cat", "6", false});
+    users.push_back({"Jacob", "7", false});
+    users.push_back({"Jake", "8", false});
+    users.push_back({"Jack", "9", false});
+}
 
-    User luke;
-    luke.name = "";
-    luke.password = "4";
-    luke.isAdmin = false;
-
-    User luke;
-    luke.name = "";
-    luke.password = "5";
-    luke.isAdmin = false;
-
-    User luke;
-    luke.name = "";
-    luke.password = "6";
-    luke.isAdmin = false;
-
-    User luke;
-    luke.name = "";
-    luke.password = "7";
-    luke.isAdmin = false;
-
-    User luke;
-    luke.name = "";
-    luke.password = "8";
-    luke.isAdmin = false;
-
-    User luke;
-    luke.name = "";
-    luke.password = "9";
-    luke.isAdmin = false;
+int compare(User new_user){ // Compares the new user with the existing users
+    for(auto user: users){
+        if(user == new_user){
+            cout << "\nUser: " << new_user << "\nAlready exists.\n";
+            return 1;
+        }
+    }
+    cout << "\nWelcome\nUser: " << new_user << endl;
+    return 0;
 }
 
 void input(){ // Lets you input
     string user_name;
     string user_password;
+    string admin_input;
     bool isUserAdmin;
-    cout << "Input your name, password, ";
-    cin >> user_name, user_password, isUserAdmin;
-    cout << "\n";
-}
 
-void compare
+    cout << "\n(Separate your inputs with a space or enter)\nInput your name, password, and admin status (Input \"true\" if you are an admin):\n";
+    cin >> user_name >> user_password >> admin_input;
+    isUserAdmin = (admin_input == "true" || admin_input == "1");
+    // cout << user_name << " " << user_password << " " << (isUserAdmin ? "true" : "false") << endl;
+
+    User new_user = {user_name, user_password, isUserAdmin};
+    compare(new_user);
+}
 
 int main(){ // This welcomes the user and lets the user choose to use or exit the program.
 
-    User luke;
-    luke.name = "";
-    luke.password = "";
-    luke.isAdmin = true;
-    User luke;
-    luke.name = "";
-    luke.password = "";
-    luke.isAdmin = true;
-    User luke;
-    luke.name = "";
-    luke.password = "";
-    luke.isAdmin = true;
-    User luke;
-    luke.name = "";
-    luke.password = "";
-    luke.isAdmin = true;
-    User luke;
-    luke.name = "";
-    luke.password = "";
-    luke.isAdmin = true;User luke;
-    luke.name = "";
-    luke.password = "";
-    luke.isAdmin = true;
-
+    add_users();
 
     cout << "\n\nWelcome to this User Program, which stores user information and will take in new users.";
     while(true){
