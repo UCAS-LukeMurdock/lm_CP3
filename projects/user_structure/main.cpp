@@ -65,7 +65,7 @@ void add_users(){ // Adds the 10 prexisting users to the 'users' vector
 void compare(User new_user){ // Compares the new user with the existing users
     for(auto user: users){
         if(user == new_user){
-            cout << "\nUser '" << new_user << "' already exists\n";
+            cout << "\n\nUser '" << new_user << "' already exists\n";
             return;
         }
     }
