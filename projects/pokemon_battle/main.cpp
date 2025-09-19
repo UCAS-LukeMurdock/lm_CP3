@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
@@ -45,29 +47,174 @@ Implement proper input validation and error handling.
 
 BONUS (Rubber Duck Prize):
 To earn a rubber duck prize, include multiple attack options that users can select during battle, and implement a comprehensive type system with proper weaknesses and strengths that provide damage bonuses.
+
+RUBRIC:
+Enumeration and Menu Implementation
+Full Marks
+Enumeration is correctly defined, used effectively in menu implementation, and demonstrates clear understanding in program flow
+Partial Credit
+Enumeration is present but with minor errors in definition or usage
+No Marks
+Enumeration is missing or incorrectly implemented
+This criterion is linked to a Learning OutcomePokémon Structure Implementation
+Full Marks
+Structures for Pokémon are correctly implemented with all required properties (name, max HP, current HP, attacks, level, type)
+Partial Credit
+Structures are used but missing some properties or have minor implementation issues
+No Marks
+Structures are not used or are incorrectly implemented
+This criterion is linked to a Learning OutcomeBattle System
+Full Marks
+Fully implemented battle system with multiple attacks, correct damage calculation, and proper turn-based flow
+Partial Credit
+Battle system works but lacks some features or has minor calculation errors
+No Marks
+Battle system is non-functional or missing
+This criterion is linked to a Learning OutcomeHealing Method
+Full Marks
+Healing is a method available within the Pokemon structure
+Partial Credit
+Healing works in the program but isn't a class method
+No Marks
+No healing
+This criterion is linked to a Learning OutcomeFinding Pokemon
+Full Marks
+Pokemon can be found and added to a users list of pokemon, list is checked to make sure each Pokemon is unique before it is added (Uses Operator overloading)
+Partial Credit
+Pokemon can be found and added to a users list of pokemon, list is checked to make sure each Pokemon is unique before it is added (no operator overloading)
+No Marks
+Users cannot save more than one Pokemon OR Pokemon that are not unique can be added to the players list.
+This criterion is linked to a Learning OutcomeWell written code
+Full Marks
+Code is easy to read, uses proper data types and naming.
+Partial Credit
+Code is difficult to read, or not using proper industry conventions for naming and data typing
 */
 
-struct {
+struct Pokemon{
     string name;
     // string type;
     int level;
     int max_hp;
     // int current_hp;
+    void heal(){ // Heals the pokemon to max HP
+        cout << name << " has been healed to full health!\n";
+        // current_hp = max_hp;
+    }
     // vector<string> attacks;
 };
 
-// Pokemon vector
+
+// Pokemon Vectors
+
+// Wild Pokemon vector
+vector<Pokemon> wild_pokemons = {
+    {"Pikachu", 5, 35},
+    {"Charmander", 5, 39},
+    {"Squirtle", 5, 44},
+    {"Bulbasaur", 5, 45},
+    {"Eevee", 5, 55},
+    {"Jigglypuff", 5, 115},
+    {"Meowth", 5, 40},
+    {"Psyduck", 5, 50},
+    {"Snorlax", 5, 160},
+    {"Magikarp", 5, 20},
+    {"Dragonite", 5, 91},
+    {"Mewtwo", 5, 106},
+    {"Gengar", 5, 60},
+    {"Onix", 5, 35},
+    {"Lapras", 5, 130},
+    {"Vaporeon", 5, 130},
+    {"Jolteon", 5, 65},
+    {"Flareon", 5, 65},
+    {"Articuno", 5, 90},
+    {"Zapdos", 5, 90},
+    {"Moltres", 5, 90}
+
+};
+
+// Battle Pokemon vector
+vector<Pokemon> battle_pokemons = wild_pokemons;
+
+// User's Pokemon vector
+vector<Pokemon> user_pokemons;
+
+
+// Random Number Generator
+int rng(int limit){
+    srand(time(0));
+    int rand_num = rand() % limit;
+    return rand_num;
+}
+
 
 void explore(){
-    cout << "Hi\n";
+    int random_index = rng(wild_pokemons.size());
+    Pokemon found = wild_pokemons[random_index];
+    // replace begin with 0?
+    wild_pokemons.erase(wild_pokemons.begin() + random_index); // Removes the found pokemon from the wild pokemons vector
+    user_pokemons.push_back(found); // Adds the found pokemon to the user's pokemons vector
+    cout << "You found a wild " << found.name << "!\n";
 }
 
 void battle(){
-    cout << "Hi\n";
+    int random_index = rng(wild_pokemons.size());
+    Pokemon oponent = wild_pokemons[random_index];
+
+
+    cout << "A wild " << oponent.name << " appeared!\n";
+    cout << "You have " << user_pokemons.size() << " pokemons.\n";
+    if(user_pokemons.size()==0){
+        cout << "You have no pokemons to battle with!\n";
+        return;
+    }
+    cout << "Choose a pokemon to battle with:\n";
+    for(int i=0; i<user_pokemons.size(); i++){
+        cout << "(" << i+1 << ") " << user_pokemons[i].name << " (Level " << user_pokemons[i].level << ")\n";
+    }
+
+
+    int choice;    
+    cout << "Choice: ";
+    cin >> choice;
+    cin.ignore();
+    if(choice<1 || choice>user_pokemons.size()){
+        cout << "Invalid choice!\n";
+        return;
+    }
+
+    Pokemon user_pokemon = user_pokemons[choice-1];
+    cout << "You chose " << user_pokemon.name << " (Level " << user_pokemon.level << ") to battle!\n";
+    cout << user_pokemon.name << " defeated " << oponent.name << "!\n";
+    user_pokemon.level += 1;
+    cout << user_pokemon.name << " leveled up to Level " << user_pokemon.level << "!\n";
+
+    user_pokemons[choice-1] = user_pokemon; // Updates the user's pokemon with the leveled up pokemon
+    wild_pokemons.erase(wild_pokemons.begin() + random_index); // Removes the oponent pokemon from the wild pokemons vector 
+    
 }
 
 void heal(){
-    cout << "Hi\n";
+    if(user_pokemons.size()==0){
+        cout << "You have no pokemons to heal!\n";
+        return;
+    }
+    cout << "Choose a pokemon to heal:\n";
+    for(int i=0; i<user_pokemons.size(); i++){
+        cout << "(" << i+1 << ") " << user_pokemons[i].name << " (Level " << user_pokemons[i].level << ")\n";
+    }
+
+    int choice;    
+    cout << "Choice: ";
+    cin >> choice;
+    cin.ignore();
+    if(choice<1 || choice>user_pokemons.size()){
+        cout << "Invalid choice!\n";
+        return;
+    }
+
+    Pokemon user_pokemon = user_pokemons[choice-1];
+    cout << user_pokemon.name << " has been healed to full health!\n";
 }
 
 
@@ -77,7 +224,7 @@ int main(){ // This welcomes the user and lets the user choose to use or exit th
         cout << "\nMenu:\n(1) Explore\n(2) Battle\n(3) Heal Pokemon\n(4) Exit\nChoice: ";
         string choice;
         cin >> choice;
-        // cin.ignore();
+        cin.ignore();
 
         if(choice=="1")
             explore();
@@ -94,3 +241,7 @@ int main(){ // This welcomes the user and lets the user choose to use or exit th
     }
     return 0;
 }
+
+//Fix deleting from wild vector
+//Fix healing method
+//Fix battling function and attack methods
