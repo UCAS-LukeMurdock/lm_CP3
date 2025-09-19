@@ -162,35 +162,35 @@ void battle(){
     Pokemon oponent = wild_pokemons[random_index];
 
 
-    cout << "A wild " << oponent.name << " appeared!\n";
-    cout << "You have " << user_pokemons.size() << " pokemons.\n";
-    if(user_pokemons.size()==0){
-        cout << "You have no pokemons to battle with!\n";
-        return;
-    }
-    cout << "Choose a pokemon to battle with:\n";
-    for(int i=0; i<user_pokemons.size(); i++){
-        cout << "(" << i+1 << ") " << user_pokemons[i].name << " (Level " << user_pokemons[i].level << ")\n";
-    }
+    // cout << "A wild " << oponent.name << " appeared!\n";
+    // cout << "You have " << user_pokemons.size() << " pokemons.\n";
+    // if(user_pokemons.size()==0){
+    //     cout << "You have no pokemons to battle with!\n";
+    //     return;
+    // }
+    // cout << "Choose a pokemon to battle with:\n";
+    // for(int i=0; i<user_pokemons.size(); i++){
+    //     cout << "(" << i+1 << ") " << user_pokemons[i].name << " (Level " << user_pokemons[i].level << ")\n";
+    // }
 
 
-    int choice;    
-    cout << "Choice: ";
-    cin >> choice;
-    cin.ignore();
-    if(choice<1 || choice>user_pokemons.size()){
-        cout << "Invalid choice!\n";
-        return;
-    }
+    // int choice;    
+    // cout << "Choice: ";
+    // cin >> choice;
+    // cin.ignore();
+    // if(choice<1 || choice>user_pokemons.size()){
+    //     cout << "Invalid choice!\n";
+    //     return;
+    // }
 
-    Pokemon user_pokemon = user_pokemons[choice-1];
-    cout << "You chose " << user_pokemon.name << " (Level " << user_pokemon.level << ") to battle!\n";
-    cout << user_pokemon.name << " defeated " << oponent.name << "!\n";
-    user_pokemon.level += 1;
-    cout << user_pokemon.name << " leveled up to Level " << user_pokemon.level << "!\n";
+    // Pokemon user_pokemon = user_pokemons[choice-1];
+    // cout << "You chose " << user_pokemon.name << " (Level " << user_pokemon.level << ") to battle!\n";
+    // cout << user_pokemon.name << " defeated " << oponent.name << "!\n";
+    // user_pokemon.level += 1;
+    // cout << user_pokemon.name << " leveled up to Level " << user_pokemon.level << "!\n";
 
-    user_pokemons[choice-1] = user_pokemon; // Updates the user's pokemon with the leveled up pokemon
-    wild_pokemons.erase(wild_pokemons.begin() + random_index); // Removes the oponent pokemon from the wild pokemons vector 
+    // user_pokemons[choice-1] = user_pokemon; // Updates the user's pokemon with the leveled up pokemon
+    // wild_pokemons.erase(wild_pokemons.begin() + random_index); // Removes the oponent pokemon from the wild pokemons vector 
     
 }
 
