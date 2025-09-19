@@ -39,14 +39,63 @@ Well Structured Code
     Code uses correct data types, inputs and output handling, error handling and organization
 */
 
-void play(){
-    cout << "Hi\n";
+enum Menu{
+    Add = 1,
+    Subtract,
+    Times,
+    Division,
+    Exit
+};
+
+
+int ask_nums(){
+    int num1;
+    int num2;
+
+    cout << "Input your first number: ";
+    cin >> num1;
+    
+    cout << "Input your second number: ";
+    cin >> num2;
+
+    return num1, num2;
+}
+
+void calculate(operation, ){
+
+    cout << "Results: " << num1 << operation << num2 << "=" << results;
 }
 
 
 int main(){ // This welcomes the user and lets the user choose to use or exit the program.
     cout << "\n\nWelcome to this Program, which...";
     while(true){
+        int choice;
+        cout <<
+        "(1) Addition\n"
+        "(2) Subtraction\n"
+        "(3) Multiplication\n"
+        "(4) Division\n"
+        "(5) Exit\n"
+        "Select: ";
+        cin >> choice;
+
+        if (choice == Menu::Add){ // You have to specify the data type
+            num1, num2 = ask_nums();
+            results = num1 + num2;
+            
+        }else if(choice == Menu::Subtract){
+            
+        }else if(choice == Menu::Times){
+            
+        }else{
+            cout << "\nInvalid Input\n";
+        }
+
+
+
+
+
         cout << "\nPlay Program(1)  Exit(2)\nChoice: ";
         string choice;
         cin >> choice;
