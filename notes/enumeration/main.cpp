@@ -6,6 +6,7 @@
 
 using namespace std;
 
+// PascalCase
 enum Action{ // It causes errors to use another enumerator that has the same name as a previous one. 
     List = 1, // Adds one as it goes on automatically when not intialized.
     Add,

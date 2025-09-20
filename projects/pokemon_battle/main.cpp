@@ -91,6 +91,16 @@ Partial Credit
 Code is difficult to read, or not using proper industry conventions for naming and data typing
 */
 
+// Enumeration for the menu options
+enum Menu{
+    Explore = 1,
+    Battle,
+    Heal,
+    YourPokemon,
+    Exit
+};
+
+
 struct Pokemon{
     string name;
     // string type;
@@ -133,9 +143,6 @@ vector<Pokemon> wild_pokemons = {
 
 };
 
-// Battle Pokemon vector
-vector<Pokemon> battle_pokemons = wild_pokemons;
-
 // User's Pokemon vector
 vector<Pokemon> user_pokemons;
 
@@ -148,16 +155,14 @@ int rng(int limit){
 }
 
 
-void explore(){
+void exploring(){
     int random_index = rng(wild_pokemons.size());
     Pokemon found = wild_pokemons[random_index];
-    // replace begin with 0?
-    wild_pokemons.erase(wild_pokemons.begin() + random_index); // Removes the found pokemon from the wild pokemons vector
     user_pokemons.push_back(found); // Adds the found pokemon to the user's pokemons vector
     cout << "You found a wild " << found.name << "!\n";
 }
 
-void battle(){
+void battling(){
     int random_index = rng(wild_pokemons.size());
     Pokemon oponent = wild_pokemons[random_index];
 
@@ -194,7 +199,7 @@ void battle(){
     
 }
 
-void heal(){
+void healing(){
     if(user_pokemons.size()==0){
         cout << "You have no pokemons to heal!\n";
         return;
@@ -217,31 +222,60 @@ void heal(){
     cout << user_pokemon.name << " has been healed to full health!\n";
 }
 
+void see_pokemon(){
+    if(user_pokemons.size()==0){
+        cout << "\nYou have no pokemon!\n";
+        return;
+    }
+    cout << "\nYour Pokemons:\n";
+    for(int i=0; i<user_pokemons.size(); i++){
+        cout << i+1 << ". " << user_pokemons[i].name << " (Level " << user_pokemons[i].level << ")\n";
+    }
+}
+
 
 int main(){ // This welcomes the user and lets the user choose to use or exit the program.
-    cout << "\n\nWelcome to this Program, which...";
-    while(true){
-        cout << "\nMenu:\n(1) Explore\n(2) Battle\n(3) Heal Pokemon\n(4) Exit\nChoice: ";
-        string choice;
-        cin >> choice;
-        cin.ignore();
 
-        if(choice=="1")
-            explore();
-        else if(choice=="2")
-            battle();
-        else if(choice=="3")
-            heal();
-        else if(choice=="4"){ // Exiting The Program
+    cout << "\n\nWelcome to this Program, which...\n";
+    while(true){
+        int choice;
+
+        cout <<
+        "\nMenu:\n"
+        "(1) Explore\n"
+        "(2) Battle\n"
+        "(3) Heal\n"
+        "(4) Your Pokemon\n"
+        "(5) Exit\n"
+        "Select: ";
+        cin >> choice;
+
+        if (choice == Explore){
+            exploring();
+        }else if(choice == Battle){
+            battling();
+        }else if(choice == Heal){
+            healing();
+        }else if(choice == YourPokemon){
+            see_pokemon();
+        }else if(choice == Exit){
             cout << "\n\n\nCome Back Soon!\n\n\n" << endl;
             break;
-        }else
-            cout << "\nIncorrect Input\n";
+        }else{ // Any Invalid input
+            
+            // In case of non-integer input
+            cin.clear(); // clear error state
+            cin.ignore(10000, '\n'); // discard invalid input
 
+            cout << "\nInvalid Input\n";;
+        }
     }
     return 0;
 }
 
-//Fix deleting from wild vector
 //Fix healing method
 //Fix battling function and attack methods
+// Fix See Pokemon function
+// Add Pokemon types and weaknesses/strengths
+
+// Follow RUBRIC
