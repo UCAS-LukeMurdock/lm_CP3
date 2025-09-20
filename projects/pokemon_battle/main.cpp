@@ -161,7 +161,7 @@ struct Pokemon{
                 current_hp = 0;
             cout << name << " took " << atk_power /2 << " recoil damage!\n";
         } else if (action_name == status_move_name) {
-            target.atk_power -= 3 + level; // Status move decreases target's attack power
+            target.atk_power -= 4 + level/2; // Status move decreases target's attack power
             if (target.atk_power < 1){
                 target.atk_power = 1; // Minimum attack power is 1
                 cout << target.name << " is as weak as it can be!\n\n";
@@ -249,9 +249,9 @@ void check_input(){
     cin.ignore(10000, '\n'); // discard invalid input
 }
 
-
+// Exploration function to find/catch pokemon
 void exploring(Pokemon found, bool battled = false){
-    cout << "Do you want to catch the " << found << "? (Y/N): ";
+    cout << "Do you want to try and catch the " << found << "? (Y/N): ";
     char choice;
     cin >> choice;
     check_input();
@@ -267,10 +267,10 @@ void exploring(Pokemon found, bool battled = false){
         }
     }
     int chance = rng(3); // Random chance to catch the pokemon
-    if( (chance == 1 || chance == 2) && battled == false){ // 1/3 chance to catch if not battled
+    if(chance != 0 && battled == false){ // 1/3 chance to catch if not battled
         cout << "The " << found << " escaped!\n";
         return;
-    }else if(chance != 0 && battled == true){ // 2/3 chance to catch if battled
+    }else if(chance == 0 && battled == true){ // 2/3 chance to catch if battled
         cout << "The " << found << " escaped!\n";
         return;
     }
@@ -306,7 +306,7 @@ int type_advantage(Pokemon& attacker, Pokemon& defender){
 void battling(){
     int random_index = rng(wild_pokemons.size());
     Pokemon opponent = wild_pokemons[random_index];
-    cout << "\nYou encountered an angry, wild " << opponent << "!\n";
+    cout << "\nYou encountered an angry, wild " << opponent << "!\n\n";
 
 
     if(user_pokemons.size()==0){
@@ -333,7 +333,7 @@ void battling(){
     cout << "You chose your " << user_pokemon << " (Level " << user_pokemon.level << ") to battle!\n";
 
     // Level up the opponent to make it a fair fight
-    for(int i=0; i<user_pokemon.level; i++)
+    for(int i=0; i<user_pokemon.level -1; i++)
         opponent.level_up(true);
 
     while(user_pokemon.current_hp > 0 && opponent.current_hp > 0){
@@ -446,13 +446,13 @@ bool start(){
 
     Pokemon start_pokemon;
     if(choice == 1)
-        start_pokemon = {"Bulbasaur", "Grass", 5, 45, 45, 9, "Vine Whip", "Solar Beam", "Leech Seed"};
+        start_pokemon = {"Bulbasaur", "Grass", 5, 65, 65, 17, "Vine Whip", "Solar Beam", "Leech Seed"};
     else if(choice == 2)
-        start_pokemon = {"Charmander", "Fire", 5, 39, 39, 12, "Ember", "Flamethrower", "Smokescreen"};
+        start_pokemon = {"Charmander", "Fire", 5, 59, 59, 20, "Ember", "Flamethrower", "Smokescreen"};
     else if(choice == 3)
-        start_pokemon = {"Squirtle", "Water", 5, 44, 44, 11, "Water Gun", "Hydro Pump", "Bubble"};
+        start_pokemon = {"Squirtle", "Water", 5, 64, 64, 19, "Water Gun", "Hydro Pump", "Bubble"};
     else if(choice == 4)
-        start_pokemon = {"Pikachu", "Electric", 5, 35, 35, 10, "Thunder Shock", "Thunderbolt", "Tail Whip"};
+        start_pokemon = {"Pikachu", "Electric", 5, 55, 55, 18, "Thunder Shock", "Thunderbolt", "Tail Whip"};
     else if(choice == 5){
         cout << "\nYou chose to begin without a starting Pokemon.\n";
         return true;
