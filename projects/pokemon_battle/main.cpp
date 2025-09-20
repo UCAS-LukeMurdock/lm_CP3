@@ -135,11 +135,17 @@ struct Pokemon{
         cout << name << " has been healed to full health!\n";
     }
 
-    void level_up(){ // Increases the pokemon's level by 1
+    void level_up(bool is_opponent = false){ // Increases the pokemon's level by 1
         level += 1;
         max_hp += 5; // Increase max HP by 5 for each level up
         atk_power += 2; // Increase attack power by 2 for each level up
-        cout << name << " leveled up from Level " << (level -1) << " to Level " << level << "!\n";
+        if (is_opponent == true){
+            current_hp = max_hp; // If opponent, heal to full
+        }else{
+            current_hp += 5;
+            cout << name << " leveled up from Level " << (level -1) << " to Level " << level << "!\n";
+            
+        }
     }
 
     void action(Pokemon& target, string action_name){ // Attacks the target pokemon with the selected attack
@@ -153,8 +159,12 @@ struct Pokemon{
             current_hp -= atk_power / 2; // Recoil damage to self
             cout << name << " took " << atk_power /2 << " recoil damage!\n";
         } else if (action_name == status_move_name) {
-            target.atk_power -= 5; // Status move decreases target's attack power
-            cout << target.name << " is now weakened and will do less damage!\n\n";
+            target.atk_power -= 3 + level; // Status move decreases target's attack power
+            if (target.atk_power < 1){
+                target.atk_power = 1; // Minimum attack power is 1
+                cout << target.name << " is as weak as it can be!\n\n";
+            }else 
+                cout << target.name << " is now weakened and will do less damage!\n\n";
             return; // No damage dealt
         }
         target.current_hp -= damage;
@@ -167,8 +177,8 @@ struct Pokemon{
 // OVERLOADING
 
  // Overloads the == operator to compare two pokemons by name
-bool operator== (const Pokemon& p1, const Pokemon& p2){
-    return p1.name == p2.name;
+bool operator== (const Pokemon& pokemon1, const Pokemon& pokemon2){
+    return pokemon1.name == pokemon2.name;
 }
 
 // Overloads the << operator to print a pokemon's name
@@ -238,26 +248,23 @@ void check_input(){
 }
 
 
-void exploring(){
-    int random_index = rng(wild_pokemons.size());
-    Pokemon found = wild_pokemons[random_index];
-    cout << "\nYou found a wild " << found.name << "!\n";
-    cout << "Do you want to catch it? (Y/N): ";
+void exploring(Pokemon found){
+    cout << "Do you want to catch the " << found << "? (Y/N): ";
     char choice;
     cin >> choice;
     check_input();
     if(choice != 'Y' && choice != 'y'){
-        cout << "You decided not to catch the " << found.name << ".\n";
+        cout << "You decided not to catch the " << found << ".\n";
         return;
     }
     // Check if the pokemon is already in the user's pokemons vector
     for(Pokemon p : user_pokemons){
         if(p == found){
-            cout << "You already have a " << found.name << "!\n";
+            cout << "You already have a " << found << "!\n";
             return;
         }
     }
-    cout << "You caught the " << found.name << "!\n";
+    cout << "You caught the " << found << "!\n";
     user_pokemons.push_back(found); // Adds the found pokemon to the user's pokemons vector
     
 }
@@ -267,32 +274,29 @@ int type_advantage(Pokemon& attacker, Pokemon& defender){
     // Electric > Water, Water > Fire, Fire > Grass, Grass > Water
 
     if(attacker.type == "Electric" && defender.type == "Water"){
-        defender.current_hp -= attacker.atk_power / 2; // Extra damage
-        cout << "It's super effective!\n\n";
-        return defender.current_hp;
+        defender.current_hp -= attacker.atk_power / 2;
     }else if(attacker.type == "Water" && defender.type == "Fire"){
-        defender.current_hp -= attacker.atk_power / 2; // Extra damage
-        cout << "It's super effective!\n\n";
-        return defender.current_hp;
+        defender.current_hp -= attacker.atk_power / 2;
     }else if(attacker.type == "Fire" && defender.type == "Grass"){
-        defender.current_hp -= attacker.atk_power / 2; // Extra damage
-        cout << "It's super effective!\n\n";
-        return defender.current_hp;
+        defender.current_hp -= attacker.atk_power / 2;
     }else if(attacker.type == "Grass" && defender.type == "Water"){
-        defender.current_hp -= attacker.atk_power / 2; // Extra damage
-        cout << "It's super effective!\n\n";
-        return defender.current_hp;
+        defender.current_hp -= attacker.atk_power / 2;
+        
     }else{
         cout << "It's only adequately effective\n\n";
         return defender.current_hp;
     }
+    cout << "It's super effective!\n\n";
+    if (defender.current_hp < 0)
+        defender.current_hp = 0;
+    return defender.current_hp;
 }
 
 // Battle function with turns
 void battling(){
     int random_index = rng(wild_pokemons.size());
     Pokemon opponent = wild_pokemons[random_index];
-    cout << "\nYou encountered an angry, wild " << opponent.name << "!\n";
+    cout << "\nYou encountered an angry, wild " << opponent << "!\n";
 
 
     if(user_pokemons.size()==0){
@@ -312,12 +316,15 @@ void battling(){
         return;
     }
     Pokemon user_pokemon = user_pokemons[choice-1];
-    cout << "You chose your " << user_pokemon.name << " (Level " << user_pokemon.level << ") to battle!\n";
+    cout << "You chose your " << user_pokemon << " (Level " << user_pokemon.level << ") to battle!\n";
 
+    // Level up the opponent to make it a fair fight
+    for(int i=0; i<user_pokemon.level; i++)
+        opponent.level_up(true);
 
     while(user_pokemon.current_hp > 0 && opponent.current_hp > 0){
-        cout << "\nYour " << user_pokemon.name << "'s HP: " << user_pokemon.current_hp << "/" << user_pokemon.max_hp << endl;
-        cout << "Wild " << opponent.name << "'s HP: " << opponent.current_hp << "/" << opponent.max_hp << endl;
+        cout << "\nYour " << user_pokemon << "'s HP: " << user_pokemon.current_hp << "/" << user_pokemon.max_hp << endl;
+        cout << "Wild " << opponent << "'s HP: " << opponent.current_hp << "/" << opponent.max_hp << endl;
         cout << "\nChoose an action:"
             "\n(1) " << user_pokemon.atk_name <<
             "\n(2) " << user_pokemon.special_atk_name <<
@@ -359,11 +366,15 @@ void battling(){
             
         }
     }
+    cout << "\nYour " << user_pokemon << "'s HP: " << user_pokemon.current_hp << "/" << user_pokemon.max_hp << endl;
+    cout << "Wild " << opponent << "'s HP: " << opponent.current_hp << "/" << opponent.max_hp << endl;
     if(user_pokemon.current_hp == 0){
-        cout << "\nYour " << user_pokemon.name << " has fainted! You lost the battle.\n";
+        cout << "\nYour " << user_pokemon << " has fainted! You lost the battle.\n";
     }else{
-        cout << "\nYou defeated the wild " << opponent.name << "!\n";
+        cout << "\nYou defeated the wild " << opponent << "!\n";
         user_pokemon.level_up();
+        exploring(opponent); // Gives the user a chance to catch the defeated pokemon
+
     }
     user_pokemons[choice-1] = user_pokemon; // Updates the user's pokemon with the new current HP and potentially level
 }
@@ -375,7 +386,7 @@ void healing(){
     }
     cout << "\n(Enter 0 to Exit)\nChoose a pokemon to heal:\n";
     for(int i=0; i<user_pokemons.size(); i++){
-        cout << "(" << i+1 << ") " << user_pokemons[i].name << " (HP " << user_pokemons[i].current_hp << "/" << user_pokemons[i].max_hp << ")\n";
+        cout << "(" << i+1 << ") " << user_pokemons[i] << " (HP " << user_pokemons[i].current_hp << "/" << user_pokemons[i].max_hp << ")\n";
     }
 
     int choice;    
@@ -464,7 +475,8 @@ int main(){ // This welcomes the user and lets the user choose to use or exit th
         check_input();
 
         if (choice == Explore){
-            exploring();
+            cout << "\nYou found a wild Pokemon!\n";
+            exploring(wild_pokemons[rng(wild_pokemons.size())]);
         }else if(choice == Battle){
             battling();
         }else if(choice == Heal){
