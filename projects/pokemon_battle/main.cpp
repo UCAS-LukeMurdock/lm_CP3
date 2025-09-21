@@ -335,6 +335,9 @@ void battling(){
     // Level up the opponent to make it a fair fight
     for(int i=0; i<user_pokemon.level -1; i++)
         opponent.level_up(true);
+    
+    int max_atk_power = user_pokemon.atk_power;
+    int opponent_max_atk_power = opponent.atk_power;
 
     while(user_pokemon.current_hp > 0 && opponent.current_hp > 0){
         cout << "\nYour " << user_pokemon << "'s HP: " << user_pokemon.current_hp << "/" << user_pokemon.max_hp << endl;
@@ -380,6 +383,10 @@ void battling(){
             
         }
     }
+
+    user_pokemon.atk_power = max_atk_power; // Reset user's attack power
+    opponent.atk_power = opponent_max_atk_power; // Reset opponent's attack power
+
     cout << "\nYour " << user_pokemon << "'s HP: " << user_pokemon.current_hp << "/" << user_pokemon.max_hp << endl;
     cout << "Wild " << opponent << "'s HP: " << opponent.current_hp << "/" << opponent.max_hp << endl;
     if(user_pokemon.current_hp == 0){
@@ -388,7 +395,6 @@ void battling(){
         cout << "\nYou defeated the wild " << opponent << "!\n";
         user_pokemon.level_up();
         exploring(opponent, true); // Gives the user a chance to catch the defeated pokemon
-
     }
     user_pokemons[choice-1] = user_pokemon; // Updates the user's pokemon with the new current HP and potentially level
 }
