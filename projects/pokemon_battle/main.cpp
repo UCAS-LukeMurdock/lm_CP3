@@ -250,7 +250,7 @@ void check_input(){
 }
 
 // Exploration function to find/catch pokemon
-void exploring(Pokemon found, bool battled = false){
+void catching(Pokemon found, bool battled = false){
     cout << "Do you want to try and catch the " << found << "? (Y/N): ";
     char choice;
     cin >> choice;
@@ -266,17 +266,29 @@ void exploring(Pokemon found, bool battled = false){
             return;
         }
     }
-    int chance = rng(3); // Random chance to catch the pokemon
-    if(chance != 0 && battled == false){ // 1/3 chance to catch if not battled
+    int catch_chance = rng(3); // Random chance to catch the pokemon
+    if(catch_chance != 0 && battled == false){ // 1/3 chance to catch if not battled
         cout << "The " << found << " escaped!\n";
         return;
-    }else if(chance == 0 && battled == true){ // 2/3 chance to catch if battled
+    }else if(catch_chance == 0 && battled == true){ // 2/3 chance to catch if battled
         cout << "The " << found << " escaped!\n";
         return;
     }
     cout << "You caught the " << found << "!\n";
     user_pokemons.push_back(found); // Adds the found pokemon to the user's pokemons vector
     
+}
+
+
+void exploring(){
+    int find_chance = rng(2);
+    if (find_chance == 0)
+        cout << "\nYou didn't find anything\n";
+    else{
+        cout << "\nYou found a wild Pokemon!\n";
+        catching(wild_pokemons[rng(wild_pokemons.size())]);
+    }
+        
 }
 
 
@@ -394,7 +406,7 @@ void battling(){
     }else{
         cout << "\nYou defeated the wild " << opponent << "!\n";
         user_pokemon.level_up();
-        exploring(opponent, true); // Gives the user a chance to catch the defeated pokemon
+        catching(opponent, true); // Gives the user a chance to catch the defeated pokemon
     }
     user_pokemons[choice-1] = user_pokemon; // Updates the user's pokemon with the new current HP and potentially level
 }
@@ -495,8 +507,7 @@ int main(){ // This welcomes the user and lets the user choose to use or exit th
         check_input();
 
         if (choice == Explore){
-            cout << "\nYou found a wild Pokemon!\n";
-            exploring(wild_pokemons[rng(wild_pokemons.size())]);
+            exploring();
         }else if(choice == Battle){
             battling();
         }else if(choice == Heal){
