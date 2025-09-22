@@ -11,7 +11,6 @@ INSTRUCTIONS:
 Write a program that creates a user menu for a basic calculator using enumeration in C++. The calculator should be able to perform addition, subtraction, multiplication, and division. The program should display a menu of options, allow the user to select an operation, input two numbers, perform the calculation, and display the result. The program must continue to run till the user chooses to exit and have proper input handling. 
 
 OUTPUT EXAMPLE: 
-
 Calculator Menu:
 
 Addition
@@ -39,76 +38,103 @@ Well Structured Code
     Code uses correct data types, inputs and output handling, error handling and organization
 */
 
-enum Menu{
-    Add = 1,
-    Subtract,
-    Times,
+// Enumeration for the menu options
+enum Menu{ 
+    Addition = 1,
+    Subtraction,
+    Multiplication,
     Division,
     Exit
 };
 
 
-int ask_nums(){
-    int num1;
-    int num2;
+// Checks if the input is valid (It needs to be a number)
+bool check_input(){ 
+    if(cin.fail()){
+        cin.clear(); // clear error state
+        cin.ignore(1, '\n'); // discard invalid input
+        cout << "\n\nInvalid Input Type\n";
+        return false;
+    }
+    return true;
+}
 
-    cout << "Input your first number: ";
+// Asks the user for two numbers and returns them
+bool ask_nums(float& num1, float& num2){ 
+    cout << "\nEnter first number: ";
     cin >> num1;
-    
-    cout << "Input your second number: ";
+    if (check_input() == false) {
+        return false;
+    }
+    cout << "\nEnter second number: ";
     cin >> num2;
-
-    return num1, num2;
+    if (check_input() == false) {
+        return false;
+    }
+    return true;
 }
 
-void calculate(operation, ){
-
-    cout << "Results: " << num1 << operation << num2 << "=" << results;
+// Calculator Functions
+float add(float num1, float num2){
+    return num1 + num2;
+}
+float subtract(float num1, float num2){
+    return num1 - num2;
+}
+float multiply(float num1, float num2){
+    return num1 * num2;
+}
+float divide(float num1, float num2){
+    return num1 / num2;
 }
 
 
-int main(){ // This welcomes the user and lets the user choose to use or exit the program.
-    cout << "\n\nWelcome to this Program, which...";
+int main(){ // This welcomes the user and prints the result to an inputted, simple equation or they can exit the program.
+    cout << "\n\nWelcome to this Calculator Program, which lets you choose an operation and input two numbers for it to performed on.\n";
     while(true){
+
         int choice;
+
         cout <<
+        "\n\nNew Calculation:\n"
+        "\nWhich Operation?\n"
         "(1) Addition\n"
         "(2) Subtraction\n"
         "(3) Multiplication\n"
         "(4) Division\n"
         "(5) Exit\n"
         "Select: ";
+
         cin >> choice;
+        if(check_input() == false)
+            continue;
+        
+        float num1, num2;
 
-        if (choice == Menu::Add){ // You have to specify the data type
-            num1, num2 = ask_nums();
-            results = num1 + num2;
-            
-        }else if(choice == Menu::Subtract){
-            
-        }else if(choice == Menu::Times){
-            
-        }else{
-            cout << "\nInvalid Input\n";
-        }
+        if (choice == Addition){
+            if (ask_nums(num1, num2) == true)
+                cout << "\n\nResult: " << num1 << " + " << num2 << " = " << add(num1, num2) << endl;
+        }else if(choice == Subtraction){
+            if (ask_nums(num1, num2) == true)
+                cout << "\n\nResult: " << num1 << " - " << num2 << " = " << subtract(num1, num2) << endl;
+        }else if(choice == Multiplication){
+            if (ask_nums(num1, num2) == true)
+                cout << "\n\nResult: " << num1 << " * " << num2 << " = " << multiply(num1, num2) << endl; 
+        }else if(choice == Division){
 
-
-
-
-
-        cout << "\nPlay Program(1)  Exit(2)\nChoice: ";
-        string choice;
-        cin >> choice;
-        // cin.ignore();
-
-        if(choice=="1") // Using Program
-            play();
-        else if(choice=="2"){ // Exiting The Program
+            if (ask_nums(num1, num2) == true)
+                if(num2 == 0){
+                    cout << "\nDivide by Zero Error\n";
+                }else{
+                    cout << "\n\nResult: " << num1 << " / " << num2 << " = " << divide(num1, num2) << endl;
+                }
+                
+        }else if(choice == Exit){
             cout << "\n\n\nCome Back Soon!\n\n\n" << endl;
             break;
-        }else
-            cout << "\nIncorrect Input\n";
-
+        }else{
+            cout << "\n\nInvalid Input\n";
+        }
     }
     return 0;
 }
