@@ -96,7 +96,7 @@ enum Menu{ // Enumeration for the main menu options
     Explore = 1,
     Battle,
     Heal,
-    YourPokemon,
+    SeeYourPokemon,
     Exit
 };
 
@@ -285,12 +285,17 @@ void catching(Pokemon found, bool battled = false){
     }
     int catch_chance = rng(3); // Random chance to catch the pokemon
     if(catch_chance != 0 && battled == false){ // 1/3 chance to catch if not battled
+        cout << "Click\n";
+        if(catch_chance == 2)
+            cout << "Click!\n";
         cout << "The " << found << " escaped!\n";
         return;
     }else if(catch_chance == 0 && battled == true){ // 2/3 chance to catch if battled
+        cout << "Click\nClick!";
         cout << "The " << found << " escaped!\n";
         return;
     }
+    cout << "Click\nClick!\nCLICK!\n";
     cout << "You caught the " << found << "!\n";
     user_pokemons.push_back(found); // Adds the found pokemon to the user's pokemons vector
 }
@@ -406,7 +411,7 @@ void prepare_battle(){
     }
     cout << "(Enter 0 to Exit)\nChoose a pokemon to battle with:\n";
     for(int i=0; i<user_pokemons.size(); i++){
-        cout << "(" << i+1 << ") " << user_pokemons[i] << " (Level " << user_pokemons[i].level << " | HP " << user_pokemons[i].current_hp << "/" << user_pokemons[i].max_hp << ")\n";
+        cout << "(" << i+1 << ") " << user_pokemons[i] << " [Level " << user_pokemons[i].level << " | HP " << user_pokemons[i].current_hp << "/" << user_pokemons[i].max_hp << "]\n";
     }
     int choice;
     cout << "Choice: ";
@@ -417,11 +422,11 @@ void prepare_battle(){
         return;
     }
     if(choice<1 || choice>user_pokemons.size()){
-        cout << "Invalid Input\n";
+        cout << "\nInvalid Input\n";
         return;
     }
     Pokemon user_pokemon = user_pokemons[choice-1];
-    cout << "You chose your " << user_pokemon << " (Level " << user_pokemon.level << ") to battle!\n";
+    cout << "You chose your " << user_pokemon << " [Level " << user_pokemon.level << "] to battle!\n";
 
     // Level up the opponent to make it a fair fight
     for(int i=0; i<user_pokemon.level -1; i++)
@@ -451,10 +456,10 @@ void healing(){
     }
     cout << "\n(Enter 0 to Exit)\nChoose a pokemon to heal:\n";
     for(int i=0; i<user_pokemons.size(); i++){
-        cout << "(" << i+1 << ") " << user_pokemons[i] << " (HP " << user_pokemons[i].current_hp << "/" << user_pokemons[i].max_hp << ")\n";
+        cout << "(" << i+1 << ") " << user_pokemons[i] << " [HP " << user_pokemons[i].current_hp << "/" << user_pokemons[i].max_hp << "]\n";
     }
 
-    int choice;    
+    int choice;
     cout << "Choice: ";
     //cin >> choice;
     choice = num_input();
@@ -466,7 +471,7 @@ void healing(){
         cout << "\nInvalid Input\n";
         return;
     }
-
+    cout << endl;
     user_pokemons[choice-1].heal();
 }
 
@@ -475,7 +480,7 @@ void see_pokemon(){
         cout << "\nYou have no pokemon!\n";
         return;
     }
-    cout << "\nYour Pokemons:\n";
+    cout << "\nYour Pokemon:\n";
     for(int i=0; i<user_pokemons.size(); i++){
         cout << "\n(" << i+1 << ")\n";
         user_pokemons[i].display_info();
@@ -533,7 +538,7 @@ int main(){ // This welcomes the user and lets the user choose to use or exit th
         "(1) Explore\n"
         "(2) Battle\n"
         "(3) Heal\n"
-        "(4) Your Pokemon\n"
+        "(4) See Your Pokemon\n"
         "(5) Exit\n"
         "Select: ";
 
@@ -546,7 +551,7 @@ int main(){ // This welcomes the user and lets the user choose to use or exit th
             prepare_battle();
         }else if(choice == Heal){
             healing();
-        }else if(choice == YourPokemon){
+        }else if(choice == SeeYourPokemon){
             see_pokemon();
         }else if(choice == Exit){
             cout << "\n\n\nCome Back Soon!\n\n\n" << endl;
@@ -565,9 +570,3 @@ int main(){ // This welcomes the user and lets the user choose to use or exit th
     }
     return 0;
 }
-
-// Check that it isn't all Copilot-y
-// Check for Rubric
-// Test
-
-// Follow RUBRIC
