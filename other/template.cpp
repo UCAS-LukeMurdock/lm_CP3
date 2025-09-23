@@ -6,6 +6,10 @@
 
 using namespace std;
 
+/*
+
+*/
+
 // Enumeration for the menu options
 enum Menu{
     First = 1,
@@ -16,6 +20,17 @@ enum Menu{
 };
 
 
+float num_input(){ // Checks if the input is valid (It needs to be a number [float])
+    float input;
+    while (!(cin >> input)){
+        cin.clear(); // clear error state
+        cin.ignore(10000, '\n'); // discard invalid input completely
+        cout << "\nInvalid Input Type (Enter in a Number)\nNew Input: ";
+    }
+    return input;
+}
+
+
 void play(){
     cout << "Hi\n";
 }
@@ -24,7 +39,7 @@ void play(){
 int main(){ // This welcomes the user and lets the user choose to use or exit the program.
     cout << "\n\nWelcome to this Program, which...\n";
     while(true){
-        int choice;
+        float choice;
 
         cout <<
         "\nMenu:\n"
@@ -33,8 +48,9 @@ int main(){ // This welcomes the user and lets the user choose to use or exit th
         "(3) Third\n"
         "(4) Fourth\n"
         "(5) Exit\n"
-        "Select: ";
-        cin >> choice;
+        "Choice: ";
+
+        choice = num_input();
 
         if (choice == First){
             cout << "\nFirst option\n";
@@ -47,13 +63,8 @@ int main(){ // This welcomes the user and lets the user choose to use or exit th
         }else if(choice == Exit){
             cout << "\n\n\nCome Back Soon!\n\n\n" << endl;
             break;
-        }else{ // Any Invalid input
-            
-            // In case of non-integer input
-            cin.clear(); // clear error state
-            cin.ignore(10000, '\n'); // discard invalid input
-
-            cout << "\nInvalid Input\n";;
+        }else{
+            cout << "\nInvalid Input (Enter an Integer 1-5)\n";;
         }
     }
     return 0;
