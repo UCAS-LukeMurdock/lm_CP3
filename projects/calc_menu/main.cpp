@@ -48,30 +48,24 @@ enum Menu{
 };
 
 
-// Checks if the input is valid (It needs to be a number)
-bool check_input(){ 
-    if(cin.fail()){
+// Checks if the input is valid (It needs to be a number (float))
+float num_input(){
+    float input;
+    while (!(cin >> input)){
         cin.clear(); // clear error state
-        cin.ignore(1, '\n'); // discard invalid input
-        cout << "\n\nInvalid Input Type\n";
-        return false;
+        cin.ignore(10000, '\n'); // discard invalid input completely
+        cout << "\nInvalid Input Type (Enter in a Number)\nNew Input: ";
     }
-    return true;
+    return input;
 }
 
 // Asks the user for two numbers and returns them
-bool ask_nums(float& num1, float& num2){ 
+void ask_nums(float& num1, float& num2){ 
     cout << "\nEnter first number: ";
-    cin >> num1;
-    if (check_input() == false) {
-        return false;
-    }
+    num1 = num_input();
+
     cout << "\nEnter second number: ";
-    cin >> num2;
-    if (check_input() == false) {
-        return false;
-    }
-    return true;
+    num2 = num_input();
 }
 
 // Calculator Functions
@@ -93,7 +87,7 @@ int main(){ // This welcomes the user and prints the result to an inputted, simp
     cout << "\n\nWelcome to this Calculator Program, which lets you choose an operation and input two numbers for it to performed on.\n";
     while(true){
 
-        int choice;
+        float choice;
 
         cout <<
         "\n\nNew Calculation:\n"
@@ -105,35 +99,32 @@ int main(){ // This welcomes the user and prints the result to an inputted, simp
         "(5) Exit\n"
         "Select: ";
 
-        cin >> choice;
-        if(check_input() == false)
-            continue;
+        choice = num_input();
         
         float num1, num2;
 
         if (choice == Addition){
-            if (ask_nums(num1, num2) == true)
-                cout << "\n\nResult: " << num1 << " + " << num2 << " = " << add(num1, num2) << endl;
+            ask_nums(num1, num2);
+            cout << "\n\nResult: " << num1 << " + " << num2 << " = " << add(num1, num2) << endl;
         }else if(choice == Subtraction){
-            if (ask_nums(num1, num2) == true)
-                cout << "\n\nResult: " << num1 << " - " << num2 << " = " << subtract(num1, num2) << endl;
+            ask_nums(num1, num2);
+            cout << "\n\nResult: " << num1 << " - " << num2 << " = " << subtract(num1, num2) << endl;
         }else if(choice == Multiplication){
-            if (ask_nums(num1, num2) == true)
-                cout << "\n\nResult: " << num1 << " * " << num2 << " = " << multiply(num1, num2) << endl; 
+            ask_nums(num1, num2);
+            cout << "\n\nResult: " << num1 << " * " << num2 << " = " << multiply(num1, num2) << endl; 
         }else if(choice == Division){
 
-            if (ask_nums(num1, num2) == true)
-                if(num2 == 0){
-                    cout << "\nDivide by Zero Error\n";
-                }else{
-                    cout << "\n\nResult: " << num1 << " / " << num2 << " = " << divide(num1, num2) << endl;
-                }
-                
+            ask_nums(num1, num2);
+            if(num2 == 0){
+                cout << "\n\nDivide By 0 Error\n";
+            }else{
+                cout << "\n\nResult: " << num1 << " / " << num2 << " = " << divide(num1, num2) << endl;
+            }
         }else if(choice == Exit){
             cout << "\n\n\nCome Back Soon!\n\n\n" << endl;
             break;
         }else{
-            cout << "\n\nInvalid Input\n";
+            cout << "\n\nInvalid Input (Enter an Integer 1-5)\n";;
         }
     }
     return 0;
