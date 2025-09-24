@@ -100,6 +100,14 @@ enum Menu{ // Enumeration for the main menu options
     Exit
 };
 
+enum Starter{ // Starter Pokemon Options
+    Bulbasaur = 1,
+    Charmander,
+    Squirtle,
+    Pikachu,
+    None
+};
+
 enum Action{ // Enumeration for the action options in battle
     Attack = 1,
     SpecialAttack,
@@ -246,7 +254,7 @@ int rng(int limit){
     return rand_num;
 }
 
-// Checks if a number input is valid (It needs to be a number [float])
+// Checks if a number input is valid (It needs to be a number [float]) and lets them input again if invalid
 float num_input(){ 
     float input;
     while (!(cin >> input)){
@@ -268,7 +276,7 @@ void check_input(){
 
 // Catching function to catch a found or battled pokemon
 void catching(Pokemon found, bool battled = false){
-    cout << "Do you want to try and catch the " << found << "? (Y/N): ";
+    cout << "\nDo you want to try and catch the " << found << "?\nChoice (Y/N): ";
     string choice;
     cin >> choice;
     check_input();
@@ -291,7 +299,7 @@ void catching(Pokemon found, bool battled = false){
         cout << "The " << found << " escaped!\n";
         return;
     }else if(catch_chance == 0 && battled == true){ // 2/3 chance to catch if battled
-        cout << "Click\nClick!";
+        cout << "Click\nClick!\n";
         cout << "The " << found << " escaped!\n";
         return;
     }
@@ -314,6 +322,22 @@ void exploring(){
         
 }
 
+string choosing_battle(){
+    int battle_choice;
+    cout << "\n(Enter 0 to Exit)\nBattle Option Menu:\n(1) Challenge Trainer\n(2) Fight Wild Pokemon\nChoice: ";
+    battle_choice = num_input();
+    if(battle_choice == 1){
+
+        return "Trainer";
+    }else if(battle_choice == 2){
+        return "Wild";
+    }else if(battle_choice == 0)
+        cout << "Exiting Battle Option Menu";
+    else
+        cout << "\nInvalid Input\n";
+    
+    return "None";
+}
 
 int type_advantage(Pokemon& attacker, Pokemon& defender){
     // Electric > Water, Water > Fire, Fire > Grass, Grass > Water
@@ -344,7 +368,7 @@ string battling(Pokemon& user_pokemon, Pokemon& opponent){
     while(user_pokemon.current_hp > 0 && opponent.current_hp > 0){
         cout << "\nYour " << user_pokemon << "'s HP: " << user_pokemon.current_hp << "/" << user_pokemon.max_hp << endl;
         cout << "Wild " << opponent << "'s HP: " << opponent.current_hp << "/" << opponent.max_hp << endl;
-        cout << "\nChoose an action:"
+        cout << "\nChoose an Action:"
             "\n(1) " << user_pokemon.atk_name <<
             "\n(2) " << user_pokemon.special_atk_name <<
             "\n(3) " << user_pokemon.status_move_name <<
@@ -367,7 +391,7 @@ string battling(Pokemon& user_pokemon, Pokemon& opponent){
             user_pokemon.atk_power = max_atk_power;
             return "Ran";
         }else{
-            cout << "Invalid action! Turn skipped.\n";
+            cout << "Invalid Input. Turn skipped!\n";
         }
 
         if(opponent.current_hp > 0){
@@ -398,12 +422,21 @@ string battling(Pokemon& user_pokemon, Pokemon& opponent){
     
 }
 
-// Prepares the battle by selecting a random wild pokemon and allowing the user to choose their pokemon
+// Prepares the battle by selecting a random wild pokemon and allowing the user to choose their pokemon. Also it resolves the end of the battle.
 void prepare_battle(){
+
+    string battle_option = choosing_battle();
+    
+    if (battle_option == "None")
+        return;
+
     int random_index = rng(wild_pokemons.size());
     Pokemon opponent = wild_pokemons[random_index];
-    cout << "\nYou encountered an angry, wild " << opponent << "!\n\n";
-
+    if (battle_option == "Trainer"){
+        cout << "\nYou challenged Nameless Trainer who has a frightening " << opponent << "!\n\n";
+    }else if (battle_option == "Wild"){
+        cout << "\nYou encountered an angry, wild " << opponent << "!\n\n";
+    }
 
     if(user_pokemons.size()==0){
         cout << "You have no pokemons to battle with!\n";
@@ -418,10 +451,10 @@ void prepare_battle(){
     //cin >> choice;
     choice = num_input();
     if (choice == 0){
-        cout << "Exiting battle menu.\n";
+        cout << "Exiting Battle Menu\n";
         return;
     }
-    if(choice<1 || choice>user_pokemons.size()){
+    if(choice < 1  ||  choice > user_pokemons.size()){
         cout << "\nInvalid Input\n";
         return;
     }
@@ -432,9 +465,11 @@ void prepare_battle(){
     for(int i=0; i<user_pokemon.level -1; i++)
         opponent.level_up(true);
     
+
     // START BATTLE
     string outcome;
     outcome = battling(user_pokemon, opponent); 
+
 
     if(outcome == "Ran"){
         cout << "You ran away from the battle!\n";
@@ -442,12 +477,20 @@ void prepare_battle(){
     }else if(outcome == "Lost"){
         cout << "\nYour " << user_pokemon << " has fainted! You lost the battle.\n";
     }else{
-        cout << "\nYou defeated the wild " << opponent << "!\n";
-        user_pokemon.level_up();
-        catching(opponent, true); // Gives the user a chance to catch the defeated pokemon
+        if (battle_option == "Trainer"){
+            cout << "\nYou beat Nameless Trainer!\n";
+            user_pokemon.level_up();
+            user_pokemon.level_up();
+
+        }else if (battle_option == "Wild"){
+            cout << "\nYou defeated the wild " << opponent << "!\n";
+            user_pokemon.level_up();
+            catching(opponent, true); // Gives the user a chance to catch the defeated pokemon
+        }
     }
     user_pokemons[choice-1] = user_pokemon; // Updates the user's pokemon with the new current HP and potentially level
 }
+
 
 void healing(){
     if(user_pokemons.size()==0){
@@ -464,7 +507,7 @@ void healing(){
     //cin >> choice;
     choice = num_input();
     if(choice == 0){
-        cout << "Exiting heal menu.\n";
+        cout << "Exiting Heal Menu\n";
         return;
     }
     if(choice<1 || choice>user_pokemons.size()){
@@ -474,6 +517,7 @@ void healing(){
     cout << endl;
     user_pokemons[choice-1].heal();
 }
+
 
 void see_pokemon(){
     if(user_pokemons.size()==0){
@@ -486,6 +530,7 @@ void see_pokemon(){
         user_pokemons[i].display_info();
     }
 }
+
 
 bool start(){
     cout << "\nChoose your starting Pokemon:\n"
@@ -501,15 +546,15 @@ bool start(){
     choice = num_input();
 
     Pokemon start_pokemon;
-    if(choice == 1)
+    if(choice == Starter::Bulbasaur)
         start_pokemon = {"Bulbasaur", "Grass", 5, 65, 65, 17, "Vine Whip", "Solar Beam", "Leech Seed"};
-    else if(choice == 2)
+    else if(choice == Starter::Charmander)
         start_pokemon = {"Charmander", "Fire", 5, 59, 59, 20, "Ember", "Flamethrower", "Smokescreen"};
-    else if(choice == 3)
+    else if(choice == Starter::Squirtle)
         start_pokemon = {"Squirtle", "Water", 5, 64, 64, 19, "Water Gun", "Hydro Pump", "Bubble"};
-    else if(choice == 4)
+    else if(choice == Starter::Pikachu)
         start_pokemon = {"Pikachu", "Electric", 5, 55, 55, 18, "Thunder Shock", "Thunderbolt", "Tail Whip"};
-    else if(choice == 5){
+    else if(choice == Starter::None){
         cout << "\nYou chose to begin without a starting Pokemon.\n";
         return true;
     }else{
@@ -520,6 +565,8 @@ bool start(){
     cout << "\nYou chose " << start_pokemon << " as your starting Pokemon!\n";
     return true;
 }
+
+
 
 int main(){ // This welcomes the user and lets the user choose to use or exit the program.
 
@@ -570,3 +617,5 @@ int main(){ // This welcomes the user and lets the user choose to use or exit th
     }
     return 0;
 }
+
+// Add Stealing Pokemon Maybe
