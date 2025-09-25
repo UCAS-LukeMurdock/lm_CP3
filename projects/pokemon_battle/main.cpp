@@ -157,18 +157,19 @@ struct Pokemon{
         }
     }
 
-    void action(Pokemon& target, string action_name){ // Attacks the target pokemon with the selected attack
+    void action(Pokemon& target, string action_name, float effect_level){ // Attacks the target pokemon with the selected attack
         int damage = 0;
         cout << name << " used " << action_name << " on " << target.name << "!\n";
         
         if (action_name == atk_name) {
-            damage = atk_power;
+            damage = atk_power * effect_level;
         } else if (action_name == special_atk_name) {
-            damage = atk_power * 2; // Special attack does double damage
-            current_hp -= atk_power / 2; // Recoil damage to self
+            damage = atk_power * 2 * effect_level; // Special attack does double damage
+            current_hp -= atk_power; // Recoil damage to self
             if(current_hp < 0) 
                 current_hp = 0;
-            cout << name << " took " << atk_power /2 << " recoil damage!\n";
+            cout << name << " took " << atk_power << " recoil damage!\n";
+
         } else if (action_name == status_move_name) {
             target.atk_power -= 4 + level/2; // Status move decreases target's attack power
             if (target.atk_power < 1){
@@ -182,6 +183,11 @@ struct Pokemon{
         if(target.current_hp < 0) 
             target.current_hp = 0;
         cout << target.name << " took " << damage << " damage!\n";
+
+        if(effect_level == 2)
+            cout << "It's super effective!\n\n";
+        else if(effect_level == 0.5)
+            cout << "It's not very effective!\n\n";
     }
 };
 
@@ -246,6 +252,9 @@ vector<Pokemon> wild_pokemons = {
 vector<Pokemon> user_pokemons;
 
 
+bool is_robber = false;
+
+
 // UTILITY FUNCTIONS
 // Random Number Generator
 int rng(int limit){
@@ -274,8 +283,9 @@ void check_input(){
     }
 }
 
+
 // Catching function to catch a found or battled pokemon
-void catching(Pokemon found, bool battled = false){
+void catching(Pokemon found, bool battled = false, bool is_trainer = false){
     cout << "\nDo you want to try and catch the " << found << "?\nChoice (Y/N): ";
     string choice;
     cin >> choice;
@@ -301,6 +311,11 @@ void catching(Pokemon found, bool battled = false){
     }else if(catch_chance == 0 && battled == true){ // 2/3 chance to catch if battled
         cout << "Click\nClick!\n";
         cout << "The " << found << " escaped!\n";
+        return;
+    }else if (is_trainer == true){ // The character has robbed the pokemon from the trainer
+        cout << "You stole the " << found <<"'s pokeball and ran from the scene!\n";
+        is_robber = true;
+        user_pokemons.push_back(found);
         return;
     }
     cout << "Click\nClick!\nCLICK!\n";
@@ -339,26 +354,16 @@ string choosing_battle(){
     return "None";
 }
 
-int type_advantage(Pokemon& attacker, Pokemon& defender){
+float type_advantage(Pokemon& attacker, Pokemon& defender){
     // Electric > Water, Water > Fire, Fire > Grass, Grass > Water
 
-    if(attacker.type == "Electric" && defender.type == "Water"){
-        defender.current_hp -= attacker.atk_power / 2;
-    }else if(attacker.type == "Water" && defender.type == "Fire"){
-        defender.current_hp -= attacker.atk_power / 2;
-    }else if(attacker.type == "Fire" && defender.type == "Grass"){
-        defender.current_hp -= attacker.atk_power / 2;
-    }else if(attacker.type == "Grass" && defender.type == "Water"){
-        defender.current_hp -= attacker.atk_power / 2;
-        
+    if(attacker.type == "Electric" && defender.type == "Water"  ||  attacker.type == "Water" && defender.type == "Fire"  ||  attacker.type == "Fire" && defender.type == "Grass"  ||  attacker.type == "Grass" && defender.type == "Water"){
+        return 2;
+    }else if(defender.type == "Electric" && attacker.type == "Water"  ||  defender.type == "Water" && attacker.type == "Fire"  ||  defender.type == "Fire" && attacker.type == "Grass"  ||  defender.type == "Grass" && attacker.type == "Water"){
+        return 0.5;
     }else{
-        cout << "It's only adequately effective\n\n";
-        return defender.current_hp;
+        return 1;
     }
-    cout << "It's super effective!\n\n";
-    if (defender.current_hp < 0)
-        defender.current_hp = 0;
-    return defender.current_hp;
 }
 
 string battling(Pokemon& user_pokemon, Pokemon& opponent){
@@ -380,13 +385,12 @@ string battling(Pokemon& user_pokemon, Pokemon& opponent){
         cout << endl;
 
         if(action == Attack){
-            user_pokemon.action(opponent, user_pokemon.atk_name);
-            opponent.current_hp = type_advantage(user_pokemon, opponent);
+            user_pokemon.action(opponent, user_pokemon.atk_name, type_advantage(user_pokemon, opponent));
+            
         }else if(action == SpecialAttack){
-            user_pokemon.action(opponent, user_pokemon.special_atk_name);
-            opponent.current_hp = type_advantage(user_pokemon, opponent);
+            user_pokemon.action(opponent, user_pokemon.special_atk_name, type_advantage(user_pokemon, opponent));
         }else if(action == StatusMove){
-            user_pokemon.action(opponent, user_pokemon.status_move_name);
+            user_pokemon.action(opponent, user_pokemon.status_move_name, 1);
         }else if(action == Run){
             user_pokemon.atk_power = max_atk_power;
             return "Ran";
@@ -398,13 +402,11 @@ string battling(Pokemon& user_pokemon, Pokemon& opponent){
             // Opponent attacks back
             int opponent_choice = rng(3) + 1; // Random action between 1 and 3
             if(opponent_choice == 1){
-                opponent.action(user_pokemon, opponent.atk_name);
-                user_pokemon.current_hp = type_advantage(opponent, user_pokemon);
+                opponent.action(user_pokemon, opponent.atk_name, type_advantage(opponent, user_pokemon));
             }else if(opponent_choice == 2){
-                opponent.action(user_pokemon, opponent.special_atk_name);
-                user_pokemon.current_hp = type_advantage(opponent, user_pokemon);
+                opponent.action(user_pokemon, opponent.special_atk_name, type_advantage(opponent, user_pokemon));
             }else if(opponent_choice == 3)
-                opponent.action(user_pokemon, opponent.status_move_name);
+                opponent.action(user_pokemon, opponent.status_move_name, 1);
         }
     }
     // Health status after battle
@@ -433,7 +435,7 @@ void prepare_battle(){
     int random_index = rng(wild_pokemons.size());
     Pokemon opponent = wild_pokemons[random_index];
     if (battle_option == "Trainer"){
-        cout << "\nYou challenged Nameless Trainer who has a frightening " << opponent << "!\n\n";
+        cout << "\nYou challenged a Pokemon Trainer who has a frightening " << opponent << "!\n\n";
     }else if (battle_option == "Wild"){
         cout << "\nYou encountered an angry, wild " << opponent << "!\n\n";
     }
@@ -476,11 +478,14 @@ void prepare_battle(){
         user_pokemons[choice-1] = user_pokemon; // Updates the user's pokemon with the new current HP
     }else if(outcome == "Lost"){
         cout << "\nYour " << user_pokemon << " has fainted! You lost the battle.\n";
+        if(opponent.current_hp == 0)
+            user_pokemon.level_up();
     }else{
         if (battle_option == "Trainer"){
-            cout << "\nYou beat Nameless Trainer!\n";
+            cout << "\nYou beat the Pokemon Trainer!\n";
             user_pokemon.level_up();
             user_pokemon.level_up();
+            catching(opponent, true, true);
 
         }else if (battle_option == "Wild"){
             cout << "\nYou defeated the wild " << opponent << "!\n";
@@ -566,9 +571,29 @@ bool start(){
     return true;
 }
 
+bool robber_check(int robber_counter){
+    if (robber_counter == 4){
+        string response;
+        cout << "\n\nThe Police found you!\nHow do you respond?: ";
+        cin >> response;
+        check_input();
+
+        size_t found_pos = response.find("Team Rocket");
+        if (found_pos != string::npos) {
+            cout << "The word was found at position: " << found_pos << endl;
+            return true;
+        } else {
+            cout << "The word was not found." << endl;
+            return false;
+        }
+    }
+}
+
 
 
 int main(){ // This welcomes the user and lets the user choose to use or exit the program.
+
+    int robber_counter = 0;
 
     cout << "\n\nWelcome to this Pokemon Program, which lets you explore and capture, find and fight, pick and heal, and see status of pokemon.\n(Enter 10 in the Menu for Help)\n";
     
@@ -614,8 +639,13 @@ int main(){ // This welcomes the user and lets the user choose to use or exit th
         }else{
             cout << "\nInvalid Input\n";;
         }
+        
+        if (is_robber == true){
+            robber_counter += 1;
+            if (robber_check(robber_counter) == false){
+                break;
+            }
+        }
     }
     return 0;
 }
-
-// Add Stealing Pokemon Maybe
