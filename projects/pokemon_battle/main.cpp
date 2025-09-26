@@ -97,7 +97,8 @@ enum Menu{ // Enumeration for the main menu options
     Battle,
     Heal,
     SeeYourPokemon,
-    Exit
+    Exit,
+    Help = 10
 };
 
 enum Starter{ // Starter Pokemon Options
@@ -184,10 +185,12 @@ struct Pokemon{
             target.current_hp = 0;
         cout << target.name << " took " << damage << " damage!\n";
 
-        if(effect_level == 2)
+        if(effect_level == 1.5)
             cout << "It's super effective!\n\n";
         else if(effect_level == 0.5)
             cout << "It's not very effective!\n\n";
+        else
+            cout << endl;
     }
 };
 
@@ -301,25 +304,28 @@ void catching(Pokemon found, bool battled = false, bool is_trainer = false){
             return;
         }
     }
+
+    if (is_trainer == true){ // The character has robbed the pokemon from the trainer
+        cout << "\nYou stole the " << found <<"'s pokeball and ran from the scene!\n";
+        is_robber = true;
+        user_pokemons.push_back(found);
+        return;
+    }
+
     int catch_chance = rng(3); // Random chance to catch the pokemon
     if(catch_chance != 0 && battled == false){ // 1/3 chance to catch if not battled
         cout << "Click\n";
         if(catch_chance == 2)
             cout << "Click!\n";
-        cout << "The " << found << " escaped!\n";
+        cout << "\nThe " << found << " escaped!\n";
         return;
     }else if(catch_chance == 0 && battled == true){ // 2/3 chance to catch if battled
         cout << "Click\nClick!\n";
-        cout << "The " << found << " escaped!\n";
-        return;
-    }else if (is_trainer == true){ // The character has robbed the pokemon from the trainer
-        cout << "You stole the " << found <<"'s pokeball and ran from the scene!\n";
-        is_robber = true;
-        user_pokemons.push_back(found);
+        cout << "\nThe " << found << " escaped!\n";
         return;
     }
     cout << "Click\nClick!\nCLICK!\n";
-    cout << "You caught the " << found << "!\n";
+    cout << "\nYou caught the " << found << "!\n";
     user_pokemons.push_back(found); // Adds the found pokemon to the user's pokemons vector
 }
 
@@ -358,7 +364,7 @@ float type_advantage(Pokemon& attacker, Pokemon& defender){
     // Electric > Water, Water > Fire, Fire > Grass, Grass > Water
 
     if(attacker.type == "Electric" && defender.type == "Water"  ||  attacker.type == "Water" && defender.type == "Fire"  ||  attacker.type == "Fire" && defender.type == "Grass"  ||  attacker.type == "Grass" && defender.type == "Water"){
-        return 2;
+        return 1.5;
     }else if(defender.type == "Electric" && attacker.type == "Water"  ||  defender.type == "Water" && attacker.type == "Fire"  ||  defender.type == "Fire" && attacker.type == "Grass"  ||  defender.type == "Grass" && attacker.type == "Water"){
         return 0.5;
     }else{
@@ -572,21 +578,23 @@ bool start(){
 }
 
 bool robber_check(int robber_counter){
-    if (robber_counter == 4){
-        string response;
-        cout << "\n\nThe Police found you!\nHow do you respond?: ";
-        cin >> response;
-        check_input();
+    string response;
+    cout << "\n\nThe Police found you!\nHow do you respond?: ";
+    cin.ignore();
+    getline(cin, response);
+    check_input();
 
-        size_t found_pos = response.find("Team Rocket");
-        if (found_pos != string::npos) {
-            cout << "The word was found at position: " << found_pos << endl;
-            return true;
-        } else {
-            cout << "The word was not found." << endl;
-            return false;
-        }
+    size_t found_pos = response.find("Team Rocket");
+    size_t found_pos_lower = response.find("team rocket");
+    if (found_pos != string::npos  ||  found_pos_lower != string::npos) { // If the user mentions "Team Rocket" in their response (Meaning: Did we find the words?)
+        cout << "\nSince you are a part of Team Rocket, instead of going to jail, you blast off again and escape!\n";
+        return true;
+    }else {
+        cout << "\nYou get put in jail for life.\n\n\nGame Over\n\n\n";
+        return false;
     }
+
+    // I would have added battling the police with pokemon but I didn't have time to edit the battle funciton for that.
 }
 
 
@@ -628,12 +636,13 @@ int main(){ // This welcomes the user and lets the user choose to use or exit th
         }else if(choice == Exit){
             cout << "\n\n\nCome Back Soon!\n\n\n" << endl;
             break;
-        }else if(choice == 10){ // Help Menu
+
+        }else if(choice == Help){ // Help Menu
             cout << "\n\nHelp Menu:"
-                "\n(1) Explore: Find and catch wild Pokemon."
-                "\n(2) Battle: Fight against wild Pokemon to level up your Pokemon."
-                "\n(3) Heal: Restore your Pokemon's health."
-                "\n(4) Your Pokemon: View your current Pokemon and their stats."
+                "\n(1) Explore: Find and catch wild Pokemon at chance."
+                "\n(2) Battle: Fight against trainers (extra level up) or wild Pokemon (can catch) to level up your Pokemon."
+                "\n(3) Heal: Restore one of your Pokemon's health."
+                "\n(4) See Your Pokemon: View your current Pokemon and their stats."
                 "\n(5) Exit: Leave the game.\n"
                 "\nType Advantages:\nElectric > Water\nWater > Fire\nFire > Grass\nGrass > Water\n\n";
         }else{
@@ -642,8 +651,11 @@ int main(){ // This welcomes the user and lets the user choose to use or exit th
         
         if (is_robber == true){
             robber_counter += 1;
-            if (robber_check(robber_counter) == false){
-                break;
+            if (robber_counter == 5){
+                if (robber_check(robber_counter) == false)
+                    break;
+                else 
+                    robber_counter = 0;
             }
         }
     }
