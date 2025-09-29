@@ -378,7 +378,7 @@ string battling(Pokemon& user_pokemon, Pokemon& opponent){
 
     while(user_pokemon.current_hp > 0 && opponent.current_hp > 0){
         cout << "\nYour " << user_pokemon << "'s HP: " << user_pokemon.current_hp << "/" << user_pokemon.max_hp << endl;
-        cout << "Wild " << opponent << "'s HP: " << opponent.current_hp << "/" << opponent.max_hp << endl;
+        cout << "Opposing " << opponent << "'s HP: " << opponent.current_hp << "/" << opponent.max_hp << endl;
         cout << "\nChoose an Action:"
             "\n(1) " << user_pokemon.atk_name <<
             "\n(2) " << user_pokemon.special_atk_name <<
@@ -417,7 +417,7 @@ string battling(Pokemon& user_pokemon, Pokemon& opponent){
     }
     // Health status after battle
     cout << "\nYour " << user_pokemon << "'s HP: " << user_pokemon.current_hp << "/" << user_pokemon.max_hp << endl;
-    cout << "Wild " << opponent << "'s HP: " << opponent.current_hp << "/" << opponent.max_hp << endl;
+    cout << "Opposing " << opponent << "'s HP: " << opponent.current_hp << "/" << opponent.max_hp << endl;
 
     user_pokemon.atk_power = max_atk_power; // Reset user's attack power
     opponent.atk_power = opponent_max_atk_power; // Reset opponent's attack power
