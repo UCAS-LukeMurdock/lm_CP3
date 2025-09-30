@@ -4,8 +4,17 @@
 #include <limits>
 #include <fstream> // read and write (if and of streams) [input and output]
 #include <iomanip>
+#include <string>
+#include <vector>
 
 using namespace std;
+
+
+struct Movie{
+    int id;
+    string title;
+    int year;
+};
 
 
 int getNumber(const string& prompt){
@@ -36,29 +45,74 @@ int main(){
     int first = getNumber("First: \n");
     int second = getNumber("Second: \n");
 
-    cout << "You entered " << first << " and " << second;
+    cout << "You entered " << first << " and " << second << endl;
 
 
+
+    // FILES
     /*
     ifstream > input files stream
     ofstream < output file stream
     fstream >< combines the functionality
     */
-    ofstream file;
-    file.open("data.txt");
-    if(file.is_open()){
-        file << setw(20) << "Hello " << setw(20) << "World";
-        file.close();
+
+    // TXT
+    // writing
+    ofstream ofile;
+    ofile.open("data.txt");
+    if(ofile.is_open()){
+        ofile << setw(20) << "Hello " << setw(20) << "World";
+        ofile.close();
     }
 
-    file.open("data.csv");
-    if(file.is_open()){
-        file << "id, title, year\n"
+    // // reading
+    // ifstream file;
+    // file.open("data.txt");
+    // if(file.is_open()){
+    //     string str;
+    //     file >> str;
+    //     cout << str << endl;
+    //     file.close();
+    // }
+
+
+    // CSV
+    // writing
+    ofile.open("data.csv");
+    if(ofile.is_open()){
+        ofile << "id, title, year\n" // 'endl' clears the buffer but '\n' does not
         << "1, Terminator 1, 1984\n"
         << "2, Terminator 2, 1991\n";
-        file.close();
+        ofile.close();
     }
-    // endl clears the buffer but \n does not
+            
+    // reading
+    ifstream ifile;
+    ifile.open("data.csv");
+    string str;
+    vector<Movie> movies;
+    if(ifile.is_open()){
+        while(!ifile.eof()){
+            // getline(ifile, str);
+            // if(str.empty()) continue;
+            getline(ifile, str, ',');
+            if(str.empty()) continue;
+            Movie movie;
+            movie.id = stoi(str);
+
+            getline(ifile, str, ',');
+            movie.title = str;
+
+            getline(ifile, str, ',');
+            movie.year = stoi(str);
+
+            movies.push_back(movie);
+        }
+        ifile.close();
+        for(Movie i: movies){
+            cout << i.title;
+        }
+    }
 
     return 0;
 }
@@ -81,7 +135,7 @@ int main(){
     // ios_base
 
 // What is buffer?
-    // A temporary holder that holds what the user has inputted
+    // A temporary holder of what the user has inputted to will then be put in a variable. (cin >> variable)
 
 // How do you clear the buffer?
     // cin.ignore(num_of_characters, char_to_stop_at)
@@ -90,6 +144,7 @@ int main(){
 // How do you handle invalid inputs from the terminal
     // Using the getNumber function seen above
 
+
 // What streams are for files specifically
     // ifstream > input files stream
     // ofstream < putput file stream
@@ -97,25 +152,27 @@ int main(){
 
 // How do you write to a text file?
     // Using ofstream
+    // Seen Above
 
 // What do stream manipulators let us do?
     // Lets us adjust the formatting of how we are writing information to the file
     // Like putting them in columns
 
 // How do you write to a CSV?
-    // Same way as txt
+    // Same way as txt files basically
 
 // How do you read a text file?
-    // 
+    // Same way that you read a CSV file basically (without separating commas I guess)
 
 // How do you read a CSV file?
-    // 
+    // Using ifstream
+    // Seen Above
 
 // What is a delimiter?
-    // 
+    // The character that divides your pieces of data
 
 // How do you read an entire CSV?
-    // 
+    // Using loops and 'file >>' or getline()
 
 // How do you turn items from a CSV into objects of a structure?
-    // 
+    // Example Seen Above
