@@ -1,7 +1,11 @@
-// LM  Program
+// LM  High Score Leaderboard Program
 
-#include <iostream>
+#include <iostream> // Input and Output (i and o streams)
+#include <limits>
+#include <fstream> // read and write (if and of streams) [input and output]
+// #include <iomanip>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -13,7 +17,6 @@ The user menu should include options to add a new score, display the high scores
 The program must handle invalid inputs gracefully and continue running until the user chooses to exit.
 
 OUTPUT EXAMPLE: 
-
     High Score Leaderboard:
 
     1. Player: Alice | Score: 1200 | Date: 09/26/2025
@@ -77,50 +80,118 @@ enum Menu{
 };
 
 
-float num_input(){ // Checks if the input is valid (It needs to be a number [float])
-    float input;
-    while (!(cin >> input)){
-        cin.clear(); // clear error state
-        cin.ignore(10000, '\n'); // discard invalid input completely
-        cout << "\nInvalid Input Type (Enter in a Number)\nNew Input: ";
-    }
-    return input;
+struct Score{
+    string name;
+    int score;
+    string date;
+};
+
+vector<Score> scores; // Vector to hold the scores
+
+// float num_input(){ // Checks if the input is valid (It needs to be a number [float])
+//     float input;
+//     while (!(cin >> input)){
+//         cin.clear(); // clear error state
+//         cin.ignore(10000, '\n'); // discard invalid input completely
+//         cout << "\nInvalid Input Type (Enter in a Number)\nNew Input: ";
+//     }
+//     return input;
+// }
+
+void read_file(vector<Score> &scores){ // Reads the scores from the file into the vector
+    
+    // ifstream ifile;
+    // ifile.open("scores.txt");
+    // if(ifile.is_open()){
+    //     Score temp;
+    //     while(ifile >> temp.name >> temp.score >> temp.date){
+    //         scores.push_back(temp);
+    //     }
+    //     ifile.close();
+    // }
+}
+
+void write_file(const vector<Score> &scores){ // Writes the scores from the vector into the file
+    
+    // ofstream ofile;
+    // ofile.open("scores.txt");
+    // if(ofile.is_open()){
+    //     for(const Score &s: scores){
+    //         ofile << s.name << " " << s.score << " " << s.date << endl;
+    //     }
+    //     ofile.close();
+    // }
 }
 
 
-void play(){
-    cout << "Hi\n";
+void sort_scores(vector<Score> &scores){ // Sorts the scores in descending order
+
+    // for(size_t i = 0; i < scores.size(); ++i){
+    //     for(size_t j = i + 1; j < scores.size(); ++j){
+    //         if(scores[j].score > scores[i].score){
+    //             swap(scores[i], scores[j]);
+    //         }
+    //     }
+    // }
+}
+
+void add_score(vector<Score> &scores){ // Adds a new score to the vector
+
+    // Score new_score;
+    // cout << "Enter player's name: ";
+    // cin >> new_score.name;
+    // cout << "Enter score: ";
+    // new_score.score = static_cast<int>(num_input());
+    // cout << "Enter date (MM/DD/YYYY): ";
+    // cin >> new_score.date;
+    // scores.push_back(new_score);
+    // cout << "\nHigh score added successfully.\n";
+}
+
+void display_scores(const vector<Score> &scores){ // Displays the scores in the vector
+    
+    // cout << "\n--- High Scores ---\n";
+    // for(size_t i = 0; i < scores.size(); ++i){
+    //     cout << i + 1 << ". Player: " << scores[i].name 
+    //         << " | Score: " << scores[i].score 
+    //         << " | Date: " << scores[i].date << endl;
+    // }
 }
 
 
 int main(){ // This welcomes the user and lets the user choose to use or exit the program.
-    cout << "\n\nWelcome to this Program, which...\n";
+    cout << "\n\nWelcome to this High Score Leaderboard Program, which lets you add new high scores and see the leaderboard.\n";
+    read_file(scores); // Read existing scores from file
+    display_scores(scores); // Display existing scores
+    
     while(true){
         float choice;
 
         cout <<
         "\nMenu:\n"
-        "(1) Add\n"
-        "(2) Display\n"
-        "(5) Exit\n"
+        "(1) Add Score\n"
+        "(2) Display Leaderboard\n"
+        "(3) Save & Exit\n"
         "Choice: ";
 
         choice = num_input();
 
-        if (choice == First){
-            cout << "\nFirst option\n";
-        }else if(choice == Second){
-            cout << "\nSecond option\n";
-        }else if(choice == Third){
-            cout << "\nThird option\n";
-        }else if(choice == Fourth){
-            cout << "\nFourth option\n";
+        if (choice == Add){
+            add_score(scores);
+            sort_scores(scores);
+            display_scores(scores);
+        }else if(choice == Display){
+            display_scores(scores);
         }else if(choice == Exit){
+            write_file(scores);
             cout << "\n\n\nCome Back Soon!\n\n\n" << endl;
             break;
         }else{
-            cout << "\nInvalid Input (Enter an Integer 1-5)\n";;
+            cout << "\nInvalid Input (Enter an Integer 1-3)\n";;
         }
     }
     return 0;
 }
+
+// Fix functionality (Inputs)
+// de-Copilot it
