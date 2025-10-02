@@ -80,6 +80,7 @@ enum Menu{
 };
 
 
+// Structure to hold a score entry
 struct Score{
     string name;
     int score;
@@ -89,13 +90,13 @@ struct Score{
 vector<Score> scores; // Vector to hold the scores
 
 
-int getNumber(const string& prompt){
+int getNumber(const string& prompt){ // Gets a valid integer from the user
     int num;
     while (true){
         cout << prompt;
         cin >> num;
         if(cin.fail()){
-            cout << "\nEnter a valid number!\n";
+            cout << "\nInvalid Input\nEnter a valid number!\n";
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clears the buffer
         }else break;
@@ -105,41 +106,27 @@ int getNumber(const string& prompt){
     return num;
 }
 
-string getString(const string& prompt){
+string getString(const string& prompt, bool date = false){ // Gets a valid string from the user (or date if specified)
     string str;
     while (true){
         cout << prompt;
-        cin >> str;
-        cin.ignore();
-        getline(cin,str);
-        if(cin.fail()){
-            cout << "\nInvalid Input!\n";
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clears the buffer
+        getline(cin, str);
+
+        if (cin.fail()  ||  str.empty()  ||  str.find(',') != string::npos){ // Checks for invalid input (empty or contains a comma [commas mess up the CSV])
+            cout << "\nInvalid Input\nEnter a valid input!\n";
+        }else if(date == true // If the input is supposed to be a date then it checks for valid date format (MM/DD/YYYY)
+        && (str.length() != 10 || str[2] != '/' || str[5] != '/' 
+        || stoi(str.substr(0,2)) < 1 || stoi(str.substr(0,2)) > 12
+        || stoi(str.substr(3,2)) < 1 || stoi(str.substr(3,2)) > 31
+        || stoi(str.substr(6,4)) < 0 || stoi(str.substr(6,4)) > 2025) ){
+            
+            cout << "\nInvalid Input\nPlease use MM/DD/YYYY format!\n";
+            str.clear();
+            
         }else break;
     }
-    cin.clear();
-    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clears the buffer
     return str;
 }
-
-// float num_input(){ // Checks if the input is valid (It needs to be a number [float])
-//     float input;
-//     while (!(cin >> input)){
-//         cin.clear(); // clear error state
-//         cin.ignore(10000, '\n'); // discard invalid input completely
-//         cout << "\nInvalid Input Type (Enter in a Number)\nNew Input: ";
-//     }
-//     return input;
-// }
-
-// Checks inputs to make sure they don't fail
-// void check_input(){
-//     if(cin.fail()){
-//         cin.clear(); // clear error state
-//         cin.ignore(10000, '\n'); // discard invalid input completely
-//     }
-// }
 
 
 void read_file(){ // Reads the scores from the file into the vector
@@ -172,6 +159,7 @@ void write_file(){ // Writes the scores from the vector into the file
     ofstream ofile;
     ofile.open("scores.csv");
     if(ofile.is_open()){
+        ofile << "Name,Score,Date\n"; // Header
         for(const Score &s: scores){
             ofile << s.name << "," << s.score << "," << s.date << endl;
         }
@@ -194,27 +182,26 @@ void sort_scores(){ // Sorts the scores in descending order
 void add_score(){ // Adds a new score to the vector
 
     Score new_score;
-    cout << "\nEnter player's name: ";
-    cin >> new_score.name;
-    // -------------------------
-
+    new_score.name = getString("\n(Do not enter any commas)\nEnter player's name: ");
     new_score.score = getNumber("\nEnter score: ");
-
-    cout << "\nEnter date (MM/DD/YYYY): ";
-    cin >> new_score.date;
-    // -------------------------
+    new_score.date = getString("\n(Example: MM/DD/YYYY)\nEnter date: ", true);
     
     scores.push_back(new_score);
     cout << "\nHigh Score Successfully Added!\n";
 }
 
 void display_scores(){ // Displays the scores in the vector
-    cout << "\nHigh Scores Leaderboard:\n";
+    cout << "\nHigh Scores Leaderboard:\n\n";
+
+    if(scores.empty()) {
+        cout << "\t[Empty]\n\nNo High Scores Yet!\n";
+        return;
+    }
 
     for(int i = 0; i < scores.size(); ++i){
         cout << i + 1 << ". Player: " << scores[i].name 
-            << " | Score: " << scores[i].score 
-            << " | Date: " << scores[i].date << endl;
+                    << " | Score: " << scores[i].score 
+                    << " | Date: " << scores[i].date << endl;
     }
 }
 
@@ -225,11 +212,12 @@ int main(){ // This welcomes the user and lets the user choose to use or exit th
     display_scores(); // Display existing scores
     
     while(true){
-        int choice = getNumber("\nMenu:\n"
-                            "(1) Add Score\n"
-                            "(2) Display Leaderboard\n"
-                            "(3) Save & Exit\n"
-                            "Choice: ");
+        int choice = getNumber(
+            "\nMenu:\n"
+            "(1) Add Score\n"
+            "(2) Display Leaderboard\n"
+            "(3) Save & Exit\n"
+            "Choice: ");
 
         if (choice == Add){
             add_score();
@@ -239,7 +227,7 @@ int main(){ // This welcomes the user and lets the user choose to use or exit th
             display_scores();
         }else if(choice == Exit){
             write_file();
-            cout << "\n\n\nCome Back Soon!\n\n\n" << endl;
+            cout << "\n\n\nCome Back Soon!\n\n\n";
             break;
         }else{
             cout << "\nInvalid Input (Enter an Integer 1-3)\n";;
@@ -247,7 +235,3 @@ int main(){ // This welcomes the user and lets the user choose to use or exit th
     }
     return 0;
 }
-
-// Fix functionality (Inputs)
-// Understand sort
-// de-Copilot it
