@@ -142,18 +142,18 @@ void write_file(){ // Writes the scores from the vector into the file
 
 
 void load_file(){
-    user_file = getString("\nEnter the filename to load (e.g., movies.csv): ");
+    user_file = getString("\n(Example: movies.csv)\nEnter the filename to load: ");
 
     ifstream ifile(user_file);
     if(!ifile){
-        cout << "\nFile Not Found\n";
+        cout << "\nFile Not Found\nNo Current Loaded File\n";
         user_file = "";
         ifile.close();
         return;
     }
     ifile.close();
-    cout << "\nFile Loaded Successfully!\n";
     read_file();
+    cout << "\nFile Loaded Successfully!\n";
 }
 
 void view(int index){ // Displays a single movie
@@ -169,14 +169,6 @@ void view(int index){ // Displays a single movie
     //     cout << "\nInvalid Movie Number\n";
     //     return;
     // }
-
-    // cout << "\nMovie Details:\n";
-    // cout << "Title: " << movies[index].title << endl;
-    // cout << "Director: " << movies[index].director << endl;
-    // cout << "Year: " << movies[index].year << endl;
-    // cout << "Genre: " << movies[index].genre << endl;
-    // cout << "Rating: " << movies[index].rating << endl;
-
 }
 
 void view_all(){ // Displays the movies in the vector
@@ -199,80 +191,80 @@ void add_movie(){ // Adds a new movie to the vector and file
         new_movie.director = getString("\nEnter director: ");
         new_movie.year = getNumber("\nEnter release year: ");
         new_movie.genre = getString("\nEnter genre: ");
-        new_movie.rating = getString("\nEnter rating (e.g., G, PG, PG-13, R): ");
+        new_movie.rating = getString("\n(Examples: G, PG, PG-13, R)\nEnter rating: ");
 
     movies.push_back(new_movie);
     write_file();
-    cout << "\nHigh Score Successfully Added!\n";
+    cout << "\nNew Movie Successfully Added!\n";
 }
 
 void delete_movie(){
-    // int index = getNumber("\nEnter the movie number to delete: ") - 1;
+    int index = getNumber("\nEnter the movie number to delete: ") - 1;
 
-    // if(index < 0 || index >= movies.size()){
-    //     cout << "\nInvalid Movie Number\n";
-    //     return;
-    // }
+    if(index < 0 || index >= movies.size()){
+        cout << "\nInvalid Movie Number\n";
+        return;
+    }
 
-    // char confirm;
-    // cout << "\nAre you sure you want to delete \"" << movies[index].title << "\"? (y/n): ";
-    // cin >> confirm;
-    // cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clears the buffer
+    char confirm;
+    cout << "\nAre you sure you want to delete \"" << movies[index].title << "\"? (y/n): ";
+    cin >> confirm;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clears the buffer
 
-    // if(tolower(confirm) == 'y'){
-    //     movies.erase(movies.begin() + index);
-    //     write_file();
-    //     cout << "\nMovie Successfully Deleted!\n";
-    // }else{
-    //     cout << "\nDeletion Cancelled.\n";
-    // }
+    if(tolower(confirm) == 'y'){
+        movies.erase(movies.begin() + index);
+        write_file();
+        cout << "\nMovie Successfully Deleted!\n";
+    }else{
+        cout << "\nDeletion Cancelled\n";
+    }
 }
 
 void search_movie(){
-    // while(true){
-    //     string criteria = getString(
-    //         "\nSearch Menu:\n"
-    //         "(1) Rating\n"
-    //         "(2) Director\n"
-    //         "(3) Release Year\n"
-    //         "(4) Genre\n"
-    //         "Choice: ");
+    while(true){
+        string criteria = getString(
+            "\nSearch Menu:\n"
+            "(1) Rating\n"
+            "(2) Director\n"
+            "(3) Release Year\n"
+            "(4) Genre\n"
+            "Choice: ");
 
-    //     string value;
-    //     vector<int> results;
-    //     if(criteria == "1"){
-    //         value = getString("\nEnter rating to search for (e.g., G, PG, PG-13, R): ");
-    //         for(int i = 0; i < movies.size(); ++i){
-    //             if(movies[i].rating == value){
-    //                 results.push_back(i);
-    //             }
-    //         }
-    //     }else if(criteria == "2"){
-    //         value = getString("\nEnter director to search for (e.g., Christopher Nolan): ");
-    //         for(int i = 0; i < movies.size(); ++i){
-    //             if(movies[i].director == value){
-    //                 results.push_back(i);
-    //             }
-    //         }
-    //     }else if(criteria == "3"){
-    //         int year = getNumber("\nEnter release year to search for (e.g., 1987): ");
-    //         for(int i = 0; i < movies.size(); ++i){
-    //             if(movies[i].year == year){
-    //                 results.push_back(i);
-    //             }
-    //         } 
-    //     }else if(criteria == "4"){
-    //         value = getString("\nEnter genre to search for (e.g., Action, Comedy): ");
-    //         for(int i = 0; i < movies.size(); ++i){
-    //             if(movies[i].genre == value){
-    //                 results.push_back(i);
-    //             }
-    //         }
-    //     }else{
-    //         cout << "\nInvalid Input (Enter an integer 1-4)\n";
-    //         return;
-    //     }
-    // }
+        string value;
+        vector<int> results;
+        if(criteria == "1"){
+            value = getString("\n(Examples: G, PG, PG-13, R)\nEnter rating to search for: ");
+            for(int i = 0; i < movies.size(); ++i){
+                if(movies[i].rating == value){
+                    results.push_back(i);
+                }
+            }
+        }else if(criteria == "2"){
+            value = getString("\n(Example: Christopher Nolan)\nEnter director to search for: ");
+            for(int i = 0; i < movies.size(); ++i){
+                if(movies[i].director == value){
+                    results.push_back(i);
+                }
+            }
+        }else if(criteria == "3"){
+            int year = getNumber("\n(Example: 1987)\nEnter release year to search for: ");
+            for(int i = 0; i < movies.size(); ++i){
+                if(movies[i].year == year){
+                    results.push_back(i);
+                }
+            } 
+        }else if(criteria == "4"){
+            value = getString("\n(Examples: Action, Comedy)\nEnter genre to search for: ");
+            for(int i = 0; i < movies.size(); ++i){
+                if(movies[i].genre == value){
+                    results.push_back(i);
+                }
+            }
+        }else{
+            cout << "\nInvalid Input (Enter an integer 1-4)\n";
+            return;
+        }
+    }
 }
 
 
@@ -317,3 +309,6 @@ int main(){ // This welcomes the user and lets the user choose to use or exit th
 
 
 // Implement everything
+// Fix Search and maybe delete
+
+// (Example:)
