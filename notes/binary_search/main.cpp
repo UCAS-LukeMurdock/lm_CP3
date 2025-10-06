@@ -96,43 +96,39 @@ int main(){
     // Seen Above
 
 // When a title contains a space, which function should you use to read it properly?
-    // 
+    // getline()
 
 // Why might extra zeros be added to a string when converting a value without control?
-    // 
+    // Becuase it is filling in for the spaces it has saved. It includes the implied 0s when it grabs it all.
 
 // How does controlling the string conversion process benefit your program?
-    // 
+    // It lets us control how our stuff is being saved in our string.
+    // It makes it give you what you want instead of random stuff.
 
 // Give an example scenario where parsing a string would be necessary in a program.
-    // 
-
-// Why are images, audio, and PDFs not readable by humans when stored in files?
-    // 
-
-// What file extensions are commonly used to create binary files?
-    // 
+    // When pulling information in from files and sometimes user inputs.
 
 // When writing to a binary file, what does the first parameter (reinterpret_cast<char*>(&numbers)) represent?
-    // 
+    // It grabs the information and changes it to and from binary depending on the direction. It turns the data form binary back into our characters.
+    // Converts from binary to the data type you want.
 
 // Why does the binary file only take 12 bytes while the array of integers might be larger?
-    // 
-
-// How does reading individual numbers from a binary file differ from reading the entire list at once?
-    // 
+    // Becuase binary doesn't hold what the data is, it just holds what is inside of it.
 
 // What is the main difference between sequential search and binary search?
-    // 
+    // Binary search needs the list to be ordered.
+    // Sequential search takes up a lot more memory becuase the bigger the list the longer it takes.
 
 // In which type of data structure is binary search most efficient?
-    // 
+    // Any sort of list.
+    // Large, ordered lists are the best.
 
 // What is a key requirement for binary search to work correctly on a list?
-    // 
+    // It only works properly with lists that are sorted/ordered.
 
 // How does sequential search find an item in a list?
-    // 
+    // It compares every single item in the list to the one you are trying to find from the first to the last.
 
 // Why is binary search generally faster than sequential search for large, sorted lists?
-    // 
+    // It cancels out a lot more possibilities (about half) every comparison.
+    // Binary grabs the lenght of the list and then goes to the halfway point (the greater side if even) and then checks if the number is smaller or greater, then checks the next half and keeps on going.
