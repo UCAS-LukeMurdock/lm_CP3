@@ -88,7 +88,7 @@ string getString(const string& prompt){ // Gets a valid string from the user
         getline(cin, str);
 
         if (cin.fail()  ||  str.empty()  ||  str.find(',') != string::npos){ // Checks for invalid input (empty or contains a comma [commas mess up the CSV])
-            cout << "\nInvalid Input (Enter a valid input! [No commas allowed])\n";
+            cout << "\nInvalid Input (Enter a valid input! [No commas allowed, Check capitalization and spelling])\n";
         }else break;
     }
     return str;
@@ -222,7 +222,7 @@ void delete_movie(){
 
 void search_movie(){
     while(true){
-        string criteria = getString(
+        int criteria = getNumber(
             "\nSearch Menu:\n"
             "(1) Rating\n"
             "(2) Director\n"
@@ -232,28 +232,28 @@ void search_movie(){
 
         string value;
         vector<int> results;
-        if(criteria == "1"){
+        if(criteria == 1){
             value = getString("\n(Examples: G, PG, PG-13, R)\nEnter rating to search for: ");
             for(int i = 0; i < movies.size(); ++i){
                 if(movies[i].rating == value){
                     results.push_back(i);
                 }
             }
-        }else if(criteria == "2"){
+        }else if(criteria == 2){
             value = getString("\n(Example: Christopher Nolan)\nEnter director to search for: ");
             for(int i = 0; i < movies.size(); ++i){
                 if(movies[i].director == value){
                     results.push_back(i);
                 }
             }
-        }else if(criteria == "3"){
+        }else if(criteria == 3){
             int year = getNumber("\n(Example: 1987)\nEnter release year to search for: ");
             for(int i = 0; i < movies.size(); ++i){
                 if(movies[i].year == year){
                     results.push_back(i);
                 }
             } 
-        }else if(criteria == "4"){
+        }else if(criteria == 4){
             value = getString("\n(Examples: Action, Comedy)\nEnter genre to search for: ");
             for(int i = 0; i < movies.size(); ++i){
                 if(movies[i].genre == value){
@@ -312,3 +312,7 @@ int main(){ // This welcomes the user and lets the user choose to use or exit th
 // Fix Search and maybe delete
 
 // (Example:)
+
+
+// Add checking if their input is in (title, )
+// Simplify Searching
