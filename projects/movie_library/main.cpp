@@ -4,6 +4,7 @@
 #include <limits>
 #include <fstream> // read and write (if and of streams) [input and output]
 #include <iomanip>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -53,7 +54,7 @@ enum Menu{
 };
 
 // For Search Menu Options
-enum Search_Menu{
+enum Searching{
     Title = 1,
     Director,
     Year,
@@ -61,6 +62,14 @@ enum Search_Menu{
     Rating,
     Stop
 };
+
+// For Delete Menu
+enum Deleting{
+    Number = 1,
+    Name,
+    Quit
+};
+
 
 
 // Structure to hold a movie
@@ -202,25 +211,61 @@ void add_movie(){ // Adds a new movie to the vector and file
     cout << "\nNew Movie Successfully Added!\n";
 }
 
-void delete_movie(){
-    int index = getNumber("\nEnter the movie number to delete: ") - 1;
 
-    if(index < 0 || index >= movies.size()){
-        cout << "\nInvalid Movie Number (Find the movie number of the movie you want deleted by either viewing or searching through the movies)\n";
-        return;
+int delete_movie_index(int choice){
+    if(choice == Number){
+        return getNumber("\nEnter the movie number to delete: ") - 1;
+
+    }else if(choice == Name){
+        string user_title = getString("\nEnter the movie title to delete: ");
+        for(int i = 0; i < movies.size(); ++i){
+            if (movies[i].title == user_title)
+                return i;
+        }
     }
+    return -1;
+}
 
-    char confirm;
-    cout << "\nAre you sure you want to delete \"" << movies[index].title << "\"? (Y/N): ";
-    cin >> confirm;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clears the buffer
+void delete_movie(){
+    cout << "\nHow do you want to select the movie to be deleted?\n";
+    while (true){
+        int choice = getNumber(
+            "\nDelete Menu:\n"
+            "(1) Number\n"
+            "(2) Title/Name\n"
+            "(3) Quit\n"
+            "Choice: ");
 
-    if(toupper(confirm) == 'Y'){
-        movies.erase(movies.begin() + index);
-        write_file();
-        cout << "\nMovie Successfully Deleted!\n";
-    }else{
-        cout << "\nDeletion Cancelled\n";
+
+        if (choice == Quit){
+            cout << "\nExiting Delete Menu\n";
+            return;
+        }else if (choice < 1 || choice > 3){
+            cout << "\nInvalid Input (Enter an integer 1-3)\n";
+            continue;
+        }
+
+        int index = delete_movie_index(choice);
+
+        if(index < 0 || index >= movies.size()){
+            cout << "\nInvalid Movie Number or Title\n(Find the movie number/title of the movie you want deleted by either viewing or searching through the movie library)\n";
+            continue;
+        }
+
+        char confirm;
+        cout << endl;
+        view(index);
+        cout << "\nAre you sure you want to delete \"" << movies[index].title << "\"? (Y/N): ";
+        cin >> confirm;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clears the buffer
+
+        if(toupper(confirm) == 'Y'){
+            movies.erase(movies.begin() + index);
+            write_file();
+            cout << "\nMovie Successfully Deleted!\n";
+        }else{
+            cout << "\nDeletion Cancelled\n";
+        }
     }
 }
 
@@ -267,7 +312,7 @@ void search_menu(){
             "(3) Release Year\n"
             "(4) Genre\n"
             "(5) Rating\n"
-            "(6) Exit Searching\n"
+            "(6) Stop Searching\n"
             "Choice: ");
 
         string category;
@@ -282,7 +327,7 @@ void search_menu(){
             category = "Genre\n(Examples: Action, Comedy)";
         }else if(choice == Rating){
             category = "Rating\n(Examples: G, PG, PG-13, R)";
-        }else if(choice == Exit){
+        }else if(choice == Stop){
             cout << "\nExiting Search Menu\n";
             return;
         }else{
