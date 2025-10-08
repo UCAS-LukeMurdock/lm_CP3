@@ -52,6 +52,17 @@ enum Menu{
     Exit
 };
 
+// For Search Menu Options
+enum Search_Menu{
+    Title = 1,
+    Director,
+    Year,
+    Genre,
+    Rating,
+    Stop
+};
+
+
 // Structure to hold a movie
 struct Movie{
     string title;
@@ -162,13 +173,6 @@ void view(int index){ // Displays a single movie
                     << " | Year: " << movies[index].year
                     << " | Genre: " << movies[index].genre
                     << " | Rating: " << movies[index].rating << endl;
-    
-                    // int index = getNumber("\nEnter the movie number to view: ") - 1;
-
-    // if(index < 0 || index >= movies.size()){
-    //     cout << "\nInvalid Movie Number\n";
-    //     return;
-    // }
 }
 
 void view_all(){ // Displays the movies in the vector
@@ -202,16 +206,16 @@ void delete_movie(){
     int index = getNumber("\nEnter the movie number to delete: ") - 1;
 
     if(index < 0 || index >= movies.size()){
-        cout << "\nInvalid Movie Number\n";
+        cout << "\nInvalid Movie Number (Find the movie number of the movie you want deleted by either viewing or searching through the movies)\n";
         return;
     }
 
     char confirm;
-    cout << "\nAre you sure you want to delete \"" << movies[index].title << "\"? (y/n): ";
+    cout << "\nAre you sure you want to delete \"" << movies[index].title << "\"? (Y/N): ";
     cin >> confirm;
     cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clears the buffer
 
-    if(tolower(confirm) == 'y'){
+    if(toupper(confirm) == 'Y'){
         movies.erase(movies.begin() + index);
         write_file();
         cout << "\nMovie Successfully Deleted!\n";
@@ -220,56 +224,88 @@ void delete_movie(){
     }
 }
 
-void search_movie(){
+
+vector<int> search_movie(int choice, string& category){
+    string user_search;
+    int int_user_search;
+    vector<int> results;
+    cout << "\nSearching For " << category;
+    if (choice == Year)
+        int_user_search = getNumber("\nEnter what you want to search for: ");
+    else
+        user_search = getString("\nEnter what you want to search for: ");
+    
+
+    size_t found_pos;
+    for(int i = 0; i < movies.size(); ++i){
+        if(choice == Title){
+            found_pos = movies[i].title.find(user_search);
+            if (found_pos != string::npos) 
+                results.push_back(i);
+        }else if(choice == Director){
+            found_pos = movies[i].director.find(user_search);
+            if (found_pos != string::npos) 
+                results.push_back(i);
+        }else if(choice == Year && movies[i].year == int_user_search)
+            results.push_back(i);
+        else if(choice == Genre){
+            found_pos = movies[i].genre.find(user_search);
+            if (found_pos != string::npos) 
+                results.push_back(i);
+        }else if(choice == Rating && movies[i].rating == user_search)
+            results.push_back(i);
+    }
+    return results;
+}
+
+void search_menu(){
     while(true){
-        int criteria = getNumber(
+        int choice = getNumber(
             "\nSearch Menu:\n"
-            "(1) Rating\n"
+            "(1) Title\n"
             "(2) Director\n"
             "(3) Release Year\n"
             "(4) Genre\n"
+            "(5) Rating\n"
+            "(6) Exit Searching\n"
             "Choice: ");
 
-        string value;
-        vector<int> results;
-        if(criteria == 1){
-            value = getString("\n(Examples: G, PG, PG-13, R)\nEnter rating to search for: ");
-            for(int i = 0; i < movies.size(); ++i){
-                if(movies[i].rating == value){
-                    results.push_back(i);
-                }
-            }
-        }else if(criteria == 2){
-            value = getString("\n(Example: Christopher Nolan)\nEnter director to search for: ");
-            for(int i = 0; i < movies.size(); ++i){
-                if(movies[i].director == value){
-                    results.push_back(i);
-                }
-            }
-        }else if(criteria == 3){
-            int year = getNumber("\n(Example: 1987)\nEnter release year to search for: ");
-            for(int i = 0; i < movies.size(); ++i){
-                if(movies[i].year == year){
-                    results.push_back(i);
-                }
-            } 
-        }else if(criteria == 4){
-            value = getString("\n(Examples: Action, Comedy)\nEnter genre to search for: ");
-            for(int i = 0; i < movies.size(); ++i){
-                if(movies[i].genre == value){
-                    results.push_back(i);
-                }
-            }
-        }else{
-            cout << "\nInvalid Input (Enter an integer 1-4)\n";
+        string category;
+
+        if(choice == Title){
+            category = "Title\n(Example: The Iron Giant)";
+        }else if(choice == Director){
+            category = "Director\n(Example: Christopher Nolan)";
+        }else if(choice == Year){
+            category = "Release Year\n(Example: 1987)";
+        }else if(choice == Genre){
+            category = "Genre\n(Examples: Action, Comedy)";
+        }else if(choice == Rating){
+            category = "Rating\n(Examples: G, PG, PG-13, R)";
+        }else if(choice == Exit){
+            cout << "\nExiting Search Menu\n";
             return;
+        }else{
+            cout << "\nInvalid Input (Enter an integer 1-6)\n";
+            continue;
+        }
+        vector<int> results = search_movie(choice, category);
+
+        cout << "\nMovie Results:\n\n";
+        if(results.empty()) {
+            cout << "\t[None]\n\nPlease enter a correct detail that is in an existing movie within this movie library. (Check capitalization and spelling)\n";
+            return;
+        }
+        for (int index: results){
+            view(index);
         }
     }
 }
 
 
+
 int main(){ // This welcomes the user and lets the user choose to use or exit the program.
-    cout << "\n\nWelcome to this Movie Library Program, which lets you load a CSV file of movies, view them all, add a new one, delete one, and search through the movies.\n";
+    cout << "\n\nWelcome to this Movie Library Program, which lets you load a file (CSV) of movies, view them all, add a new one, delete one, and search through the movies.\n";
 
     while(true){
         int choice = getNumber(
@@ -296,23 +332,17 @@ int main(){ // This welcomes the user and lets the user choose to use or exit th
         }else if(choice == Delete){
             delete_movie();
         }else if(choice == Search){
-            search_movie();
+            search_menu();
         }else if(choice == Exit){
             cout << "\n\n\nCome Back Soon!\n\n\n";
             break;
         }else{
-            cout << "\nInvalid Input (Enter an integer 1-6)\n";;
+            cout << "\nInvalid Input (Enter an integer 1-6)\n";
         }
     }
     return 0;
 }
 
 
-// Implement everything
-// Fix Search and maybe delete
 
-// (Example:)
-
-
-// Add checking if their input is in (title, )
-// Simplify Searching
+// delete by title
