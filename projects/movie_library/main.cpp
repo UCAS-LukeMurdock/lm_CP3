@@ -338,15 +338,14 @@ void search_menu(){
 
         cout << "\nMovie Results:\n\n";
         if(results.empty()) {
-            cout << "\t[None]\n\nPlease enter a correct detail that is in an existing movie within this movie library. (Check capitalization and spelling)\n";
-            return;
+            cout << "\t[None]\n\nPlease enter a correct detail that is in an existing movie within this movie library.\n(Check capitalization and spelling)\n";
+            continue;
         }
         for (int index: results){
             view(index);
         }
     }
 }
-
 
 
 int main(){ // This welcomes the user and lets the user choose to use or exit the program.
@@ -388,6 +387,3 @@ int main(){ // This welcomes the user and lets the user choose to use or exit th
     return 0;
 }
 
-
-
-// delete by title
