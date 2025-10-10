@@ -90,6 +90,7 @@ print(tia)
 
 # What are magic methods?
     # Special methods starting or ending with __     (def __name__)
+    # Built in methods that we use to do things
 
 # Where are class objects saved? (heap or stack?)
     # Objects are saved in the Heap.
