@@ -1,2 +1,0 @@
-# LM  {name} Notes
-
