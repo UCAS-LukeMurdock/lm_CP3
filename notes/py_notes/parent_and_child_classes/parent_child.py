@@ -73,13 +73,15 @@ bobby.move()
     # Using magic methods like __eq__
 
 # What are test cases?
-    # 
+    # A function that checks the code to make sure it meets certain conditions. You could check to see if the default or future values are working.
 
 # Why do we use test cases?
-    # To make sure we don't break the code we already written.
-    # It lets us make test cases that checks to make sure the code works.
+    # To make sure we don't break the code we already written. (classes)
+    # Pytest lets us make test cases that checks to make sure the code works.
 
 # How do we create test cases?
     # On a separate file, in the same folder.
     # test_filename.py
         # filename_test.py
+    # Import classes from main file
+    # Make a test function and assert things you want to check.
