@@ -2,6 +2,12 @@
 import csv
 # from file_handler import int_input
 
+class Name:
+    def __init__(self):
+        pass
+    def __str__(self):
+        return f": {1} | "
+
 # def int_input(prompt, min = -1, max = -1): # Checks and prompts user to solve errors in integer inputs (Has Range If Needed)
 #     try:
 #         response = int(input(prompt).strip())

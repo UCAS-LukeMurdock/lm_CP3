@@ -92,5 +92,7 @@ print(tia)
     # Special methods starting or ending with __     (def __name__)
     # Built in methods that we use to do things
 
+    # Overwrites other functions
+
 # Where are class objects saved? (heap or stack?)
     # Objects are saved in the Heap.
