@@ -53,7 +53,7 @@
         "iomanip": "cpp"
     },
     "python.testing.pytestArgs": [
-        "notes"
+
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
