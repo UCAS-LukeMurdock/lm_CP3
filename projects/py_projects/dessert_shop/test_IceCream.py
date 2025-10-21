@@ -1,4 +1,4 @@
-# Test case for IceCream Class
+# Test cases for IceCream Class
 from dessert import DessertItem, IceCream
 
 

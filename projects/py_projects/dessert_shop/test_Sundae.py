@@ -1,4 +1,4 @@
-# Test case for Sundae Class
+# Test cases for Sundae Class
 from dessert import DessertItem, IceCream, Sundae
 
 

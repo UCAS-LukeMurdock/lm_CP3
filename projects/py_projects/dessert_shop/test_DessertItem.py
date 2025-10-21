@@ -1,4 +1,4 @@
-# Test case for DessertItem Class
+# Test cases for DessertItem Class
 from dessert import DessertItem
 
 

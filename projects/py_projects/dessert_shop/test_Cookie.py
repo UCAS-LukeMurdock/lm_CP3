@@ -1,4 +1,4 @@
-# Test case for Cookie Class
+# Test cases for Cookie Class
 from dessert import DessertItem, Cookie
 
 

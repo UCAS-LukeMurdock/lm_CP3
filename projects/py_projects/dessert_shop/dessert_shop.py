@@ -2,7 +2,7 @@
 from dessert import *
 
 
-def menu(): # Introduces the program and then lets the user choose one of the options
+def menu(): # Creates Objects in the order and then prints them and their amount
 
     order = Order()
     order.add(Candy("Gummy Bears", 0.34, 1.25))

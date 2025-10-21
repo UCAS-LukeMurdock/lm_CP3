@@ -1,4 +1,4 @@
-# Test case for Candy Class
+# Test cases for Candy Class
 from dessert import DessertItem, Candy
 
 
