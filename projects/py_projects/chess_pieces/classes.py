@@ -31,14 +31,13 @@ class Position:
         return f"{self.getColumn()}{self.getRow()}"
 
 
-    
-
 
 
 class ChessPiece(ABC):
-    def __init__(self, color, position):
+    def __init__(self, color, position, name=""):
         self.color = color
         self.position = position
+        self.name = name
     
     def getPos(self):
         return self.position
@@ -52,12 +51,12 @@ class ChessPiece(ABC):
         pass
 
     def __str__(self):
-        return f"{self.color} {self.getSymbol()} at {self.position}"
+        return f"{self.color} {self.name}, Symbol {self.getSymbol()} is at {self.position}"
 
 
 class Pawn(ChessPiece):
-    def __init__(self, color, position):
-        super().__init__(color, position)
+    def __init__(self, color, position, name="Pawn"):
+        super().__init__(color, position, name)
 
     def canMoveTo(self, newPos):
         # pawn movement logic
@@ -80,8 +79,8 @@ class Pawn(ChessPiece):
         return "p"
     
 class Rook(ChessPiece):
-    def __init__(self, color, position):
-        super().__init__(color, position)
+    def __init__(self, color, position, name="Rook"):
+        super().__init__(color, position, name)
 
     def canMoveTo(self, newPos):
         if newPos.column == self.position.column or newPos.row == self.position.row:
@@ -98,8 +97,8 @@ class Rook(ChessPiece):
         return "r"
     
 class Knight(ChessPiece):
-    def __init__(self, color, position):
-        super().__init__(color, position)
+    def __init__(self, color, position, name="Knight"):
+        super().__init__(color, position, name)
 
     def canMoveTo(self, newPos):
         if (abs(newPos.column - self.position.column) == 2 and abs(newPos.row - self.position.row) == 1) or (abs(newPos.column - self.position.column) == 1 and abs(newPos.row - self.position.row) == 2):
@@ -116,8 +115,8 @@ class Knight(ChessPiece):
         return "k"
     
 class Bishop(ChessPiece):
-    def __init__(self, color, position):
-        super().__init__(color, position)
+    def __init__(self, color, position, name="Bishop"):
+        super().__init__(color, position, name)
 
     def canMoveTo(self, newPos):
         if abs(newPos.column - self.position.column) == abs(newPos.row - self.position.row):
@@ -130,12 +129,12 @@ class Bishop(ChessPiece):
             return True
         return False
 
-    def getSymbol():
+    def getSymbol(self):
         return "b"
         
 class Queen(ChessPiece):
-    def __init__(self, color, position):
-        super().__init__(color, position)
+    def __init__(self, color, position, name="Queen"):
+        super().__init__(color, position, name)
 
     def canMoveTo(self, newPos):
         if (newPos.column == self.position.column or newPos.row == self.position.row) or (abs(newPos.column - self.position.column) == abs(newPos.row - self.position.row)):
@@ -152,8 +151,8 @@ class Queen(ChessPiece):
         return "Q"
 
 class King(ChessPiece):
-    def __init__(self, color, position):
-        super().__init__(color, position)
+    def __init__(self, color, position, name="King"):
+        super().__init__(color, position, name)
 
     def canMoveTo(self, newPos):
         if abs(newPos.column - self.position.column) <= 1 and abs(newPos.row - self.position.row) <= 1:
@@ -172,30 +171,30 @@ class King(ChessPiece):
 
 
 
-class Board:
-    def __init__(self):
-        self.grid = [[None for _ in range(8)] for _ in range(8)]
+# class Board:
+#     def __init__(self):
+#         self.grid = [[None for _ in range(8)] for _ in range(8)]
     
-    def placePiece(self, piece, position):
-        col = position.column - 1
-        row = position.row - 1
-        self.grid[row][col] = piece
+#     def placePiece(self, piece, position):
+#         col = position.column - 1
+#         row = position.row - 1
+#         self.grid[row][col] = piece
     
-    def removePiece(self, position):
-        col = position.column - 1
-        row = position.row - 1
-        self.grid[row][col] = None
+#     def removePiece(self, position):
+#         col = position.column - 1
+#         row = position.row - 1
+#         self.grid[row][col] = None
     
-    def getPieceAt(self, position):
-        col = position.column - 1
-        row = position.row - 1
-        return self.grid[row][col]
+#     def getPieceAt(self, position):
+#         col = position.column - 1
+#         row = position.row - 1
+#         return self.grid[row][col]
 
 
 class ChessGame:
-    def __init__(self, whitePieces, blackPieces):
-        self.whitePieces = whitePieces
-        self.blackPieces = blackPieces
+    def __init__(self):
+        self.whitePieces = []
+        self.blackPieces = []
 
     def removePieces(self):
         otherPiece = self.getPiecesAt(self.position)
@@ -228,3 +227,12 @@ class ChessGame:
         for piece in self.blackPieces:
             if piece.position == self.position:
                 return piece
+            
+    def getAllPieces(self):
+        for piece in self.blackPieces:
+            print(piece)
+
+        print()
+        
+        for piece in self.whitePieces:
+            print(piece)
