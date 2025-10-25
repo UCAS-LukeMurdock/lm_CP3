@@ -64,12 +64,19 @@ def main(): # Creates Objects
     chess_game.getAllPieces()
     
     # Moving Pieces
-    chess_game.whitePieces[1].move(Position(3,3))  # wKnight1 b1 to c3
-    chess_game.blackPieces[8].move(Position(4,5))  # bPawn5 d7 to d5
-    chess_game.whitePieces[3].move(Position(4,3))  # wPawn4 d2 to d3
-    chess_game.blackPieces[5].move(Position(6,5))  # bBishop2 f8 to f5
-    chess_game.whitePieces[0].move(Position(1,4))  # wRook1 a1 to a4 (invalid: should print cannot move)
-    chess_game.whitePieces[0].move(Position(1,3))  # wRook1 a1 to a3 (valid)
+    chess_game.movePiece(chess_game.whitePieces[1], Position(3,3))  # wKnight1 b1 to c3
+    chess_game.movePiece(chess_game.blackPieces[8], Position(4,5))  # bPawn5 d7 to d5
+    chess_game.movePiece(chess_game.whitePieces[3], Position(4,3))  # wPawn4 d2 to d3
+    chess_game.movePiece(chess_game.blackPieces[5], Position(6,5))  # bBishop2 f8 to f5
+    chess_game.movePiece(chess_game.whitePieces[0], Position(1,4))  # wRook1 a1 to a4 (invalid: should print cannot move)
+    chess_game.movePiece(chess_game.whitePieces[0], Position(1,3))  # wRook1 a1 to a3 (valid)
+
+    # chess_game.whitePieces[1].move(Position(3,3))  # wKnight1 b1 to c3
+    # chess_game.blackPieces[8].move(Position(4,5))  # bPawn5 d7 to d5
+    # chess_game.whitePieces[3].move(Position(4,3))  # wPawn4 d2 to d3
+    # chess_game.blackPieces[5].move(Position(6,5))  # bBishop2 f8 to f5
+    # chess_game.whitePieces[0].move(Position(1,4))  # wRook1 a1 to a4 (invalid: should print cannot move)
+    # chess_game.whitePieces[0].move(Position(1,3))  # wRook1 a1 to a3 (valid)
 
     print("\n***After Some Pieces Move***\n")
 

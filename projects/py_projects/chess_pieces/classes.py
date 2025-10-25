@@ -29,6 +29,9 @@ class Position:
     
     def __str__(self):
         return f"{self.getColumn()}{self.getRow()}"
+    
+    def __eq__(self, other):
+        return self.column == other.column and self.row == other.row
 
 
 
@@ -43,8 +46,12 @@ class ChessPiece(ABC):
         return self.position
 
     @abstractmethod
-    def move(self, newPos):
+    def canMoveTo(self, newPos):
         pass
+
+    # @abstractmethod
+    # def move(self, newPos):
+    #     pass
 
     @abstractmethod
     def getSymbol(self):
@@ -60,6 +67,7 @@ class Pawn(ChessPiece):
 
     def canMoveTo(self, newPos):
         # pawn movement logic
+        # How do you check for if there is already a piece of the same color? Answer: You would need access to the board state to check for other pieces. How would you do that?: You would need to pass the board state or have a reference to it within the piece class.
         if self.color == "White":
             if newPos.column == self.position.column and newPos.row == self.position.row + 1:
                 return True
@@ -68,13 +76,12 @@ class Pawn(ChessPiece):
                 return True
         return False
     
-    def move(self, newPos):
-        if self.canMoveTo(newPos):
-            self.position = newPos
-            return True
-        return False
+    # def move(self, newPos):
+    #     if self.canMoveTo(newPos):
+    #         self.position = newPos
+    #         return True
+    #     return False
             
-
     def getSymbol(self):
         return "p"
     
@@ -87,11 +94,11 @@ class Rook(ChessPiece):
             return True
         return False
     
-    def move(self, newPos):
-        if self.canMoveTo(newPos):
-            self.position = newPos
-            return True
-        return False
+    # def move(self, newPos):
+    #     if self.canMoveTo(newPos):
+    #         self.position = newPos
+    #         return True
+    #     return False
 
     def getSymbol(self):
         return "r"
@@ -105,11 +112,11 @@ class Knight(ChessPiece):
             return True
         return False
     
-    def move(self, newPos):
-        if self.canMoveTo(newPos):
-            self.position = newPos
-            return True
-        return False
+    # def move(self, newPos):
+    #     if self.canMoveTo(newPos):
+    #         self.position = newPos
+    #         return True
+    #     return False
 
     def getSymbol(self):
         return "k"
@@ -123,11 +130,11 @@ class Bishop(ChessPiece):
             return True
         return False
     
-    def move(self, newPos):
-        if self.canMoveTo(newPos):
-            self.position = newPos
-            return True
-        return False
+    # def move(self, newPos):
+    #     if self.canMoveTo(newPos):
+    #         self.position = newPos
+    #         return True
+    #     return False
 
     def getSymbol(self):
         return "b"
@@ -141,11 +148,11 @@ class Queen(ChessPiece):
             return True
         return False
 
-    def move(self, newPos):
-        if self.canMoveTo(newPos):
-            self.position = newPos
-            return True
-        return False
+    # def move(self, newPos):
+    #     if self.canMoveTo(newPos):
+    #         self.position = newPos
+    #         return True
+    #     return False
 
     def getSymbol(self):
         return "Q"
@@ -159,11 +166,11 @@ class King(ChessPiece):
             return True
         return False
     
-    def move(self, newPos):
-        if self.canMoveTo(newPos):
-            self.position = newPos
-            return True
-        return False
+    # def move(self, newPos):
+    #     if self.canMoveTo(newPos):
+    #         self.position = newPos
+    #         return True
+    #     return False
 
     def getSymbol(self):
         return "K"
@@ -196,37 +203,35 @@ class ChessGame:
         self.whitePieces = []
         self.blackPieces = []
 
-    def removePieces(self):
-        otherPiece = self.getPiecesAt(self.position)
-        if self.position == otherPiece.position:
-            if self.color != otherPiece.color:
-                otherPiece = None
-                self.removePiece(self.position)
-            
-        
-    def movePiece(self, newPos):
-        if self.canMoveTo():
-            self.position = newPos
-            self.removePieces()
-            return True
+    def movePiece(self, piece, newPos): # return Bool
+        if piece.canMoveTo(newPos): #  it should check if there is an opponent piece at the new position
+            if self.removePiece(piece, self.getPiecesAt(piece.position)) == True:
+                piece.position = newPos
+                return True
         return False
-    
-    def getPiecesLeft(self):
-        for piece in self.whitePieces:
-            if piece is not None:
-                return len(self.whitePieces)
-        for piece in self.blackPieces:
-            if piece is not None:
-                return len(self.blackPieces)
-            
 
-    def getPiecesAt(self):
-        for piece in self.whitePieces:
-            if piece.position == self.position:
+    def removePiece(self,piece, otherPiece=None):
+        if otherPiece != None:
+            if otherPiece.color == piece.color:
+                return False  # Cannot capture own piece
+            else:
+                if piece in self.whitePieces:
+                    self.whitePieces.remove(piece)
+                elif piece in self.blackPieces:
+                    self.blackPieces.remove(piece)
+        return True
+    
+    def getPiecesLeft(self, color): # return List
+        if color == "White":
+            return len(self.whitePieces)
+        elif color == "Black":
+            return len(self.blackPieces)
+
+    def getPiecesAt(self, pos): # return Piece
+        for piece in self.whitePieces + self.blackPieces:
+            if piece.position == pos: # Both have to be objects of Position class
                 return piece
-        for piece in self.blackPieces:
-            if piece.position == self.position:
-                return piece
+        return None
             
     def getAllPieces(self):
         for piece in self.blackPieces:
