@@ -34,8 +34,6 @@ class Position: # Represents a position on the chess board
         return self.column == other.column and self.row == other.row
 
 
-
-
 class ChessPiece(ABC): # Abstract Base Class for Chess Pieces
     def __init__(self, color, position, name=""):
         self.color = color
@@ -48,16 +46,9 @@ class ChessPiece(ABC): # Abstract Base Class for Chess Pieces
     def getPos(self): # return String of position
         return f"{self.getColor()} {self.name}, Symbol {self.getSymbol()}  is at {self.position}"
 
-    def setPosition(self, newPos): # Set the piece to a new position
-        self.position = newPos
-
     @abstractmethod
-    def canMoveTo(self, newPos): # Method to check if piece can move to newPos
+    def move(self, newPos, chess_game): # Sets the piece to a new position (setPosition() basically but with more)
         pass
-
-    # @abstractmethod
-    # def move(self, newPos):
-    #     pass
 
     @abstractmethod
     def getSymbol(self): # return String symbol
@@ -71,7 +62,7 @@ class Pawn(ChessPiece): # Pawn Class
     def __init__(self, color, position, name):
         super().__init__(color, position, name)
 
-    def canMoveTo(self, newPos):
+    def canMoveTo(self, newPos): # Method to check if pawn can move to newPos
         # Can only move forward one square
         if self.color == "White":
             if newPos.column == self.position.column and newPos.row == self.position.row + 1:
@@ -81,11 +72,16 @@ class Pawn(ChessPiece): # Pawn Class
                 return True
         return False
     
-    # def move(self, newPos):
-    #     if self.canMoveTo(newPos):
-    #         self.position = newPos
-    #         return True
-    #     return False
+    def move(self, newPos, chess_game): # Sets the pawn to a new position (setPosition() basically)
+        if self.canMoveTo(newPos):
+            if chess_game.movePiece(self, newPos) == True:
+                oldPos = self.position
+                self.position = newPos
+                print(f"\nMoved {self} from {oldPos} to {newPos}")
+                print(chess_game.getBoard())
+                return True
+        print(f"\nCannot move {self} from {self.position} to {newPos}\n\t(Either doesn't follow movement rules or position blocked by same-colored piece)")
+        return False
             
     def getSymbol(self):
         if self.color == "White":
@@ -97,17 +93,22 @@ class Rook(ChessPiece): # Rook Class
     def __init__(self, color, position, name):
         super().__init__(color, position, name)
 
-    def canMoveTo(self, newPos):
+    def canMoveTo(self, newPos): # Method to check if rook can move to newPos
         # Rook can move any number of squares along a row or column
         if newPos.column == self.position.column or newPos.row == self.position.row:
             return True
         return False
     
-    # def move(self, newPos):
-    #     if self.canMoveTo(newPos):
-    #         self.position = newPos
-    #         return True
-    #     return False
+    def move(self, newPos, chess_game): # Set the rook to a new position (setPosition() basically)
+        if self.canMoveTo(newPos):
+            if chess_game.movePiece(self, newPos) == True:
+                oldPos = self.position
+                self.position = newPos
+                print(f"\nMoved {self} from {oldPos} to {newPos}")
+                print(chess_game.getBoard())
+                return True
+        print(f"\nCannot move {self} from {self.position} to {newPos}\n\t(Either doesn't follow movement rules or position blocked by same-colored piece)")
+        return False
 
     def getSymbol(self):
         if self.color == "White":
@@ -119,7 +120,7 @@ class Knight(ChessPiece): # Knight Class
     def __init__(self, color, position, name):
         super().__init__(color, position, name)
 
-    def canMoveTo(self, newPos):
+    def canMoveTo(self, newPos): # Method to check if knight can move to newPos
         # Knight moves in an "L" shape: two squares in one direction and then one square perpendicular
         column_diff = abs(newPos.column - self.position.column)
         row_diff = abs(newPos.row - self.position.row)
@@ -127,11 +128,16 @@ class Knight(ChessPiece): # Knight Class
             return True
         return False
     
-    # def move(self, newPos):
-    #     if self.canMoveTo(newPos):
-    #         self.position = newPos
-    #         return True
-    #     return False
+    def move(self, newPos, chess_game): # Set the knight to a new position (setPosition() basically)
+        if self.canMoveTo(newPos):
+            if chess_game.movePiece(self, newPos) == True:
+                oldPos = self.position
+                self.position = newPos
+                print(f"\nMoved {self} from {oldPos} to {newPos}")
+                print(chess_game.getBoard())
+                return True
+        print(f"\nCannot move {self} from {self.position} to {newPos}\n\t(Either doesn't follow movement rules or position blocked by same-colored piece)")
+        return False
 
     def getSymbol(self):
         if self.color == "White":
@@ -143,17 +149,22 @@ class Bishop(ChessPiece): # Bishop Class
     def __init__(self, color, position, name):
         super().__init__(color, position, name)
 
-    def canMoveTo(self, newPos):
+    def canMoveTo(self, newPos): # Method to check if bishop can move to newPos
         # The change in columns and rows must be equal.
         if abs(newPos.column - self.position.column) == abs(newPos.row - self.position.row):
             return True
         return False
     
-    # def move(self, newPos):
-    #     if self.canMoveTo(newPos):
-    #         self.position = newPos
-    #         return True
-    #     return False
+    def move(self, newPos, chess_game): # Set the bishop to a new position (setPosition() basically)
+        if self.canMoveTo(newPos):
+            if chess_game.movePiece(self, newPos) == True:
+                oldPos = self.position
+                self.position = newPos
+                print(f"\nMoved {self} from {oldPos} to {newPos}")
+                print(chess_game.getBoard())
+                return True
+        print(f"\nCannot move {self} from {self.position} to {newPos}\n\t(Either doesn't follow movement rules or position blocked by same-colored piece)")
+        return False
 
     def getSymbol(self):
         if self.color == "White":
@@ -165,7 +176,7 @@ class Queen(ChessPiece): # Queen Class
     def __init__(self, color, position, name):
         super().__init__(color, position, name)
 
-    def canMoveTo(self, newPos):
+    def canMoveTo(self, newPos): # Method to check if queen can move to newPos
         # Like Rook (horizontal and vertical) [same row or same column]
         if newPos.column == self.position.column or newPos.row == self.position.row:
             return True
@@ -176,11 +187,16 @@ class Queen(ChessPiece): # Queen Class
         
         return False
 
-    # def move(self, newPos):
-    #     if self.canMoveTo(newPos):
-    #         self.position = newPos
-    #         return True
-    #     return False
+    def move(self, newPos, chess_game): # Set the queen to a new position (setPosition() basically)
+        if self.canMoveTo(newPos):
+            if chess_game.movePiece(self, newPos) == True:
+                oldPos = self.position
+                self.position = newPos
+                print(f"\nMoved {self} from {oldPos} to {newPos}")
+                print(chess_game.getBoard())
+                return True
+        print(f"\nCannot move {self} from {self.position} to {newPos}\n\t(Either doesn't follow movement rules or position blocked by same-colored piece)")
+        return False
 
     def getSymbol(self):
         if self.color == "White":
@@ -192,7 +208,7 @@ class King(ChessPiece): # King Class
     def __init__(self, color, position, name):
         super().__init__(color, position, name)
 
-    def canMoveTo(self, newPos):
+    def canMoveTo(self, newPos): # Method to check if king can move to newPos
         # King can move one square in any direction
         column_diff = abs(newPos.column - self.position.column)
         row_diff = abs(newPos.row - self.position.row)
@@ -200,11 +216,16 @@ class King(ChessPiece): # King Class
             return True
         return False
     
-    # def move(self, newPos):
-    #     if self.canMoveTo(newPos):
-    #         self.position = newPos
-    #         return True
-    #     return False
+    def move(self, newPos, chess_game): # Set the king to a new position (setPosition() basically)
+        if self.canMoveTo(newPos):
+            if chess_game.movePiece(self, newPos) == True:
+                oldPos = self.position
+                self.position = newPos
+                print(f"\nMoved {self} from {oldPos} to {newPos}")
+                print(chess_game.getBoard())
+                return True
+        print(f"\nCannot move {self} from {self.position} to {newPos}\n\t(Either doesn't follow movement rules or position blocked by same-colored piece)")
+        return False
 
     def getSymbol(self):
         if self.color == "White":
@@ -220,15 +241,10 @@ class ChessGame: # Chess Game Class
 
     # Moves a piece to a new position if the move is valid and handles captures
     def movePiece(self, piece, newPos): # return Bool
-        if piece.canMoveTo(newPos):
-            if self.removePiece(piece, self.getPieceAt(newPos)) == True:
-                oldPos = piece.position
-                piece.setPosition(newPos)
-                print(f"Moved {piece} from {oldPos} to {newPos}")
-                print(self.getBoard())
-                return True
-        print(f"Cannot move {piece} from {piece.position} to {newPos}\n\t(Either doesn't follow movement rules or position blocked by same-colored piece)")
+        if self.removePiece(piece, self.getPieceAt(newPos)) == True:
+            return True
         return False
+        
     
     # Removes a piece from the game if it is captured
     def removePiece(self,piece, otherPiece=None):
@@ -238,10 +254,10 @@ class ChessGame: # Chess Game Class
             else:
                 if otherPiece in self.whitePieces:
                     self.whitePieces.remove(otherPiece)
-                    print(f"{otherPiece} captured by {piece}!\n\tBlack Pieces Left: {self.getPiecesAmountLeft('Black')} | White Pieces Left: {self.getPiecesAmountLeft('White')}")
+                    print(f"\n{otherPiece} captured by {piece}!\n\tBlack Pieces Left: {self.getPiecesAmountLeft('Black')} | White Pieces Left: {self.getPiecesAmountLeft('White')}")
                 elif otherPiece in self.blackPieces:
                     self.blackPieces.remove(otherPiece)
-                    print(f"{otherPiece} captured by {piece}!\n\tBlack Pieces Left: {self.getPiecesAmountLeft('Black')} | White Pieces Left: {self.getPiecesAmountLeft('White')}")
+                    print(f"\n{otherPiece} captured by {piece}!\n\tBlack Pieces Left: {self.getPiecesAmountLeft('Black')} | White Pieces Left: {self.getPiecesAmountLeft('White')}")
         return True
     
     # Method that returns string of pieces left
@@ -300,5 +316,5 @@ class ChessGame: # Chess Game Class
     
     # String representation of the game status
     def __str__(self):
-        return f"This Chess Game currently has {self.getPiecesAmountLeft('White')} White pieces left and {self.getPiecesAmountLeft('Black')} Black pieces left.\n"
+        return f"\nThis Chess Game currently has {self.getPiecesAmountLeft('White')} White pieces left and {self.getPiecesAmountLeft('Black')} Black pieces left.\n"
         

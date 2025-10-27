@@ -4,27 +4,41 @@ from classes import *
 def pause():
     input("\nPress Enter to continue...\n")
 
-# def play(chess_game):
-#     start = input("Enter in the position of the piece you want to move: ")
-#     end = input("Enter in the position you want it to move to: ")
-#     # translate letter into number positions:
+def convert(user_pos):
+    if user_pos[0] == 'A' or user_pos[0] == 'a':
+        user_pos = f"1{user_pos[1]}"
+    elif user_pos[0] == 'B' or user_pos[0] == 'b':
+        user_pos = f"1{user_pos[2]}"
+    elif user_pos[0] == 'C' or user_pos[0] == 'c':
+        user_pos = f"1{user_pos[3]}"
+    elif user_pos[0] == 'D' or user_pos[0] == 'd':
+        user_pos = f"1{user_pos[4]}"
+    elif user_pos[0] == 'E' or user_pos[0] == 'e':
+        user_pos = f"1{user_pos[5]}"
+    elif user_pos[0] == 'F' or user_pos[0] == 'f':
+        user_pos = f"1{user_pos[6]}"
+    elif user_pos[0] == 'G' or user_pos[0] == 'g':
+        user_pos = f"1{user_pos[7]}"
+    elif user_pos[0] == 'H' or user_pos[0] == 'h':
+        user_pos = f"1{user_pos[8]}"
+    return user_pos
 
-#     # if len(start) != 2 or len(end) != 2:
-#     #     print("Invalid input format. Please use the format 'A2'.")
-#     #     return False
-#     # start_col = ord(start[0].upper()) - ord('A') + 1
-#     # start_row = int(start[1])
-#     # end_col = ord(end[0].upper()) - ord('A') + 1
-#     # end_row = int(end[1])
-#     # start_pos = Position(start_col, start_row)
-#     # end_pos = Position(end_col, end_row)
-#     # piece = chess_game.getPieceAt(start_pos)
-#     # if piece is None:
-#     #     print(f"No piece found at {start_pos}.")
-#     #     return False
-#     try:
-#         start_pos = Position(start)
-#     chess_game.movePiece(piece, end_pos)
+def play(chess_game):
+    start = input("\nEnter in the position of the piece you want to move: ").strip()
+    end = input("\nEnter in the position you want it to move to: ").strip()
+
+    try:
+        start = convert(start)
+        end = convert(end)
+        start_pos = Position(int(start[0]), int(start[1]))
+        piece = chess_game.getPieceAt(start_pos)
+        if piece is None:
+            print("\nNo piece found at your starting position!")
+            return
+        piece.move(Position(int(end[0]), int(end[1])), chess_game)
+    except:
+        print("\nInvalid Input (Please enter positions in format 'A2', 'E5', etc.)")
+
 
     
 
@@ -78,7 +92,7 @@ def main(): # Creates Objects
     chess_game.whitePieces.append(Pawn("White", Position(8,2), name="Pawn 8"))
 
     
-    print("\n\n***Start of Game Simulation***\n\n")
+    print("\n\n***Start of Game Simulation***\n")
 
     print(chess_game)
     pause()
@@ -87,50 +101,15 @@ def main(): # Creates Objects
     print(chess_game.getBoard())
 
     pause()
-    
-    print("\n***Some Pieces Move***\n")
 
-    # Moving Pieces
-    chess_game.movePiece(chess_game.whitePieces[8], Position(1,3)) # wPawn1 a2 to a3
-    chess_game.movePiece(chess_game.blackPieces[9], Position(2,6)) # bPawn2 b7 to b6
-    pause()
-    chess_game.movePiece(chess_game.whitePieces[15], Position(8,3)) # wPawn8 h2 to h3
-    chess_game.movePiece(chess_game.blackPieces[14], Position(7,6)) # Pawn7 g7 to g6
-    chess_game.movePiece(chess_game.blackPieces[14], Position(7,6)) # bPawn7 g7 to g6 (invalid)
-    pause()
-    chess_game.movePiece(chess_game.whitePieces[14], Position(7,3)) # wPawn7 g2 to g3
-
-    chess_game.movePiece(chess_game.blackPieces[2], Position(3,6))  # bKnight1 b8 to c6
-    pause()
-
-    chess_game.movePiece(chess_game.whitePieces[5], Position(6,2))  # wBishop2 f1 to f2 (invalid)
-    chess_game.movePiece(chess_game.whitePieces[5], Position(7,2))  # wBishop2 f1 to g2
-
-    chess_game.movePiece(chess_game.blackPieces[6], Position(4,7))  # bQueen d8 to d7 (invalid)
-    pause()
-    chess_game.movePiece(chess_game.whitePieces[6], Position(4,2))  # wQueen d1 to d2 (invalid)
-
-    chess_game.movePiece(chess_game.whitePieces[7], Position(6,1))  # wKing e1 to f1
-
-    chess_game.movePiece(chess_game.blackPieces[3], Position(4,5))  # bKnight2 g8 to e7 (invalid)
-    chess_game.movePiece(chess_game.blackPieces[3], Position(6,5))  # bKnight2 g8 to f6 
-    pause()
-
-    chess_game.movePiece(chess_game.whitePieces[6], Position(5,1))  # wQueen d1 to e1
-    pause()
-
-    # Capturing Moves
-    chess_game.movePiece(chess_game.whitePieces[5], Position(3,6))  # wBishop2 g2 to c6 (capture bKnight1)
-    pause()
-    chess_game.movePiece(chess_game.blackPieces[1], Position(8,3))  # bRook2 h8 to h3 (capture wPawn8)
-    pause()
-
-    # chess_game.whitePieces[1].move(Position(3,3))  # wKnight1 b1 to c3
-    # chess_game.blackPieces[8].move(Position(4,5))  # bPawn5 d7 to d5
-    # chess_game.whitePieces[3].move(Position(4,3))  # wPawn4 d2 to d3
-    # chess_game.blackPieces[5].move(Position(6,5))  # bBishop2 f8 to f5
-    # chess_game.whitePieces[0].move(Position(1,4))  # wRook1 a1 to a4 (invalid: should print cannot move)
-    # chess_game.whitePieces[0].move(Position(1,3))  # wRook1 a1 to a3 (valid)
+    while True:
+        choice = input("\nDo you want to move a piece? (Y/N): ").strip().upper()
+        if choice == 'N':
+            break
+        elif choice == 'Y':
+            play(chess_game)
+        else:
+            print("\nInvalid Input (Please enter 'Y' or 'N')")
 
     print(chess_game)
     print(chess_game.getPiecesLeft())
@@ -139,13 +118,10 @@ def main(): # Creates Objects
     pause()
     print(chess_game.getAllPieces())
     pause()
+    print(chess_game.getBoard())
     print("\n\n***End of Game Simulation***\n\n")
-    # play(chess_game)
 
 main()
-
-# move vs canMoveTo ??????
-# Fix it so it just shows testing or make it game
 
 
 """
