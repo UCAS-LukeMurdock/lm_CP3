@@ -6,21 +6,21 @@ def pause():
 
 def convert(user_pos):
     if user_pos[0] == 'A' or user_pos[0] == 'a':
-        user_pos = f"1{user_pos[1]}"
+        user_pos = ["1", user_pos[1]]
     elif user_pos[0] == 'B' or user_pos[0] == 'b':
-        user_pos = f"1{user_pos[2]}"
+        user_pos = ["2", user_pos[1]]
     elif user_pos[0] == 'C' or user_pos[0] == 'c':
-        user_pos = f"1{user_pos[3]}"
+        user_pos = ["3", user_pos[1]]
     elif user_pos[0] == 'D' or user_pos[0] == 'd':
-        user_pos = f"1{user_pos[4]}"
+        user_pos = ["4", user_pos[1]]
     elif user_pos[0] == 'E' or user_pos[0] == 'e':
-        user_pos = f"1{user_pos[5]}"
+        user_pos = ["5", user_pos[1]]
     elif user_pos[0] == 'F' or user_pos[0] == 'f':
-        user_pos = f"1{user_pos[6]}"
+        user_pos = ["6", user_pos[1]]
     elif user_pos[0] == 'G' or user_pos[0] == 'g':
-        user_pos = f"1{user_pos[7]}"
+        user_pos = ["7", user_pos[1]]
     elif user_pos[0] == 'H' or user_pos[0] == 'h':
-        user_pos = f"1{user_pos[8]}"
+        user_pos = ["8", user_pos[1]]
     return user_pos
 
 def play(chess_game):
@@ -95,15 +95,14 @@ def main(): # Creates Objects
     print("\n\n***Start of Game Simulation***\n")
 
     print(chess_game)
+    print("\nDisclaimer:\nThis is a simplified chess simulation focusing on piece movement and basic rules.\n - Advanced chess rules are not implemented in this simulation, such as:\n  --  pawns moving two squares on their first move\n  --  pawns capturing diagonally\n  --  pawns becoming queens\n  --  pieces not being able to move through other pieces besides knights\n  --  and check/checkmate\n - Also, their isn't really an opponent.\n\tYou are allowed to move any piece every turn.\n\tIf you want to play chess, you could just switch off with another person every turn\n - Enjoy!\n")
     pause()
     print(chess_game.getAllPieces())
     pause()
     print(chess_game.getBoard())
 
-    pause()
-
     while True:
-        choice = input("\nDo you want to move a piece? (Y/N): ").strip().upper()
+        choice = input("\n[If you enter 'N' then the simulation will begin the end process]\nDo you want to move a piece? (Y/N): ").strip().upper()
         if choice == 'N':
             break
         elif choice == 'Y':
