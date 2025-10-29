@@ -1,0 +1,12 @@
+LM  Term Definitions
+
+
+Polymorphism:
+Polymorphism, meaning "many forms," is a programming concept that allows objects of different types to be treated as objects of a common superclass, enabling code reusability and flexibility. In object-oriented programming, it is achieved through two main types: compile-time polymorphism (method overloading), where multiple methods share the same name but have different parameters, and runtime polymorphism (method overriding), where a subclass provides its own specific implementation of a method inherited from a superclass. This allows a single action, like calling animalSound(), to be performed in different ways depending on the object's specific type, such as a dog meowing or a pig oinking
+
+Aggregation:
+Aggregation programming has two main meanings: one is a concept in object-oriented programming (OOP) for modeling "has-a" relationships, where objects can exist independently of each other. The other is in data analysis and databases, referring to the process of summarizing and combining data from multiple sources into a single summary value, often using functions like SUM(), AVG(), or COUNT(). 
+
+Subclass:
+In object-oriented programming, a subclass (also known as a derived class or child class) is a class that inherits properties and behaviors from another class, called its superclass (or base class, parent class). This concept is a core principle of inheritance.
+
