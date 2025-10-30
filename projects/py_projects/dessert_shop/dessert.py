@@ -46,7 +46,7 @@ class IceCream(DessertItem):
 
 class Sundae(IceCream): # Child Class of IceCream that has everything it has plus topping name and price.
     def __init__(self, name = "", price_per_scoop = 0.0, scoops = 0, topping_name = "", topping_price = 0.0, tax_percent = 7.25):
-        super().__init__(name, tax_percent, price_per_scoop, scoops)
+        super().__init__(name, price_per_scoop, scoops, tax_percent)
         self.price_per_scoop = price_per_scoop
         self.scoops = scoops
 

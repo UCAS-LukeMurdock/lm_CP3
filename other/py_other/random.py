@@ -1,5 +1,6 @@
 # Luke Murdock, Random Tests
 
+print(round((2.78 / 12) * 3, 2))
 
 # RANDOM NOTES
 

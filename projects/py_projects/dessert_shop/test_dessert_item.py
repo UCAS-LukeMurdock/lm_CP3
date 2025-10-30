@@ -15,7 +15,7 @@ def test_dessert_item_provided_set():
 def test_dessertitem_updated_set():
     test_dessert = Candy("Jolly Rancher", 3.76, 8.9, 6.3)
     test_dessert.name = "KitKat"
-    test_dessert.tax_percent == 3.57
+    test_dessert.tax_percent = 3.57
 
     assert test_dessert.name == "KitKat"
     assert test_dessert.tax_percent == 3.57

@@ -39,8 +39,8 @@ def test_sundae_updated_set():
 
 def test_sundae_calculateCost_set():
     test_sundae = Sundae("Chocolate", 6.32, 7, "Sprinkles", 0.07)
-    assert test_sundae.calculateCost() == 44.73
+    assert test_sundae.calculateCost() == 44.31
 
 def test_sundae_calculateTax_set():
     test_sundae = Sundae("Chocolate", 6.32, 7, "Sprinkles", 0.07)
-    assert test_sundae.calculateTax() == 3.24
+    assert test_sundae.calculateTax() == 3.21

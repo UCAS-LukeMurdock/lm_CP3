@@ -250,10 +250,12 @@ def main(): # The user inputs parts of certain dessert items and then objects ar
     data = []
     for item in order.order:
         data.append([item.name, f"${item.calculateCost()}", f"${item.calculateTax()}"])
+
     data.append(["---------", "---------", "---------"])
     data.append(["Order Subtotals", f"${round(order.orderCost(), 2)}", f"${round(order.orderTax(), 2)}"])
     data.append(["Order Total", "", f"${round(order.orderCost() + order.orderTax(), 2)}"])
     data.append(["Total Items in the order:", "", len(order)])
+    
     print(tabulate(data, headers=["Name", "Cost", "Tax"], tablefmt="fsql"))
     print('\n')
 

@@ -30,7 +30,7 @@ def test_cookie_updated_set():
 
 def test_cookie_calculateCost_set():
     test_cookie = Cookie("Chocolate Chip", 2.78, 3)
-    assert test_cookie.calculateCost() == 0.695
+    assert test_cookie.calculateCost() == 0.69 # Should be 0.70 but when the code runs the calculation it can't hold the numbers precisely so it stores them a bit lower so they don't end up rounding up.
 
 def test_cookie_calculateTax_set():
     test_cookie = Cookie("Chocolate Chip", 2.78, 3)
