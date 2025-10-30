@@ -79,4 +79,3 @@ class Order: # Order Class that has a list attribute that things can be added to
         for item in self.order:
             total += item.calculateTax()
         return round(total, 2)
-        

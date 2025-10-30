@@ -2,11 +2,171 @@
 from tabulate import tabulate
 from dessert import *
 
-# data = [["Bruce Wayne", "Batman", "123-4567"], ["Clark Kent", "Superman", "987-6543"]]
-# print(tabulate(data, headers=["Name", "Job", "Number"]))
 
-def menu(): # Creates Objects in the order and then prints them and their amount
+# Sorry if this class should be in the classes file (dessert.py), but the instructions made it sound like it should go in this file.
+class DessertShop:
 
+    def userPromptCandy(self):
+        while True:
+            name = input("\nEnter the name of candy: ").strip().title()
+            if name == "":
+                print("\nInvalid Input (Please enter a name of a candy and don't just click enter)")
+                continue
+            break
+
+        while True:
+            weight = input("\nEnter the weight (lbs): ").strip()
+            try:
+                weight = float(weight)
+            except ValueError:
+                print("\nInvalid Input (Please enter a number [a float specifically])")
+                continue
+            if weight <= 0:
+                print("\nInvalid Input (Enter a number greater than 0)")
+                continue
+            break
+
+        while True:
+            price = input("\nEnter the price per pound: ").strip()
+            try:
+                price = float(price)
+            except ValueError:
+                print("\nInvalid Input (Please enter a number [a float specifically])")
+                continue
+            if price <= 0:
+                print("\nInvalid Input (Enter a number greater than 0)")
+                continue
+            break
+
+        return Candy(name, price, weight)
+
+    def userPromptCookie(self):
+        while True:
+            name = input("\nEnter the type of cookie: ").strip().title()
+            if name == "":
+                print("\nInvalid Input (Please enter a type of cookie and don't just click enter)")
+                continue
+            break
+
+        while True:
+            amount = input("\nEnter the amount of cookies: ").strip()
+            try:
+                amount = int(amount)
+            except ValueError:
+                print("\nInvalid Input (Please enter an integer)")
+                continue
+            if amount <= 0:
+                print("\nInvalid Input (Enter a number greater than 0)")
+                continue
+            break
+
+        while True:
+            price = input("\nEnter the price per dozen: ").strip()
+            try:
+                price = float(price)
+            except ValueError:
+                print("\nInvalid Input (Please enter a number [a float specifically])")
+                continue
+            if price <= 0:
+                print("\nInvalid Input (Enter a number greater than 0)")
+                continue
+            break
+
+        return Cookie(name, price, amount)
+
+    def userPromptIcecream(self):
+        while True:
+            name = input("\nEnter the flavor of ice cream: ").strip().title()
+            if name == "":
+                print("\nInvalid Input (Please enter an ice cream flavor and don't just click enter)")
+                continue
+            break
+
+        while True:
+            number = input("\nEnter the number of scoops: ").strip()
+            try:
+                number = int(number)
+            except ValueError:
+                print("\nInvalid Input (Please enter an integer)")
+                continue
+            if number <= 0:
+                print("\nInvalid Input (Enter a number greater than 0)")
+                continue
+            break
+
+        while True:
+            price = input("\nEnter the price per scoop: ").strip()
+            try:
+                price = float(price)
+            except ValueError:
+                print("\nInvalid Input (Please enter a number [a float specifically])")
+                continue
+            if price <= 0:
+                print("\nInvalid Input (Enter a number greater than 0)")
+                continue
+            break
+
+        return IceCream(name, price, number)
+
+    def userPromptSundae(self):
+        while True:
+            name = input("\nEnter the flavor of ice cream: ").strip().title()
+            if name == "":
+                print("\nInvalid Input (Please enter an ice cream flavor and don't just click enter)")
+                continue
+            break
+
+        while True:
+            number = input("\nEnter the number of scoops: ").strip()
+            try:
+                number = int(number)
+            except ValueError:
+                print("\nInvalid Input (Please enter an integer)")
+                continue
+            if number <= 0:
+                print("\nInvalid Input (Enter a number greater than 0)")
+                continue
+            break
+
+        while True:
+            price = input("\nEnter the price per scoop: ").strip()
+            try:
+                price = float(price)
+            except ValueError:
+                print("\nInvalid Input (Please enter a number [a float specifically])")
+                continue
+            if price <= 0:
+                print("\nInvalid Input (Enter a number greater than 0)")
+                continue
+            break
+
+    
+        while True:
+            topping = input("\nEnter the topping: ").strip().title()
+            if topping == "":
+                print("\nInvalid Input (Please enter a topping name and don't just click enter)")
+                continue
+            break
+
+        while True:
+            topping_price = input("\nEnter the price for the topping: ").strip()
+            try:
+                topping_price = float(topping_price)
+            except ValueError:
+                print("\nInvalid Input (Please enter a number [a float specifically])")
+                continue
+            if topping_price <= 0:
+                print("\nInvalid Input (Enter a number greater than 0)")
+                continue
+            break
+
+        return Sundae(name, price, number, topping, topping_price)
+
+
+def main(): # The user inputs parts of certain dessert items and then objects are created out of those which are then printed out in a receipt format
+
+    # Luke Murdock's previous code for Parts before Part 5
+    """
     order = Order()
     order.add(Candy("Gummy Bears", 1.25, 0.34))
     order.add(Candy("Candy Corn", 2.45, 0.36))
@@ -28,9 +188,84 @@ def menu(): # Creates Objects in the order and then prints them and their amount
     data.append(["Order Total", "", f"${round(order.orderCost() + order.orderTax(), 2)}"])
     data.append(["Total Items in the order:", "", len(order)])
     print(tabulate(data, headers=["Name", "Cost", "Tax"], tablefmt="fsql"))
+    """
 
 
-menu()
+
+    '''
+    Code to implement the main loop of terminal-based user interface for
+    Dessert Shop Part 4. Students should be able to paste this code into their own 
+    main() method as-is and use it without change.
+
+    Author: George Rudolph
+    Date: 2 Jun 2023
+    '''
+    shop = DessertShop() 
+    order = Order()
+    '''
+    order.add(Candy('Candy Corn', 1.5, 0.25))
+    order.add(Candy('Gummy Bears', 0.25, 0.35))
+    order.add(Cookie('Chocolate Chip', 6, 3.99))
+    order.add(IceCream('Pistachio', 2, 0.79))
+    order.add(Sundae('Vanilla', 3, 0.69, 'Hot Fudge', 1.29))
+    order.add(Cookie('Oatmeal Raisin', 2, 3.45))
+    '''
+    
+    done: bool = False
+    # build the prompt string once
+    prompt = '\n'.join([ '\n',
+            '1: Candy',
+            '2: Cookie',            
+            '3: Ice Cream',
+            '4: Sundae',
+            '\nWhat would you like to add to the order? (1-4, Enter for done): '
+    ])
+
+    while not done:
+        choice = input(prompt)
+        match choice:
+            case '':
+                done = True
+            case '1':            
+                item = shop.userPromptCandy()
+                order.add(item)
+                print(f'\n{item.name} has been added to your order.')
+            case '2':            
+                item = shop.userPromptCookie()
+                order.add(item)
+                print(f'\n{item.name} has been added to your order.')
+            case '3':            
+                item = shop.userPromptIcecream()
+                order.add(item)
+                print(f'\n{item.name} has been added to your order.')
+            case '4':            
+                item = shop.userPromptSundae()
+                order.add(item)
+                print(f'\n{item.name} has been added to your order.')
+            case _:            
+                print('\nInvalid response:  Please enter a choice from the menu (1-4) or Enter')
+    print()
+
+    # Luke Murdock's code for the receipt
+    data = []
+    for item in order.order:
+        data.append([item.name, f"${item.calculateCost()}", f"${item.calculateTax()}"])
+    data.append(["---------", "---------", "---------"])
+    data.append(["Order Subtotals", f"${round(order.orderCost(), 2)}", f"${round(order.orderTax(), 2)}"])
+    data.append(["Order Total", "", f"${round(order.orderCost() + order.orderTax(), 2)}"])
+    data.append(["Total Items in the order:", "", len(order)])
+    print(tabulate(data, headers=["Name", "Cost", "Tax"], tablefmt="fsql"))
+    print('\n')
+
+main()
+
+# Make the changes to the classes to allow for calculating Totals and Tax
+# Make DessertItem an abstract class
+# Use tabulate to print out a receipt like the one above
+# Create a DessertShop class that asks the user for the needed information to create each of the dessert items
+# Validate user inputs (Make sure they can change to the correct data types AND that they are positive numbers!)
+
+# TEST
 
 """"
 INSTRUCTIONS:
@@ -278,6 +513,7 @@ name: str
 Default Value: ""
 Methods:
 Constructor (__init__)
+
 Candy
 Attributes:
 name: str
@@ -288,6 +524,7 @@ price_per_pound: float
 Default Value: 0.0
 Methods:
 Constructor (__init__)
+
 Cookie
 Attributes:
 name: str
@@ -298,6 +535,7 @@ price_per_dozen: float
 Default Value: 0.0
 Methods:
 Constructor (__init__)
+
 IceCream
 Attributes:
 name: str
@@ -308,6 +546,7 @@ price_per_scoop: float
 Default Value: 0.0
 Methods:
 Constructor (__init__)
+
 Sundae (subclass of IceCream)
 Attributes: 
 name: str
