@@ -4,8 +4,7 @@ from dessert import *
 
 
 # Sorry if this class should be in the classes file (dessert.py), but the instructions made it sound like it should go in this file.
-class DessertShop:
-
+class DessertShop: # Contains Methods with that get validated, inputted information from users to create Dessert objects
     def userPromptCandy(self):
         while True:
             name = input("\nEnter the name of candy: ").strip().title()
@@ -255,22 +254,15 @@ def main(): # The user inputs parts of certain dessert items and then objects ar
     data.append(["Order Subtotals", f"${round(order.orderCost(), 2)}", f"${round(order.orderTax(), 2)}"])
     data.append(["Order Total", "", f"${round(order.orderCost() + order.orderTax(), 2)}"])
     data.append(["Total Items in the order:", "", len(order)])
-    
+
     print(tabulate(data, headers=["Name", "Cost", "Tax"], tablefmt="fsql"))
     print('\n')
 
 main()
 
-# Make the changes to the classes to allow for calculating Totals and Tax
-# Make DessertItem an abstract class
-# Use tabulate to print out a receipt like the one above
-# Create a DessertShop class that asks the user for the needed information to create each of the dessert items
-# Validate user inputs (Make sure they can change to the correct data types AND that they are positive numbers!)
-
-# TEST
 
 """"
-INSTRUCTIONS:
+PART 2 INSTRUCTIONS:
 PART 1:
 Problem
 In Part 4, you will add the functionality to calculate the cost of any Dessert Item along with the associated tax. Also you will add the ability in the Order class to calculate the cost of all items in the order as well as the associated total tax.
@@ -503,7 +495,7 @@ Validate user inputs (Make sure they can change to the correct data types AND th
 
 
 """
-INSTRUCTIONS:
+PART 1 INSTRUCTIONS: (OLD)
 Part One of a multistep project to create a Dessert shop (Yes this is pulled from UVU. . . I am not sorry)
 
 STEP 1:
