@@ -64,10 +64,17 @@ while True: # or could be *While running:* or *While game:*, this is basic so ju
     # They listen for if a button or key is clicked.
 
 # How can I detect collision with pygame?
-    # 
+    # Example: self.rect.collidepoint(pos)
 
 # How do you add sounds in pygame?
-    # 
+    # You can import music from files or import mixer from pygame
+
+    # One Example:
+        # mixer.music.load('resources/background.wav')
+        # mixer.music.play(-1)
+
+    # Another Example:
+        # mixer.Sound('resources/explosion.wav').play()
 
 
 # Extra:
