@@ -36,3 +36,12 @@ Iterative Sorts:
 Algorithms that use iterative loops, such as Bubble Sort, Selection Sort, and Insertion Sort.
 5. Hybrid Sorting Algorithms:
 These algorithms combine multiple sorting techniques to leverage the strengths of each. An example is IntroSort, which typically starts with Quick Sort, switches to Heap Sort if recursion depth exceeds a certain level, and uses Insertion Sort for small partitions.
+
+
+
+
+Selection:
+    Takes the next element from the unsorted part and inserts it into its correct position in the already sorted part by shifting other elements.
+
+Insertion:
+    Finds the smallest element in the unsorted portion of the array and swaps it with the element at the current position.
