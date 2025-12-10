@@ -10,3 +10,10 @@ Aggregation programming has two main meanings: one is a concept in object-orient
 Subclass:
 In object-oriented programming, a subclass (also known as a derived class or child class) is a class that inherits properties and behaviors from another class, called its superclass (or base class, parent class). This concept is a core principle of inheritance.
 
+
+
+Named Tuple:
+    Template
+    More agile version of a class
+    Preunpacking a tuple
+    Needs: *from collections import namedtuple*
